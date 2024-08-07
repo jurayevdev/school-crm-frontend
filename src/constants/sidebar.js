@@ -1,0 +1,58 @@
+export const header = [
+    {
+        id: 1,
+        title: "Asosiy",
+        link: "/",
+        icon: "bx bxs-dashboard",
+        role: 'student',
+    },
+    {
+        id: 2,
+        title: "Xodimlar",
+        link: "/employees",
+        icon: "bx bxs-user-rectangle",
+        role: 'student',
+    },
+    {
+        id: 3,
+        title: "O'quvchilar",
+        link: "/students",
+        icon: "bx bxs-user",
+        role: 'student',
+    },
+    {
+        id: 4,
+        title: "Guruhlar",
+        link: "/groups",
+        icon: "bx bxs-group",
+        role: 'student',
+    },
+    {
+        id: 5,
+        title: "Fanlar",
+        link: "/subjects",
+        icon: "bx bxs-book-bookmark",
+        role: 'student',
+    },
+    {
+        id: 6,
+        title: "Testlar",
+        link: "/tests",
+        icon: "bx bx-credit-card-front",
+        role: 'student',
+    },
+    {
+        id: 7,
+        title: "Testni boshlash",
+        link: "/start_test",
+        icon: "bx bxs-hourglass-bottom",
+        role: 'staff',
+    },
+    {
+        id: 8,
+        title: "Natijalar",
+        link: "/results",
+        icon: "bx bxs-pie-chart-alt-2",
+        role: '',
+    },
+];
