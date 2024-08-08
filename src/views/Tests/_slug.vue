@@ -1,7 +1,6 @@
 <template>
-  <div class="container mx-auto px-2">
+  <div class="px-2">
     <!-- ----------------------------------------- MODAL -------------------------------------------------------- -->
-
     <!-- Main modal -->
     <div
       :class="

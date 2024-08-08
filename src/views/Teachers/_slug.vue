@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="px-2">
     <!-- Slug start  -->
     <div>
       <div

@@ -77,7 +77,7 @@ const handleSubmit = async () => {
     await handleLogin('staff/login', '/');
   } catch {
     try {
-      await handleLogin('student/login', '/start_test');
+      await handleLogin('student/login');
     } catch {
       notification.warning('Foydalanuvchi topilmadi!');
     }

@@ -1,5 +1,5 @@
 <template>
-  <div @click="store.filter_show = false" class="container mx-auto py-4 px-2">
+  <div @click="store.filter_show = false" class="py-4 px-2">
     <!-- Placeholder -->
     <div v-if="!store.PageProduct.length">
       <Placeholder2 />

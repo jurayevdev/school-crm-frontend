@@ -18,7 +18,10 @@ import {
   SlugGroups,
   SlugSubjects,
   Subjects,
-  SignupSuperAdmin
+  SignupSuperAdmin,
+  Payment,
+  Attendance,
+  Customer
 } from '../views'
 
 const router = createRouter({
@@ -55,6 +58,11 @@ const router = createRouter({
           component: SlugStudent,
         },
         {
+          path: '/customer',
+          name: 'customers',
+          component: Customer,
+        },
+        {
           path: '/tests',
           name: 'tests',
           component: Tests,
@@ -70,9 +78,14 @@ const router = createRouter({
           component: Subjects,
         },
         {
-          path: '/subjects',
-          name: 'subjects',
-          component: Subjects,
+          path: '/payment',
+          name: 'payment',
+          component: Payment,
+        },
+        {
+          path: '/attendance',
+          name: 'attendance',
+          component: Attendance,
         },
         {
           path: '/students/:id/:name',

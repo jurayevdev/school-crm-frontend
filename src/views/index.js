@@ -16,6 +16,9 @@ import SlugGroups from './Groups/_slug.vue';
 import SlugResults from './Results/_slug.vue';
 import SlugSubjects from './Subjects/_slug.vue';
 import SignupSuperAdmin from './SignupSuperAdmin/SignupSuperAdmin.vue';
+import Payment from './Payments/Payment.vue'
+import Attendance from './Attendance/Attendance.vue'
+import Customer from './Customers/Customer.vue'
 
 export {
     HomeView,
@@ -36,4 +39,7 @@ export {
     SlugResults,
     SlugSubjects,
     SignupSuperAdmin,
+    Payment,
+    Attendance,
+    Customer
 }

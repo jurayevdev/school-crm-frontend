@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto py-4 px-2">
+  <div class="py-4 px-2">
     <!-- Placeholder -->
     <div v-if="!store.product">
       <Placeholder2 />

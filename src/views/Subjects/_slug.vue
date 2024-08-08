@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="px-2">
     <div class="wrapper mt-8">
       <div
         :class="

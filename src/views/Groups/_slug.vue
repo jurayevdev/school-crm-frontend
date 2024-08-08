@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="px-2">
     <div class="wrapper mt-8">
       <div
         :class="navbar.userNav ? 'bg-[#1e293b] text-white px-5 py-10 sm:px-10 flex flex-col gap-5 rounded-lg' : 'bg-white px-5 py-10 sm:px-10 flex flex-col gap-5 rounded-lg'"

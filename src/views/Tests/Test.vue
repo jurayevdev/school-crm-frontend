@@ -1,5 +1,5 @@
 <template>
-  <div @click="store.filter_show = false" class="container mx-auto px-2">
+  <div @click="store.filter_show = false" class="px-2">
     <!-- Main modal -->
     <div
       :class="
