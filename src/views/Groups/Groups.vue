@@ -52,9 +52,14 @@
             @submit.prevent="createProduct"
             :class="{ darkForm: navbar.userNav }"
           >
-            <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+            <div class="grid sm:grid-cols-2 font-medium gap-4 mb-4">
               <div>
-                <label for="name" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'">Guruh nomi</label>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Guruh nomi</label
+                >
                 <input
                   v-model="form.name"
                   type="text"
@@ -66,7 +71,26 @@
                 />
               </div>
               <div>
-                <label for="date" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="price"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Guruh narxi</label
+                >
+                <input
+                  type="number"
+                  name="price"
+                  id="price"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  placeholder="Guruh narxi"
+                  required
+                />
+              </div>
+              <div class="w-[206%]">
+                <label
+                  for="date"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Guruh boshlanish sanasi</label
                 >
                 <input
@@ -78,8 +102,43 @@
                   required
                 />
               </div>
+              <div></div>
+              <div>
+                <label
+                  for="subject"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Fan tanlang</label
+                >
+                <select
+                  v-model="form.role"
+                  id="subject"
+                  class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  required
+                >
+                  <option value="admin">English</option>
+                  <option value="o'qituvchi">Backend</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="teacher"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >O'qituvchi tanlang</label
+                >
+                <select
+                  v-model="form.role"
+                  id="teacher"
+                  class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  required
+                >
+                  <option value="admin">Shoxruh</option>
+                  <option value="o'qituvchi">Farxod</option>
+                </select>
+              </div>
               <div
-                class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                class="w-[206%] flex items-center justify-between border-t pt-5 mt-5"
               >
                 <button
                   @click="cancelFunc"
@@ -157,9 +216,14 @@
             @submit.prevent="editProduct"
             :class="{ darkForm: navbar.userNav }"
           >
-            <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+            <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
-                <label for="name" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'">Guruh nomi</label>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Guruh nomi</label
+                >
                 <input
                   v-model="edit.name"
                   type="text"
@@ -171,20 +235,74 @@
                 />
               </div>
               <div>
-                <label for="description" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="price"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Guruh narxi</label
+                >
+                <input
+                  type="number"
+                  name="price"
+                  id="price"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  placeholder="Guruh narxi"
+                  required
+                />
+              </div>
+              <div class="w-[206%]">
+                <label
+                  for="date"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Guruh boshlanish sanasi</label
                 >
                 <input
-                  v-model="edit.start_date"
+                  v-model="form.start_date"
                   type="date"
-                  name="description"
-                  id="description"
+                  name="phone"
+                  id="phone"
                   class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 />
               </div>
+              <div></div>
+              <div>
+                <label
+                  for="subject"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Fan tanlang</label
+                >
+                <select
+                  v-model="form.role"
+                  id="subject"
+                  class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  required
+                >
+                  <option value="admin">English</option>
+                  <option value="o'qituvchi">Backend</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  for="teacher"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >O'qituvchi tanlang</label
+                >
+                <select
+                  v-model="form.role"
+                  id="teacher"
+                  class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
+                  required
+                >
+                  <option value="admin">Shoxruh</option>
+                  <option value="o'qituvchi">Farxod</option>
+                </select>
+              </div>
               <div
-                class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                class="w-[206%] flex items-center justify-between border-t pt-5 mt-5"
               >
                 <button
                   @click="cancelFunc1"
@@ -392,7 +510,9 @@
                 :class="navbar.userNav ? 'bg-gray-700' : 'bg-gray-50'"
               >
                 <tr>
-                  <th scope="col" class="text-center py-3">№</th>
+                  <th scope="col" class="text-center py-3">Nomi</th>
+                  <th scope="col" class="text-center py-3">Fani</th>
+                  <th scope="col" class="text-center py-3">Narxi</th>
                   <th scope="col" class="text-center py-3">
                     Boshlanish sanasi
                   </th>
@@ -416,6 +536,16 @@
                   >
                     {{ i.name }}
                   </th>
+                  <td
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                  >
+                    <p class="bg-blue-100 rounded-[5px] p-1">Node.js</p>
+                  </td>
+                  <td
+                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-2"
+                  >
+                    <p class="bg-red-100 rounded-[5px] p-1">400000 so'm</p>
+                  </td>
                   <td
                     class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
                   >
@@ -805,26 +935,14 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .btnAdd {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 
 .btnKirish {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 
 .btnOrqaga {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 </style>

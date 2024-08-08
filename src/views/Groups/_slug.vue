@@ -2,7 +2,11 @@
   <section class="px-2">
     <div class="wrapper mt-8">
       <div
-        :class="navbar.userNav ? 'bg-[#1e293b] text-white px-5 py-10 sm:px-10 flex flex-col gap-5 rounded-lg' : 'bg-white px-5 py-10 sm:px-10 flex flex-col gap-5 rounded-lg'"
+        :class="
+          navbar.userNav
+            ? 'bg-[#1e293b] text-white px-5 py-10 sm:px-10 flex flex-col gap-5 rounded-lg'
+            : 'bg-white px-5 py-10 sm:px-10 flex flex-col gap-5 rounded-lg'
+        "
         id="accordion-collapse"
         data-accordion="collapse"
       >
@@ -12,7 +16,8 @@
               {{ router.currentRoute.value.params.name.toUpperCase() }}
             </h1>
             <p class="text-[14px] flex items-center gap-3">
-              <span class="font-bold">Boshlangan sana:</span> {{ store.start_time?.slice(0, 10) }}
+              <span class="font-bold">Boshlangan sana:</span>
+              {{ store.start_time?.slice(0, 10) }}
             </p>
           </div>
           <button
@@ -32,10 +37,18 @@
             aria-controls="accordion-collapse-body-1"
           >
             <div class="flex items-center gap-5">
-              <i class="btn bx bx-user text-[24px] p-3 text-white rounded-full"></i>
+              <i
+                class="btn bx bx-user text-[24px] p-3 text-white rounded-full"
+              ></i>
               <h2 class="text-[18px]">Xodimlar</h2>
             </div>
-            <i :class="store.staff ? 'bx bx-minus bg-white p-2 text-[#4141eb] text-[30px] rounded-full' : 'bx bx-plus bg-white p-2 text-[#4141eb] text-[30px] rounded-full'"></i>
+            <i
+              :class="
+                store.staff
+                  ? 'bx bx-minus bg-white p-2 text-[#4141eb] text-[30px] rounded-full'
+                  : 'bx bx-plus bg-white p-2 text-[#4141eb] text-[30px] rounded-full'
+              "
+            ></i>
           </button>
         </h2>
         <div
@@ -43,7 +56,10 @@
           :class="store.staff ? '' : 'hidden'"
           aria-labelledby="accordion-collapse-heading-1"
         >
-          <div class="relative shadow-md rounded-lg overflow-hidden" :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'">
+          <div
+            class="relative shadow-md rounded-lg overflow-hidden"
+            :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
+          >
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left">
                 <thead class="btn text-xs rounded-lg uppercase">
@@ -54,21 +70,38 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="i in store.teachers" :key="i.id" class="border-b" :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
-                    <th scope="row" class="text-center px-8 py-3 font-medium whitespace-nowrap">
+                  <tr
+                    v-for="i in store.teachers"
+                    :key="i.id"
+                    class="border-b"
+                    :class="
+                      navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                    "
+                  >
+                    <th
+                      scope="row"
+                      class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    >
                       {{ i.full_name }}
                     </th>
-                    <td class="text-center font-medium text-green-800 px-8 py-2">
+                    <td
+                      class="text-center font-medium text-green-800 px-8 py-2"
+                    >
                       <p class="bg-green-100 rounded-[5px] p-1">{{ i.role }}</p>
                     </td>
                     <td class="text-center font-medium text-red-800 px-8 py-2">
-                      <p class="bg-red-100 rounded-[5px] p-1">{{ i.phone_number }}</p>
+                      <p class="bg-red-100 rounded-[5px] p-1">
+                        {{ i.phone_number }}
+                      </p>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <nav class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
+            <nav
+              class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4"
+              aria-label="Table navigation"
+            >
               <span class="text-sm font-normal">
                 Sahifa
                 <span class="font-semibold">1 - 10</span> dan
@@ -76,7 +109,11 @@
               </span>
               <ul class="inline-flex items-stretch -space-x-px">
                 <li>
-                  <a href="#" class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight">Next</a>
+                  <a
+                    href="#"
+                    class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
+                    >Next</a
+                  >
                 </li>
               </ul>
             </nav>
@@ -92,10 +129,18 @@
             aria-controls="accordion-collapse-body-2"
           >
             <div class="flex items-center gap-5">
-              <i class="btn bx bxs-graduation text-[24px] p-3 text-white rounded-full"></i>
+              <i
+                class="btn bx bxs-graduation text-[24px] p-3 text-white rounded-full"
+              ></i>
               <h2 class="text-[18px]">O'quvchilar</h2>
             </div>
-            <i :class="store.student ? 'bx bx-minus bg-white text-[#4141eb] p-2 text-[30px] rounded-full' : 'bx bx-plus bg-white text-[#4141eb] p-2 text-[30px] rounded-full'"></i>
+            <i
+              :class="
+                store.student
+                  ? 'bx bx-minus bg-white text-[#4141eb] p-2 text-[30px] rounded-full'
+                  : 'bx bx-plus bg-white text-[#4141eb] p-2 text-[30px] rounded-full'
+              "
+            ></i>
           </button>
         </h2>
         <div
@@ -103,7 +148,10 @@
           :class="store.student ? '' : 'hidden'"
           aria-labelledby="accordion-collapse-heading-2"
         >
-          <div class="relative shadow-md rounded-lg overflow-hidden" :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'">
+          <div
+            class="relative shadow-md rounded-lg overflow-hidden"
+            :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
+          >
             <div class="overflow-x-auto">
               <table class="w-full text-sm text-left">
                 <thead class="btn text-xs rounded-lg uppercase">
@@ -114,21 +162,45 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="i in store.students" :key="i.id" class="border-b" :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'">
-                    <th scope="row" class="text-center px-8 py-3 font-medium whitespace-nowrap">
+                  <tr
+                    v-for="i in store.students"
+                    :key="i.id"
+                    class="border-b"
+                    :class="
+                      navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                    "
+                  >
+                    <th
+                      scope="row"
+                      class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    >
                       {{ i.full_name }}
                     </th>
                     <td class="text-center font-medium text-red-800 px-8 py-2">
-                      <p class="bg-red-100 rounded-[5px] p-1">{{ i.phone_number }}</p>
+                      <p class="bg-red-100 rounded-[5px] p-1">
+                        {{ i.phone_number }}
+                      </p>
                     </td>
-                    <td class="text-center font-medium text-green-800 px-8 py-2">
-                      <p class="bg-green-100 rounded-[5px] p-1">{{ i.is_active }}</p>
+                    <td
+                      v-show="!i.is_active"
+                      class="text-center font-medium text-red-800 px-8 py-2"
+                    >
+                      <p class="bg-red-100 rounded-[5px] p-1">Faol emas</p>
+                    </td>
+                    <td
+                      v-show="i.is_active"
+                      class="text-center font-medium text-green-700 px-8 py-2"
+                    >
+                      <p class="bg-green-100 rounded-[5px] p-1">Faol</p>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            <nav class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
+            <nav
+              class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4"
+              aria-label="Table navigation"
+            >
               <span class="text-sm font-normal">
                 Sahifa
                 <span class="font-semibold">1 - 10</span> dan
@@ -136,7 +208,11 @@
               </span>
               <ul class="inline-flex items-stretch -space-x-px">
                 <li>
-                  <a href="#" class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight">Next</a>
+                  <a
+                    href="#"
+                    class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
+                    >Next</a
+                  >
                 </li>
               </ul>
             </nav>

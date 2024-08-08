@@ -56,26 +56,28 @@
           >
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
-                <label for="login" class="block mb-2 text-sm">Login</label>
+                <label for="parents_fullname" class="block mb-2 text-sm"
+                  >Ota-ona ism familiyasi</label
+                >
                 <input
-                  v-model="form.login"
                   type="text"
-                  name="login"
-                  id="login"
+                  name="parents_fullname"
+                  id="parents_fullname"
                   class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  placeholder="login"
+                  placeholder="Ota-ona ism familiyasi kiriting"
                   required
                 />
               </div>
               <div>
-                <label for="password" class="block mb-2 text-sm">Parol</label>
+                <label for="parents_phone" class="block mb-2 text-sm"
+                  >Ota-ona raqami</label
+                >
                 <input
-                  v-model="form.password"
-                  type="password"
-                  name="password"
-                  id="password"
+                  type="text"
+                  name="parents_phone"
+                  id="parents_phone"
                   class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  placeholder="*********"
+                  placeholder="Ota-ona raqamini kiriting"
                   required
                 />
               </div>
@@ -197,29 +199,32 @@
           >
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
-                <label for="login" class="block mb-2 text-sm">Login</label>
+                <label for="parents_fullname" class="block mb-2 text-sm"
+                  >Ota-ona ism familiyasi</label
+                >
                 <input
-                  v-model="edit.login"
                   type="text"
-                  name="login"
-                  id="login"
+                  name="parents_fullname"
+                  id="parents_fullname"
                   class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  placeholder="login"
+                  placeholder="Ota-ona ism familiyasi kiriting"
                   required
                 />
               </div>
               <div>
-                <label for="password" class="block mb-2 text-sm">Parol</label>
+                <label for="parents_phone" class="block mb-2 text-sm"
+                  >Ota-ona raqami</label
+                >
                 <input
-                  v-model="edit.password"
-                  type="password"
-                  name="password"
-                  id="password"
-                  class="bg-gray-50 placeholder-black border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  placeholder="*********"
+                  type="text"
+                  name="parents_phone"
+                  id="parents_phone"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  placeholder="Ota-ona raqamini kiriting"
+                  required
                 />
               </div>
-              <div class="w-[204%]">
+              <div class="">
                 <label for="name" class="block mb-2 text-sm">F . I . O</label>
                 <input
                   v-model="edit.full_name"
@@ -231,7 +236,21 @@
                   required
                 />
               </div>
-              <div></div>
+              <div class="">
+                <label for="active" class="block mb-2 text-sm"
+                  >Faol yoki faol emas</label
+                >
+                <div class="flex items-center gap-3 mt-4">
+                  <input
+                    type="checkbox"
+                    name="active"
+                    id="active"
+                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block p-3"
+                    required
+                  />
+                  <span class="text-red-600">Hozir faol emas</span>
+                </div>
+              </div>
               <div>
                 <label for="phone" class="block mb-2 text-sm"
                   >Telefon raqami</label
@@ -504,9 +523,14 @@
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-8 py-2">
-                    <p class="bg-blue-100 rounded-[5px] p-1">
-                      {{ i.is_active }}
+                  <td v-show="!i.is_active" class="text-center font-medium text-red-800 px-8 py-2">
+                    <p class="bg-red-100 rounded-[5px] p-1">
+                      Faol emas
+                    </p>
+                  </td>
+                  <td v-show="i.is_active" class="text-center font-medium text-green-700 px-8 py-2">
+                    <p class="bg-green-100 rounded-[5px] p-1">
+                      Faol
                     </p>
                   </td>
                   <td class="text-center font-medium px-8 py-3">
