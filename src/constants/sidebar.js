@@ -69,4 +69,11 @@ export const header = [
         icon: "bx bxs-pie-chart-alt-2",
         role: 'staff, superadmin',
     },
+    {
+        id: 11,
+        title: "Sms",
+        link: "/sms",
+        icon: "bx bxs-message-rounded-dots",
+        role: 'superadmin',
+    },
 ];

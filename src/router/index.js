@@ -21,7 +21,8 @@ import {
   SignupSuperAdmin,
   Payment,
   Attendance,
-  Customer
+  Customer,
+  Sms
 } from '../views'
 
 const router = createRouter({
@@ -86,6 +87,11 @@ const router = createRouter({
           path: '/attendance',
           name: 'attendance',
           component: Attendance,
+        },
+        {
+          path: '/sms',
+          name: 'sms',
+          component: Sms,
         },
         {
           path: '/students/:id/:name',
