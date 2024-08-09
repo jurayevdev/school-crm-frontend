@@ -362,7 +362,7 @@
                 type="submit"
                 class="btnAdd text-white inline-flex items-center bg-[#4141eb] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-                Qo'shish
+              O'zgartirish
               </button>
             </div>
           </form>
@@ -393,7 +393,7 @@
               class="text-lg"
               :class="navbar.userNav ? 'text-white' : 'text-black'"
             >
-              Lavozimni o'chirib tashlash
+              O'quvchini o'chirib tashlash
             </h3>
             <button
               @click="remove.toggle = false"
@@ -425,7 +425,7 @@
                   class="text-2xl"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                 >
-                  Siz lavozimni o'chirishni xohlaysizmi?
+                  Siz o'quvchini o'chirishni xohlaysizmi?
                 </h1>
               </div>
               <div

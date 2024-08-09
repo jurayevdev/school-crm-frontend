@@ -196,7 +196,7 @@
               class="text-lg"
               :class="navbar.userNav ? 'text-white' : 'text-black'"
             >
-              Lavozimni o'chirib tashlash
+              Fanni o'chirib tashlash
             </h3>
             <button
               @click="remove.toggle = false"
