@@ -192,8 +192,8 @@
               >
                 <div class="overflow-x-auto">
                   <table class="w-full text-sm text-left">
-                    <thead class="bg-gray-50 text-xs rounded-lg uppercase">
-                      <tr class="text-black">
+                    <thead class="bg-[#4141eb] text-xs rounded-lg uppercase">
+                      <tr class="text-white">
                         <th scope="col" class="text-center py-3">Nomi</th>
                         <th scope="col" class="text-center py-3">
                           Boshlangan sana

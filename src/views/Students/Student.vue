@@ -81,7 +81,7 @@
                   required
                 />
               </div>
-              <div class="w-[204%]">
+              <div class="">
                 <label for="name" class="block mb-2 text-sm">F . I . O</label>
                 <input
                   v-model="form.full_name"
@@ -93,7 +93,6 @@
                   required
                 />
               </div>
-              <div></div>
               <div>
                 <label for="phone" class="block mb-2 text-sm"
                   >Telefon raqami</label
@@ -107,20 +106,6 @@
                   placeholder="Telefon raqamini kiriting"
                   required
                 />
-              </div>
-              <div>
-                <label for="category" class="block mb-2 text-sm"
-                  >Guruhni tanlang</label
-                >
-                <select
-                  v-model="form.group_id"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  required
-                >
-                  <option v-for="i in store.groups" :key="i.id" :value="i.id">
-                    {{ i.name }}
-                  </option>
-                </select>
               </div>
             </div>
             <div
@@ -145,6 +130,118 @@
       </div>
     </div>
     <!-- ----------------------------------------- MODAL END ---------------------------------------------------- -->
+
+    <!-- ----------------------------------------- GROUP MODAL -------------------------------------------------------- -->
+
+    <!-- Main modal -->
+    <!-- Main modal -->
+    <div
+      :class="
+        store.groupModal
+          ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+          : 'hidden'
+      "
+    >
+      <div class="relative p-4 w-full max-w-lg h-auto">
+        <!-- Modal content -->
+        <div
+          class="relative p-4 rounded-lg shadow sm:p-5"
+          :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+        >
+          <!-- Modal header -->
+          <div
+            class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+          >
+            <h3
+              class="text-lg"
+              :class="navbar.userNav ? 'text-white' : 'text-black'"
+            >
+              Guruh qo'shish va o'chirish
+            </h3>
+            <button
+              @click="store.groupModal = false"
+              type="button"
+              class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+              :class="{ 'text-white': navbar.userNav }"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="flex flex-wrap gap-5 py-5">
+            <span
+              v-for="i in form.group"
+              :key="i.id"
+              @click="
+                remove.name = 'Ona tili';
+                removeGroups();
+              "
+              class="bg-gray-300 rounded px-3 py-1"
+              >{{ i.name }}
+              <i
+                class="bx bx-x cursor-pointer hover:bg-gray-500 rounded font-bold p-1"
+              ></i
+            ></span>
+          </div>
+          <form
+            @submit.prevent="addGroups"
+            :class="{ darkForm: navbar.userNav }"
+          >
+            <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+              <div>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Guruhni tanlang</label
+                >
+                <select
+                  v-model="edit.name"
+                  id="name"
+                  class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  required
+                >
+                  <option v-for="i in store.groups" :key="i.id" :value="i.name">
+                    {{ i.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div
+              class="w-full flex items-center justify-between border-t pt-5 mt-5"
+            >
+              <button
+                @click="store.groupModal = false"
+                type="button"
+                class="border inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Bekor qilish
+              </button>
+              <button
+                type="submit"
+                class="btnAdd text-white inline-flex items-center bg-[#4141eb] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+              >
+                Qo'shish
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----------------------------------------- GROUP MODAL END ---------------------------------------------------- -->
 
     <!-- ----------------------------------------- Edit MODAL ---------------------------------------------------- -->
     <div
@@ -236,21 +333,6 @@
                   required
                 />
               </div>
-              <div class="">
-                <label for="active" class="block mb-2 text-sm"
-                  >Faol yoki faol emas</label
-                >
-                <div class="flex items-center gap-3 mt-4">
-                  <input
-                    type="checkbox"
-                    name="active"
-                    id="active"
-                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block p-3"
-                    required
-                  />
-                  <span class="text-red-600">Hozir faol emas</span>
-                </div>
-              </div>
               <div>
                 <label for="phone" class="block mb-2 text-sm"
                   >Telefon raqami</label
@@ -264,20 +346,6 @@
                   placeholder="Telefon raqamini kiriting"
                   required
                 />
-              </div>
-              <div>
-                <label for="category" class="block mb-2 text-sm"
-                  >Guruhni tanlang</label
-                >
-                <select
-                  v-model="edit.group_id"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  required
-                >
-                  <option v-for="i in store.groups" :key="i.id" :value="i.id">
-                    {{ i.name }}
-                  </option>
-                </select>
               </div>
             </div>
             <div
@@ -513,25 +581,38 @@
                   >
                     <span>{{ i.full_name }}</span>
                   </th>
-                  <td class="text-center font-medium text-blue-800 px-8 py-2">
-                    <p class="bg-blue-100 rounded-[5px] p-1 whitespace-nowrap">
-                      {{ i.group?.name }}
-                    </p>
+                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                    <div
+                      class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
+                    >
+                      <p>
+                        <span v-for="id in i.groups" :key="id.id"
+                          >{{ id.name }},
+                        </span>
+                      </p>
+                      <i
+                        v-show="!store.guard"
+                        @click="store.groupModal = true"
+                        class="bx bx-plus cursor-pointer bg-blue-800 ml-2 font-extrabold text-white p-1 rounded-md"
+                      ></i>
+                    </div>
                   </td>
                   <td class="text-center font-medium text-red-800 px-8 py-2">
                     <p class="bg-red-100 whitespace-nowrap rounded-[5px] p-1">
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td v-show="!i.is_active" class="text-center font-medium text-red-800 px-8 py-2">
-                    <p class="bg-red-100 rounded-[5px] p-1">
-                      Faol emas
-                    </p>
+                  <td
+                    v-show="!i.is_active"
+                    class="text-center font-medium text-red-800 px-8 py-2"
+                  >
+                    <p class="bg-red-100 rounded-[5px] p-1">Faol emas</p>
                   </td>
-                  <td v-show="i.is_active" class="text-center font-medium text-green-700 px-8 py-2">
-                    <p class="bg-green-100 rounded-[5px] p-1">
-                      Faol
-                    </p>
+                  <td
+                    v-show="i.is_active"
+                    class="text-center font-medium text-green-700 px-8 py-2"
+                  >
+                    <p class="bg-green-100 rounded-[5px] p-1">Faol</p>
                   </td>
                   <td class="text-center font-medium px-8 py-3">
                     <button
@@ -720,6 +801,7 @@ const store = reactive({
   error: false,
   groups: [{ name: "Guruh yaratilmagan" }],
   guard: "",
+  groupModal: false,
   filter: "",
   filter_show: false,
   searchList: [],
