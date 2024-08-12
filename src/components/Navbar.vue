@@ -75,11 +75,6 @@
                 <p class="text-lg font-bold">{{ store.guard }}</p>
               </div>
               <ul class="py-1 font-medium">
-                <li class="block px-4 py-2 text-sm">
-                  <router-link to="/settings">
-                    <i class="bx bxs-user-circle"></i> Profil
-                  </router-link>
-                </li>
                 <li
                   @click="Logout"
                   class="block px-4 py-2 text-sm hover:cursor-pointer"
@@ -124,7 +119,8 @@ const getGuard = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-    store.guard = response.data.role[0].toUpperCase() + response.data.role.slice(1);
+    store.guard =
+      response.data.role[0].toUpperCase() + response.data.role.slice(1);
   } catch (error) {
     console.log(error);
     if (error.response?.data?.message === "Admin huquqi sizda yo'q!") {
