@@ -89,41 +89,17 @@
                   </td>
                   <td class="text-center font-medium text-blue-800 px-8 py-2">
                     <button
-                      class="bg-green-600 rounded-lg px-5 py-2.5 text-white mr-5"
+                    @click="davomatToggle()"
+                      :class="davomat ? 'bg-green-600 rounded-lg w-24 py-2.5 text-white' : 'hidden'"
                     >
                       Keldi
                     </button>
                     <button
-                      class="bg-red-600 rounded-lg px-5 py-2.5 text-white"
+                    @click="davomatToggle()"
+                      :class="davomat ? 'hidden' : 'bg-red-600 rounded-lg w-24 py-2.5 text-white'"
                     >
                       Kelmadi
                     </button>
-                  </td>
-                </tr>
-                <tr
-                  class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
-                  v-show="store.searchList.length"
-                  v-for="i in store.searchList"
-                  :key="i"
-                >
-                  <th
-                    scope="row"
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
-                  >
-                    <span>John Doe</span>
-                  </th>
-                  <td class="text-center font-medium text-red-800 px-8 py-2">
-                    <p class="bg-red-100 whitespace-nowrap rounded-[5px] p-1">
-                      +998901234567
-                    </p>
-                  </td>
-                  <td class="text-center font-medium text-blue-800 px-8 py-2">
-                    <p class="bg-blue-100 whitespace-nowrap rounded-[5px] p-1">
-                      Telegram
-                    </p>
                   </td>
                 </tr>
               </tbody>
@@ -216,6 +192,9 @@ const toggleModal = () => {
   form.password = "";
   form.group_id = "";
 };
+
+const davomat = ref(true);
+const davomatToggle = () => (davomat.value = !davomat.value);
 
 const store = reactive({
   PageProduct: "",
