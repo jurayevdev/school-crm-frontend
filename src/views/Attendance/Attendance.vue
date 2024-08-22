@@ -25,16 +25,18 @@
               class="lg:w-8/12 w-full"
             >
               <div class="w-full">
-                <select
+                <input
+                  list="group-options"
                   id="name"
-                  class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-1"
+                  class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-1 pl-3"
+                  placeholder="Guruhni tanlang"
                   required
-                >
-                  <option value="">Guruhni tanlang</option>
+                />
+                <datalist id="group-options">
                   <option v-for="i in store.groups" :key="i.id" :value="i.name">
                     {{ i.name }}
                   </option>
-                </select>
+                </datalist>
               </div>
             </form>
             <div
@@ -89,14 +91,22 @@
                   </td>
                   <td class="text-center font-medium text-blue-800 px-8 py-2">
                     <button
-                    @click="davomatToggle()"
-                      :class="davomat ? 'bg-green-600 rounded-lg w-24 py-2.5 text-white' : 'hidden'"
+                      @click="davomatToggle()"
+                      :class="
+                        davomat
+                          ? 'bg-green-600 rounded-lg w-24 py-2.5 text-white'
+                          : 'hidden'
+                      "
                     >
                       Keldi
                     </button>
                     <button
-                    @click="davomatToggle()"
-                      :class="davomat ? 'hidden' : 'bg-red-600 rounded-lg w-24 py-2.5 text-white'"
+                      @click="davomatToggle()"
+                      :class="
+                        davomat
+                          ? 'hidden'
+                          : 'bg-red-600 rounded-lg w-24 py-2.5 text-white'
+                      "
                     >
                       Kelmadi
                     </button>
