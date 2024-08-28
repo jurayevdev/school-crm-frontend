@@ -60,7 +60,7 @@
                   type="text"
                   name="login"
                   id="login"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="login"
                   required
                 />
@@ -72,7 +72,7 @@
                   type="password"
                   name="password"
                   id="password"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="*********"
                   required
                 />
@@ -86,7 +86,7 @@
                   type="text"
                   name="name"
                   id="name"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="To'liq ismini kiriting"
                   required
                 />
@@ -101,7 +101,7 @@
                   type="tel"
                   name="phone"
                   id="phone"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="Telefon raqamini kiriting"
                   required
                 />
@@ -113,7 +113,7 @@
                 <select
                   v-model="form.role"
                   id="category"
-                  class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
                   <option value="admin">admin</option>
@@ -205,7 +205,7 @@
               class="bg-gray-300 rounded px-3 py-1"
               >{{ i.title }}
               <i
-                class="bx bx-x cursor-pointer hover:bg-gray-500 rounded font-bold p-1"
+                class="bx bx-x cursor-pointer hover:bg-white0 rounded font-bold p-1"
               ></i
             ></span>
           </div>
@@ -221,7 +221,7 @@
                 <select
                   v-model="edit.title"
                   id="name"
-                  class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
                   <option
@@ -317,7 +317,7 @@
               class="bg-gray-300 rounded px-3 py-1"
               >{{ i.name }}
               <i
-                class="bx bx-x cursor-pointer hover:bg-gray-500 rounded font-bold p-1"
+                class="bx bx-x cursor-pointer hover:bg-white0 rounded font-bold p-1"
               ></i
             ></span>
           </div>
@@ -333,7 +333,7 @@
                 <select
                   v-model="edit.name"
                   id="name"
-                  class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
                   <option v-for="i in store.groups" :key="i.id" :value="i.name">
@@ -424,7 +424,7 @@
                   type="text"
                   name="login"
                   id="login"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="login"
                   required
                 />
@@ -436,7 +436,7 @@
                   type="password"
                   name="password"
                   id="password"
-                  class="bg-gray-50 placeholder-black border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white placeholder-black border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="*********"
                 />
               </div>
@@ -449,7 +449,7 @@
                   type="text"
                   name="name"
                   id="name"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="To'liq ismini kiriting"
                   required
                 />
@@ -464,7 +464,7 @@
                   type="tel"
                   name="phone"
                   id="phone"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="Telefon raqamini kiriting"
                   required
                 />
@@ -476,7 +476,7 @@
                 <select
                   v-model="edit.role"
                   id="category"
-                  class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
+                  class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
                   <option value="admin">admin</option>
@@ -656,7 +656,7 @@
                   "
                   type="search"
                   id="simple-search"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2"
+                  class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2"
                   placeholder="Qidirish .."
                 />
                 <ul
@@ -690,7 +690,7 @@
             <table class="w-full text-sm text-left">
               <thead
                 class="text-xs rounded-lg uppercase"
-                :class="navbar.userNav ? 'bg-gray-700' : 'bg-gray-50'"
+                :class="navbar.userNav ? 'bg-gray-700' : 'bg-white'"
               >
                 <tr>
                   <th scope="col" class="text-center py-3">F. I. O.</th>
@@ -706,7 +706,7 @@
                 <tr
                   class="border-b"
                   :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-white'
                   "
                   v-show="!store.searchList.length"
                   v-for="i in store.PageProduct"
@@ -791,7 +791,7 @@
                 <tr
                   class="border-b"
                   :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-white'
                   "
                   v-show="store.searchList.length"
                   v-for="i in store.searchList"

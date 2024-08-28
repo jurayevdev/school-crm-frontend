@@ -1,452 +1,1115 @@
 <template>
-  <section>
-    <div
-      :class="
-        store.toggle
-          ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
-          : 'hidden'
-      "
-    >
-      <div class="relative p-4 max-w-5xl min-w-[50%] h-auto">
-        <!-- Modal content -->
+  <div @click="store.filter_show = false" class="px-2">
+    <!-- ----------------------------------------- EMPLYE TABLE  ------------------------------------------------- -->
+
+    <section class="pt-4">
+      <!------------------------------------------- Search ------------------------------------------->
+      <div v-show="!store.PageProduct">
+        <Placeholder2 />
+      </div>
+      <!------------------------------------------- Search ------------------------------------------->
+
+      <div v-show="store.PageProduct" class="w-full max-w-screen">
+        <!-- Start coding here -->
+
+        <!------------------------------------------- Search ------------------------------------------->
         <div
-          class="relative p-4 rounded-lg shadow sm:p-5"
+          class="shadow rounded-xl flex flex-col lg:flex-row items-center justify-between lg:space-x-4 p-4 gap-3 mb-4"
           :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
         >
-          <!-- Modal header -->
+          <h1 class="text-blue-700 font-bold text-lg w-full">Sozlamalar</h1>
           <div
-            class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+            class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center md:space-x-4"
+            :class="navbar.userNav ? 'text-white' : 'text-black'"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
-              Ma'lumotlarni tahrirlash
-            </h3>
             <button
-              @click="store.toggle = false"
+              @click="toggleGeneralSettings()"
+              id=""
               type="button"
-              class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
+              :class="
+                generalSettings
+                  ? 'btnAdd flex items-center max-w-fit justify-center whitespace-nowrap border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                  : 'flex items-center max-w-fit justify-center whitespace-nowrap bg-transparent border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+              "
             >
-              <svg
-                aria-hidden="true"
-                class="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
+              <span class="">Asosiy sozlama</span>
+            </button>
+            <button
+              @click="togglePasswordChange()"
+              id=""
+              type="button"
+              :class="
+                passwordChange
+                  ? 'btnAdd flex items-center max-w-fit justify-center whitespace-nowrap border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                  : 'flex items-center max-w-fit justify-center whitespace-nowrap bg-transparent border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+              "
+            >
+              <span class="">Parolni yangilash</span>
+            </button>
+            <button
+              @click="toggleSocialLink()"
+              id=""
+              type="button"
+              :class="
+                socialLink
+                  ? 'btnAdd flex items-center max-w-fit justify-center whitespace-nowrap border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                  : 'flex items-center max-w-fit justify-center whitespace-nowrap bg-transparent border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+              "
+            >
+              <span class="">Ijtimoiy tarmoqlar</span>
+            </button>
+            <button
+              @click="togglePaymentMethod()"
+              id=""
+              type="button"
+              :class="
+                paymentMethod
+                  ? 'btnAdd flex items-center max-w-fit justify-center whitespace-nowrap border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+                  : 'flex items-center max-w-fit justify-center whitespace-nowrap bg-transparent border border-[#2f73f0] focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5'
+              "
+            >
+              <span class="">To'lov turlari</span>
             </button>
           </div>
-          <!-- Modal body -->
-          <form
-            @submit.prevent="editProduct"
-            :class="{ darkForm: navbar.userNav }"
-          >
-            <div class="w-full">
-              <label for="name" class="block mb-2 text-sm">F . I . O</label>
-              <input
-                v-model="form.full_name"
-                type="text"
-                name="name"
-                id="name"
-                class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                placeholder="To'liq ismini kiriting"
-                required
-              />
-            </div>
-            <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
-              <div>
-                <label for="phone" class="block mb-2 text-sm"
-                  >Telefon raqam</label
-                >
-                <input
-                  v-model="form.phone_number"
-                  type="tel"
-                  name="phone"
-                  id="phone"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  placeholder="Telefon raqamini kiriting"
-                  required
-                />
-              </div>
-              <div>
-                <label for="username" class="block mb-2 text-sm"
-                  >Telegram username</label
-                >
-                <input
-                  v-model="form.telegram_username"
-                  type="username"
-                  name="password"
-                  id="username"
-                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  placeholder="@username"
-                />
-              </div>
-              <div class="col-span-2">
-                <label for="email" class="block mb-2 text-sm">Email</label>
-                <input
-                  v-model="form.email"
-                  type="email"
-                  name="email"
-                  id="email"
-                  class="bg-g0ray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  placeholder="example@gmail.com"
-                />
-              </div>
-              <div class="col-span-2">
-                <div class="block mb-2 text-sm">Rasm yuklash</div>
-                <label
-                  for="file"
-                  class="cursor-pointer text-center bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                  >Rasm yuklash</label
-                >
-                <input
-                  @change="uploadFile"
-                  type="file"
-                  name="file"
-                  id="file"
-                  class="sr-only bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                />
-              </div>
-            </div>
-            <div
-              class="w-full flex items-center justify-between border-t pt-5 mt-5"
-            >
-              <button
-                @click="store.toggle = false"
-                type="button"
-                class="border cursor-pointer inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Bekor qilish
-              </button>
-              <button
-                type="submit"
-                class="btnAdd cursor-pointer text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Tahrirlash
-              </button>
-            </div>
-          </form>
         </div>
       </div>
-    </div>
-    <!-- Slug start  -->
-    <div>
-      <div
-        class="flex justify-center items-center mt-[30px] rounded-lg p-[15px] min-h-screen overflow-hidden overflow-y-auto max-h-screen lg:pb-0 lg:pt-0 pb-40 pt-72"
-        :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
-      >
+
+      <div v-show="store.PageProduct" class="w-full max-w-screen">
+        <!-- Start coding here -->
+
+        <!------------------------------------------- Search ------------------------------------------->
         <div
-          class="w-full max-w-2xl mx-auto bg-white border overflow-hidden rounded-lg border-[#046f80]"
+          class="shadow rounded-xl flex flex-col justify-between p-4 gap-3 mb-4"
+          :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
         >
-          <ul
-            class="btn flex flex-wrap text-sm font-medium p-3 text-center text-[16px] rounded-t-lg"
-            id="defaultTab"
-            data-tabs-toggle="#defaultTabContent"
-            role="tablist"
-          >
-            <li class="flex justify-between items-center w-full mr-2">
-              <button
-                id="about-tab"
-                data-tabs-target="#about"
-                type="button"
-                role="tab"
-                aria-controls="about"
-                aria-selected="true"
-                class="inline-block px-3 py-1 hover:text-[#1e293b] text-white font-semibold border-b border-white"
-              >
-                Sozlamalar
-              </button>
-              <button
-                @click="router.back(-1)"
-                class="btn shadow-lg rounded-lg border px-5 py-2.5 text-white focus:ring-2"
-              >
-                Orqaga qaytish
-              </button>
-            </li>
-          </ul>
-          <div
-            id="defaultTabContent"
-            :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
-          >
+          <!----------------------------------------- User settings ------------------------------------>
+
+          <div :class="generalSettings ? 'relative w-full h-auto' : 'hidden'">
+            <!-- Modal content -->
             <div
-              class="p-4 rounded-lg md:p-8"
-              id="about"
-              role="tabpanel"
-              aria-labelledby="about-tab"
+              class="relative p-4 rounded-lg sm:p-5"
+              :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
             >
-              <div class="flex flex-col lg:flex-row overflow-hidden gap-10">
-                <img
-                  :src="
-                    form.image
-                      ? `http://localhost:3000/${form.image}`
-                      : 'https://cdn-icons-png.flaticon.com/512/149/149071.png'
-                  "
-                  alt=""
-                  class="w-56 h-56 2xl:w-80 2xl:h-80 rounded-full object-cover mx-auto"
-                />
-                <div
-                  class="w-full lg:border-l border-[#046f80] p-5 flex flex-col gap-10 justify-between"
+              <!-- Modal header -->
+              <div
+                class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+              >
+                <h3
+                  class="text-lg font-bold"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                 >
-                  <h2
-                    class="w-full flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between border-b border-[#046f80]"
-                    :class="navbar.userNav ? 'text-white' : 'text-[#1e293b]'"
+                  Foydalanuvchi sozlamalari
+                </h3>
+              </div>
+              <!-- Modal body -->
+              <form
+                @submit.prevent="createProduct"
+                :class="{ darkForm: navbar.userNav }"
+              >
+                <div class="grid font-medium gap-4 mb-4 sm:grid-cols-3">
+                  <div>
+                    <label
+                      for="name"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >To'liq ismi (I . F . O)</label
+                    >
+                    <input
+                      v-model="form.full_name"
+                      type="text"
+                      name="name"
+                      id="name"
+                      class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder="To'liq ismini kiriting"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="phone"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >Telefon raqami</label
+                    >
+                    <input
+                      v-model="form.phone_number"
+                      type="tel"
+                      name="phone"
+                      id="phone"
+                      class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder="Telefon raqamini kiriting"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="login"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >Email</label
+                    >
+                    <input
+                      v-model="form.login"
+                      type="text"
+                      name="login"
+                      id="login"
+                      class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder="email@gmail.com"
+                      required
+                    />
+                  </div>
+                </div>
+                <div
+                  class="w-full flex items-center justify-end border-t pt-5 mt-5"
+                >
+                  <button
+                    type="submit"
+                    class="btnAdd cursor-pointer text-white inline-flex items-center bg-[#4141eb] focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                   >
-                    <span class="flex items-center gap-3 text-[24px]">
-                      <span class="text-[24px] font-bold">{{
-                        store.data.full_name
-                      }}</span
-                      ><span class="text-[16px] uppercase">{{
-                        store.role
-                      }}</span>
-                    </span>
-                  </h2>
+                    O'zgartirish
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
 
-                  <h2
-                    v-if="store.data?.subjects?.length"
-                    class="w-full flex items-center justify-between border-b border-[#046f80]"
-                    :class="navbar.userNav ? 'text-white' : 'text-[#1e293b]'"
-                  >
-                    <span class="text-[24px]">
-                      <span>Fanlar :</span>
-                      <span
-                        class="flex gap-5 flex-wrap lg:flex-row lg:items-center pb-2"
-                      >
-                        <span
-                          v-for="el in store.data.subjects"
-                          :key="el.id"
-                          class="text-[16px] font-bold py-1"
-                          >{{ el.title }}</span
-                        >
-                      </span>
-                    </span>
-                  </h2>
+          <!----------------------------------------- Password change ---------------------------------->
 
-                  <h2
-                    class="w-full flex items-center justify-between sm:border-b border-[#046f80]"
-                    :class="navbar.userNav ? 'text-white' : 'text-[#1e293b]'"
+          <div :class="passwordChange ? 'relative w-full h-auto' : 'hidden'">
+            <!-- Modal content -->
+            <div
+              class="relative p-4 rounded-lg sm:p-5"
+              :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+            >
+              <!-- Modal header -->
+              <div
+                class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+              >
+                <h3
+                  class="text-lg font-bold"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                >
+                  Parolni o'zgartirish
+                </h3>
+              </div>
+              <!-- Modal body -->
+              <form
+                @submit.prevent="createProduct"
+                :class="{ darkForm: navbar.userNav }"
+              >
+                <div class="grid font-medium gap-4 mb-4 sm:grid-cols-3">
+                  <div>
+                    <label
+                      for="name"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >Joriy parol</label
+                    >
+                    <input
+                      v-model="form.full_name"
+                      type="password"
+                      name="name"
+                      id="name"
+                      class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder=""
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="phone"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >Yangi parol</label
+                    >
+                    <input
+                      v-model="form.phone_number"
+                      type="password"
+                      name="phone"
+                      id="phone"
+                      class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      placeholder=""
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="login"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >Yangi parolni tasdiqlang</label
+                    >
+                    <input
+                      v-model="form.login"
+                      type="password"
+                      name="login"
+                      id="login"
+                      class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required
+                    />
+                  </div>
+                </div>
+                <div
+                  class="w-full flex items-center justify-end border-t pt-5 mt-5"
+                >
+                  <button
+                    type="submit"
+                    class="btnAdd cursor-pointer text-white inline-flex items-center bg-[#4141eb] focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                   >
-                    <span class="w-full flex flex-col gap-3 text-[24px]">
-                      <span class="text-[24px]">Bog'lanish :</span>
-                      <span
-                        class="w-full flex flex-col gap-3 xl:flex-row xl:items-center xl:gap-10 2xl:gap-20 text-[24px] pl-5"
+                    O'zgartirish
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!----------------------------------------- Social Link -------------------------------------->
+
+          <div
+            v-show="modal"
+            :class="
+              modal
+                ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+                : 'hidden'
+            "
+          >
+            <div class="relative p-4 w-full max-w-lg h-auto">
+              <!-- Modal content -->
+              <div
+                class="relative p-4 rounded-lg shadow sm:p-5"
+                :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+              >
+                <!-- Modal header -->
+                <div
+                  class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+                >
+                  <h3
+                    class="text-lg"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    Yangi link qo'shish
+                  </h3>
+                  <button
+                    @click="toggleModal"
+                    type="button"
+                    class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    :class="{ 'text-white': navbar.userNav }"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <form
+                  @submit.prevent="createProduct"
+                  :class="{ darkForm: navbar.userNav }"
+                >
+                  <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+                    <div>
+                      <label for="name" class="block mb-2 text-sm">Nomi</label>
+                      <input
+                        v-model="form.title"
+                        type="text"
+                        name="name"
+                        id="name"
+                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                        placeholder="Nomini kiriting"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                  >
+                    <button
+                      @click="toggleModal"
+                      type="button"
+                      class="border inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    >
+                      Bekor qilish
+                    </button>
+                    <button
+                      type="submit"
+                      class="btnAdd text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    >
+                      Qo'shish
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- ----------------------------------------- Delete modal ---------------------------------------------------- -->
+          <div
+            :class="
+              remove.toggle
+                ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+                : 'hidden'
+            "
+          >
+            <div class="relative p-4 max-w-5xl min-w-[30%] h-auto">
+              <!-- Modal content -->
+              <div
+                class="relative p-4 rounded-lg shadow sm:p-5"
+                :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+              >
+                <!-- Modal header -->
+                <div
+                  class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+                >
+                  <h3
+                    class="text-lg"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    Linkni o'chirib tashlash
+                  </h3>
+                  <button
+                    @click="remove.toggle = false"
+                    type="button"
+                    class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <div :class="{ darkForm: navbar.userNav }">
+                  <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+                    <div>
+                      <div></div>
+                      <h1
+                        class="text-2xl"
+                        :class="navbar.userNav ? 'text-white' : 'text-black'"
                       >
-                        <span
-                          :class="
-                            store.data.email
-                              ? 'flex items-center gap-3 whitespace-nowrap overflow-x-auto'
-                              : 'hidden'
-                          "
-                        >
-                          <i class="bx bx-envelope" style="color: #f50000"></i>|
-                          <span class="text-[16px] font-bold">{{
-                            store.data.email
-                          }}</span>
-                        </span>
-                        <span
-                          :class="
-                            store.data.phone_number
-                              ? 'flex items-center gap-3 whitespace-nowrap overflow-x-auto'
-                              : 'hidden'
-                          "
-                        >
-                          <i class="bx bxs-phone" style="color: #16f500"></i>|
-                          <span
-                            class="text-[16px] font-bold whitespace-nowrap"
-                            >{{ store.data.phone_number }}</span
-                          >
-                        </span>
-                        <span
-                          :class="
-                            store.data.telegram_username
-                              ? 'flex items-center gap-3 whitespace-nowrap overflow-x-auto'
-                              : 'hidden'
-                          "
-                        >
-                          <i class="bx bxl-telegram" style="color: #009cf5"></i
-                          >|
-                          <a
-                            href=""
-                            class="text-[16px] font-bold underline whitespace-nowrap"
-                            >{{ store.data.telegram_username }}</a
-                          >
-                        </span>
-                      </span>
-                    </span>
-                  </h2>
+                        Siz linkni o'chirishni xohlaysizmi?
+                      </h1>
+                    </div>
+                    <div
+                      class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                    >
+                      <button
+                        @click="remove.toggle = false"
+                        type="button"
+                        class="border cursor-pointer inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      >
+                        Bekor qilish
+                      </button>
+                      <button
+                        @click="deleteProduct"
+                        class="btnAdd cursor-pointer text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      >
+                        O'chirish
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <button
-                @click="store.toggle = true"
-                class="btn shadow-lg w-full rounded-lg border px-5 py-2.5 text-white focus:ring-2 text-center mt-5 font-medium"
+            </div>
+          </div>
+          <!-- ----------------------------------------- delete modal end ---------------------------------------------------- -->
+
+          <div :class="socialLink ? 'p-4 sm:p-5' : 'hidden'">
+            <div
+              class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+            >
+              <h3
+                class="text-lg font-bold"
+                :class="navbar.userNav ? 'text-white' : 'text-black'"
               >
-                Ma'lumotlarni tahrirlash
-              </button>
+                Ijtimoiy tarmoqlar
+              </h3>
+              <div
+                class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
+              >
+                <button
+                  v-show="!store.guard"
+                  @click="toggleModal"
+                  id=""
+                  type="button"
+                  class="btnAdd flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 sm:py-2"
+                >
+                  <span class="sm:block hidden">Link qo'shish</span>
+                  <i class="sm:hidden block bx bxs-user-plus text-lg"></i>
+                </button>
+              </div>
+            </div>
+            <div
+              class="relative border rounded-lg overflow-hidden"
+              :class="
+                navbar.userNav
+                  ? 'bg-[#1e293b] border-gray-700 text-white'
+                  : 'bg-white'
+              "
+            >
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                  <thead class="text-xs rounded-lg uppercase bg-[#4141eb]">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="text-center py-3 whitespace-nowrap text-white"
+                      >
+                        Nomi
+                      </th>
+                      <th scope="col" class="text-center py-3 text-white">
+                        O'chirish
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody v-show="!store.error">
+                    <tr
+                      class=""
+                      :class="
+                        navbar.userNav
+                          ? 'hover:bg-gray-700'
+                          : 'hover:bg-gray-50'
+                      "
+                    >
+                      <th
+                        scope="row"
+                        class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                      >
+                        <span>Instagram</span>
+                      </th>
+                      <td
+                        v-show="!store.guard"
+                        class="text-center whitespace-nowrap font-medium"
+                      >
+                        <i
+                          @click="deleteFunc(1)"
+                          class="bx bxs-trash bg-red-300 cursor-pointer text-red-600 rounded-lg px-5 py-2 focus:ring-2"
+                        >
+                        </i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-------------------------------------------- Payment Method --------------------------------------------------------->
+
+          <div
+            v-show="modalPayment"
+            :class="
+              modalPayment
+                ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+                : 'hidden'
+            "
+          >
+            <div class="relative p-4 w-full max-w-lg h-auto">
+              <!-- Modal content -->
+              <div
+                class="relative p-4 rounded-lg shadow sm:p-5"
+                :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+              >
+                <!-- Modal header -->
+                <div
+                  class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+                >
+                  <h3
+                    class="text-lg"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    Yangi to'lov turini qo'shish
+                  </h3>
+                  <button
+                    @click="toggleModalPayment"
+                    type="button"
+                    class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    :class="{ 'text-white': navbar.userNav }"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <form
+                  @submit.prevent="createProduct"
+                  :class="{ darkForm: navbar.userNav }"
+                >
+                  <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+                    <div>
+                      <label for="name" class="block mb-2 text-sm">Nomi</label>
+                      <input
+                        v-model="form.title"
+                        type="text"
+                        name="name"
+                        id="name"
+                        class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                        placeholder="Nomini kiriting"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                  >
+                    <button
+                      @click="toggleModal"
+                      type="button"
+                      class="border inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    >
+                      Bekor qilish
+                    </button>
+                    <button
+                      type="submit"
+                      class="btnAdd text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    >
+                      Qo'shish
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- ----------------------------------------- Delete modal ---------------------------------------------------- -->
+          <div
+            :class="
+              remove.payment
+                ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+                : 'hidden'
+            "
+          >
+            <div class="relative p-4 max-w-5xl min-w-[30%] h-auto">
+              <!-- Modal content -->
+              <div
+                class="relative p-4 rounded-lg shadow sm:p-5"
+                :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+              >
+                <!-- Modal header -->
+                <div
+                  class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+                >
+                  <h3
+                    class="text-lg"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    To'lov turini o'chirib tashlash
+                  </h3>
+                  <button
+                    @click="remove.payment = false"
+                    type="button"
+                    class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <!-- Modal body -->
+                <div :class="{ darkForm: navbar.userNav }">
+                  <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+                    <div>
+                      <div></div>
+                      <h1
+                        class="text-2xl"
+                        :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >
+                        Siz to'lov turini o'chirishni xohlaysizmi?
+                      </h1>
+                    </div>
+                    <div
+                      class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                    >
+                      <button
+                        @click="remove.payment = false"
+                        type="button"
+                        class="border cursor-pointer inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      >
+                        Bekor qilish
+                      </button>
+                      <button
+                        @click="deleteProduct"
+                        class="btnAdd cursor-pointer text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      >
+                        O'chirish
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ----------------------------------------- delete modal end ---------------------------------------------------- -->
+
+          <div :class="paymentMethod ? 'p-4 sm:p-5' : 'hidden'">
+            <div
+              class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+            >
+              <h3
+                class="text-lg font-bold"
+                :class="navbar.userNav ? 'text-white' : 'text-black'"
+              >
+                To'lov turlari
+              </h3>
+              <div
+                class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
+              >
+                <button
+                  v-show="!store.guard"
+                  @click="toggleModalPayment"
+                  id=""
+                  type="button"
+                  class="btnAdd flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 sm:py-2"
+                >
+                  <span class="sm:block hidden">To'lov turi qo'shish</span>
+                  <i class="sm:hidden block bx bxs-user-plus text-lg"></i>
+                </button>
+              </div>
+            </div>
+            <div
+              class="relative border rounded-lg overflow-hidden"
+              :class="
+                navbar.userNav
+                  ? 'bg-[#1e293b] border-gray-700 text-white'
+                  : 'bg-white'
+              "
+            >
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left">
+                  <thead class="text-xs rounded-lg uppercase bg-[#4141eb]">
+                    <tr>
+                      <th
+                        scope="col"
+                        class="text-center py-3 whitespace-nowrap text-white"
+                      >
+                        Nomi
+                      </th>
+                      <th scope="col" class="text-center py-3 text-white">
+                        O'chirish
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody v-show="!store.error">
+                    <tr
+                      class=""
+                      :class="
+                        navbar.userNav
+                          ? 'hover:bg-gray-700'
+                          : 'hover:bg-gray-50'
+                      "
+                    >
+                      <th
+                        scope="row"
+                        class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                      >
+                        <span>Instagram</span>
+                      </th>
+                      <td
+                        v-show="!store.guard"
+                        class="text-center whitespace-nowrap font-medium"
+                      >
+                        <i
+                          @click="deleteFuncPay(1)"
+                          class="bx bxs-trash bg-red-300 cursor-pointer text-red-600 rounded-lg px-5 py-2 focus:ring-2"
+                        >
+                        </i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <!-- Slug END -->
-  </section>
+    </section>
+
+    <!-- ----------------------------------------- EMPLYE TABLE END --------------------------------------------- -->
+  </div>
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useNavStore } from "../../stores/toggle";
+import { Placeholder2 } from "../../components";
+import { useNotificationStore } from "../../stores/notification";
 import axios from "@/services/axios";
+import { useInfoStore } from "../../stores/dashboard";
+
+const info = useInfoStore();
+const notification = useNotificationStore();
 const navbar = useNavStore();
 const router = useRouter();
 
+const modal = ref(false);
+const modalPayment = ref(false);
+
+const toggleModal = () => {
+  modal.value = !modal.value;
+  form.full_name = "";
+  form.phone_number = "+998";
+  form.login = "";
+  form.password = "";
+  form.group_id = "";
+};
+
+const toggleModalPayment = () => {
+  modalPayment.value = !modalPayment.value;
+  form.full_name = "";
+  form.phone_number = "+998";
+  form.login = "";
+  form.password = "";
+  form.group_id = "";
+};
+
+const generalSettings = ref(true);
+const toggleGeneralSettings = () => {
+  generalSettings.value = true;
+  passwordChange.value = false;
+  socialLink.value = false;
+  paymentMethod.value = false;
+};
+
+const passwordChange = ref(false);
+const togglePasswordChange = () => {
+  passwordChange.value = true;
+  generalSettings.value = false;
+  socialLink.value = false;
+  paymentMethod.value = false;
+};
+
+const socialLink = ref(false);
+const toggleSocialLink = () => {
+  socialLink.value = true;
+  generalSettings.value = false;
+  passwordChange.value = false;
+  paymentMethod.value = false;
+};
+
+const paymentMethod = ref(false);
+const togglePaymentMethod = () => {
+  paymentMethod.value = true;
+  generalSettings.value = false;
+  passwordChange.value = false;
+  socialLink.value = false;
+};
+
 const store = reactive({
-  data: "",
-  toggle: false,
-  image: "",
+  PageProduct: "",
+  page: [],
+  pagination: 1,
+  allProducts: false,
+  error: false,
+  groups: [{ name: "Guruh yaratilmagan" }],
+  guard: "",
+  groupModal: false,
+  filter: "",
+  filter_show: false,
+  searchList: [],
 });
 
+// ---------------------------- search ------------------------------------
+function searchFunc() {
+  store.searchList = [];
+  for (let i of store.allProducts) {
+    if (i.full_name.toLowerCase().includes(store.filter.toLowerCase())) {
+      store.searchList.push(i);
+    }
+  }
+
+  if (!store.filter.length) {
+    store.searchList = [];
+  }
+}
+// ---------------------------- search end ------------------------------------
+
+function enterSlug(id, name) {
+  router.push(`./students/${id}/${name}`);
+}
+
+function cancelFunc() {
+  form.full_name = "";
+  form.phone_number = "+998";
+  form.login = "";
+  form.password = "";
+  form.group_id = "";
+  modal.value = false;
+}
+
+function deleteFunc(id) {
+  remove.id = id;
+  remove.toggle = true;
+}
+
+function deleteFuncPay(id) {
+  remove.id = id;
+  remove.payment = true;
+}
+
+// ----------------------------------- forms -----------------------------------
 const form = reactive({
   full_name: "",
-  phone_number: "",
-  telegram_username: "",
-  email: "",
-  image: "",
+  phone_number: "+998",
+  login: "",
+  password: "",
+  group_id: "",
 });
 
-const getProduct = () => {
-  const id = localStorage.getItem("userId");
+const edit = reactive({
+  full_name: "",
+  phone_number: "",
+  login: "",
+  password: "",
+  group_id: "",
+  id: "",
+  toggle: false,
+});
+
+const remove = reactive({
+  id: "",
+  toggle: false,
+  payment: false,
+});
+
+// ----------------------------------- axios --------------------------------
+const getAllProduct = () => {
   axios
-    .get(`/staff/${id}`, {
+    .get("/student", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data, "all");
+      store.allProducts = res.data;
+      store.error = false;
+    })
+    .catch((error) => {
+      store.allProducts = error.response.data.message;
+      store.error = true;
+      console.log("error", error);
+    });
+};
+
+const getProduct = (page) => {
+  axios
+    .get(`/student/page?page=${page}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
       console.log(res.data);
-      store.data = res.data;
-      form.full_name = res.data.full_name;
-      form.email = res.data.email;
-      form.phone_number = res.data.phone_number;
-      form.telegram_username = res.data.telegram_username;
-      form.image = res.data.image;
+      store.PageProduct = res.data?.data?.records;
+      const pagination = res.data?.data?.pagination;
+      store.page = [];
+      store.page.push(pagination.currentPage, pagination.total_count);
+      store.error = false;
     })
     .catch((error) => {
+      store.PageProduct = error.response.data.message;
+      store.error = true;
+    });
+};
+
+const getGroups = () => {
+  axios
+    .get("/group", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data);
+      store.groups = res.data;
+    })
+    .catch((error) => {
+      store.groups = [{ name: "Guruh yaratilmagan" }];
+      console.log("error", error);
+    });
+};
+
+const getOneProduct = (id) => {
+  axios
+    .get(`/student/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      edit.full_name = res.data.full_name;
+      edit.phone_number = res.data.phone_number;
+      edit.login = res.data.login;
+      edit.password = res.data.password;
+      edit.group_id = res.data.group_id;
+      edit.id = id;
+      edit.toggle = true;
+    })
+    .catch((error) => {
+      notification.warning(error.response.data.message);
+      console.log("error", error);
+    });
+};
+
+const createProduct = () => {
+  const data = {
+    full_name: form.full_name,
+    phone_number: form.phone_number,
+    login: form.login,
+    password: form.password,
+    group_id: form.group_id || store.groups[0],
+  };
+  axios
+    .post("/student/create", data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      info.getStudent();
+      notification.success("Guruh qo'shildi");
+      getProduct(store.pagination);
+      cancelFunc();
+    })
+    .catch((error) => {
+      notification.warning(error.response.data.message);
+      console.log(error);
+    });
+};
+
+const editProduct = () => {
+  const data = {
+    full_name: edit.full_name,
+    phone_number: edit.phone_number,
+    login: edit.login,
+    password: edit.password || "parol",
+    group_id: edit.group_id,
+  };
+  axios
+    .patch(`/student/${edit.id}`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data.statusCode);
+      notification.success("Guruh tahrirlandi");
+      getProduct(store.pagination);
+      edit.name = "";
+      edit.start_date = "";
+      edit.toggle = false;
+    })
+    .catch((error) => {
+      if (error.response.data.statusCode == 400) {
+        console.log(error.response.data.message);
+        notification.warning(error.response.data.message);
+      } else if (error.response.data.statusCode == 401) {
+        console.log(error.response.data.message);
+        notification.warning(error.response.data.message);
+      }
+      console.log("error", error);
+    });
+};
+
+const deleteProduct = () => {
+  axios
+    .delete(`/student/${remove.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      console.log(res.data.statusCode);
+      notification.success(res.data.message);
+      getProduct(store.pagination);
+      info.getStudent();
+      remove.toggle = false;
+    })
+    .catch((error) => {
+      if (error.response.data.statusCode == 400) {
+        console.log(error.response.data.message);
+        notification.warning(error.response.data.message);
+      } else if (error.response.data.statusCode == 401) {
+        console.log(error.response.data.message);
+        notification.warning(error.response.data.message);
+      }
+      console.log("error", error);
+    });
+};
+
+const getGuard = () => {
+  axios
+    .delete("/staff/1", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {})
+    .catch((error) => {
       if (error.response.data.message == "Admin huquqi sizda yo'q!") {
-        axios
-          .get(`/student/${id}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          })
-          .then((res) => {
-            store.data = res.data;
-            form.full_name = res.data.full_name;
-            form.email = res.data.email;
-            form.phone_number = res.data.phone_number;
-            form.telegram_username = res.data.telegram_username;
-            form.image = res.data.image;
-          })
-          .catch((error) => {});
+        store.guard = true;
       }
     });
 };
 
-const editProduct = async () => {
-  const id = localStorage.getItem("userId");
-  const data = {
-    full_name: form.full_name,
-    phone_number: form.phone_number,
-    email: form.email,
-    telegram_username: form.telegram_username,
-  };
-  axios
-    .patch(`/staff/edit/${id}`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      store.data = res.data;
-      form.full_name = res.data.full_name;
-      form.email = res.data.email;
-      form.phone_number = res.data.phone_number;
-      form.telegram_username = res.data.telegram_username;
-      form.image = res.data.image;
-      store.toggle = false;
-      getProduct();
-    })
-    .catch((error) => {
-      axios
-        .patch(`/student/edit/${id}`, data, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          form.full_name = res.data.full_name;
-          form.email = res.data.email;
-          form.phone_number = res.data.phone_number;
-          form.telegram_username = res.data.telegram_username;
-          form.image = res.data.image;
-          store.toggle = false;
-          getProduct();
-        })
-        .catch((error) => {});
-    });
-};
-
-const uploadFile = (e) => {
-  let image = e.target.files[0];
-  const id = localStorage.getItem("userId");
-  const data = {
-    full_name: form.full_name,
-    phone_number: form.phone_number,
-    image: image,
-  };
-  axios
-    .patch(`/staff/edit/${id}`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "multipart/form-data",
-      },
-    })
-    .then((res) => {
-      form.full_name = res.data.full_name;
-      form.phone_number = res.data.phone_number;
-      form.image = res.data.image;
-      getProduct();
-    })
-    .catch((error) => {
-      axios
-        .patch(`/student/edit/${id}`, data, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          form.full_name = res.data.full_name;
-          form.phone_number = res.data.phone_number;
-          form.image = res.data.image;
-          getProduct();
-        });
-    });
-};
-
 onMounted(() => {
-  getProduct();
+  getProduct(store.pagination);
+  getAllProduct();
+  getGroups();
+  getGuard();
 });
 </script>
 
 <style lang="scss" scoped>
-.btn {
+.btnAdd {
   background-image: linear-gradient(to right, white -450%, #4141eb);
+  color: white;
 }
+
+.darkForm {
+  label {
+    color: white;
+  }
+}
+
+// #056674
 </style>

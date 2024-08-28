@@ -123,17 +123,17 @@ const router = createRouter({
           name: 'slug_questions',
           component: SlugTests,
         },
+        {
+          path: '/settings',
+          name: 'settings',
+          component: Settings,
+        },
       ]
     },
     {
       path: '/register',
       name: 'register',
       component: SignupSuperAdmin,
-    },
-    {
-      path: '/settings',
-      name: 'settings',
-      component: Settings,
     },
     {
       path: '/login',
