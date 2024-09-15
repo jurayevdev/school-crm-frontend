@@ -54,7 +54,12 @@
           >
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
-                <label for="login" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'">Login</label>
+                <label
+                  for="login"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Login</label
+                >
                 <input
                   v-model="form.login"
                   type="text"
@@ -66,7 +71,12 @@
                 />
               </div>
               <div>
-                <label for="password" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'">Parol</label>
+                <label
+                  for="password"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Parol</label
+                >
                 <input
                   v-model="form.password"
                   type="password"
@@ -78,7 +88,10 @@
                 />
               </div>
               <div class="w-[205%]">
-                <label for="name" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >To'liq ismi (I . F . O)</label
                 >
                 <input
@@ -93,7 +106,10 @@
               </div>
               <div></div>
               <div>
-                <label for="phone" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="phone"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Telefon raqami</label
                 >
                 <input
@@ -107,7 +123,10 @@
                 />
               </div>
               <div>
-                <label for="category" class="block mb-2 text-sm font-medium" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="category"
+                  class="block mb-2 text-sm font-medium"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Lavozimi</label
                 >
                 <select
@@ -116,8 +135,7 @@
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
-                  <option value="admin">admin</option>
-                  <option value="o'qituvchi">o'qituvchi</option>
+                  <option value="administrator">administrator</option>
                 </select>
               </div>
             </div>
@@ -215,7 +233,10 @@
           >
             <div class="grid font-medium gap-4 mb-4 grid-cols-1">
               <div>
-                <label for="name" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Fanni tanlang</label
                 >
                 <select
@@ -327,7 +348,10 @@
           >
             <div class="grid font-medium gap-4 mb-4 grid-cols-1">
               <div>
-                <label for="name" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Guruhni tanlang</label
                 >
                 <select
@@ -418,7 +442,12 @@
           >
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
-                <label for="login" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'">Login</label>
+                <label
+                  for="login"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Login</label
+                >
                 <input
                   v-model="edit.login"
                   type="text"
@@ -430,7 +459,12 @@
                 />
               </div>
               <div>
-                <label for="password" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'">Parol</label>
+                <label
+                  for="password"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Parol</label
+                >
                 <input
                   v-model="edit.password"
                   type="password"
@@ -441,7 +475,10 @@
                 />
               </div>
               <div class="w-[205%]">
-                <label for="name" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >To'liq ismi (I . F . O)</label
                 >
                 <input
@@ -456,7 +493,10 @@
               </div>
               <div></div>
               <div>
-                <label for="phone" class="block mb-2 text-sm" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="phone"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Telefon raqami</label
                 >
                 <input
@@ -470,7 +510,10 @@
                 />
               </div>
               <div>
-                <label for="category" class="block mb-2 text-sm font-medium" :class="navbar.userNav ? 'text-white' : 'text-black'"
+                <label
+                  for="category"
+                  class="block mb-2 text-sm font-medium"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Lavozimi</label
                 >
                 <select
@@ -479,9 +522,7 @@
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
-                  <option value="admin">admin</option>
-                  <option value="o'qituvchi">o'qituvchi</option>
-                  <option value="talaba">talaba</option>
+                  <option value="administrator">administrator</option>
                 </select>
               </div>
             </div>
@@ -696,8 +737,8 @@
                   <th scope="col" class="text-center py-3">F. I. O.</th>
                   <th scope="col" class="text-center py-3">Lavozim</th>
                   <th scope="col" class="text-center py-3">Telefon raqam</th>
-                  <th scope="col" class="text-center py-3">Fanlar</th>
-                  <th scope="col" class="text-center py-3">Guruhlar</th>
+                  <th v-show="store.guard" scope="col" class="text-center py-3">Fanlar</th>
+                  <th v-show="store.guard" scope="col" class="text-center py-3">Guruhlar</th>
                   <th scope="col" class="text-center py-3">To'liq ma'lumot</th>
                   <th></th>
                 </tr>
@@ -720,7 +761,6 @@
                   </th>
                   <td class="text-center font-medium text-blue-800 px-5 py-2">
                     <p
-                      v-if="i.role"
                       class="bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       {{ i.role }}
@@ -731,7 +771,7 @@
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
                     <div
                       class="flex gap-1 justify-between text-center bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
@@ -741,13 +781,12 @@
                         </span>
                       </p>
                       <i
-                        v-show="!store.guard"
                         @click="getOneProduct(i.id, 'subject')"
                         class="bx bx-plus cursor-pointer bg-blue-800 ml-2 font-extrabold text-white p-1 rounded-md"
                       ></i>
                     </div>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
                     <div
                       class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
@@ -757,7 +796,6 @@
                         </span>
                       </p>
                       <i
-                        v-show="!store.guard"
                         @click="getOneProduct(i.id, 'group')"
                         class="bx bx-plus cursor-pointer bg-blue-800 ml-2 font-extrabold text-white p-1 rounded-md"
                       ></i>
@@ -765,14 +803,13 @@
                   </td>
                   <td class="text-center font-medium px-5 py-3">
                     <button
-                      @click="enterSlug(i.id, i.full_name)"
+                      @click="enterSlug(i.id)"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
                     >
                       Batafsil
                     </button>
                   </td>
                   <td
-                    v-show="!store.guard"
                     v-if="i.role != 'superadmin'"
                     class="text-center whitespace-nowrap font-medium pr-5"
                   >
@@ -805,7 +842,6 @@
                   </th>
                   <td class="text-center font-medium text-blue-800 px-5 py-2">
                     <p
-                      v-if="i.role"
                       class="bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       {{ i.role }}
@@ -816,7 +852,7 @@
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
                     <div
                       class="flex gap-1 justify-between text-center bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
@@ -826,13 +862,12 @@
                         </span>
                       </p>
                       <i
-                        v-show="!store.guard"
                         @click="getOneProduct(i.id, 'subject')"
                         class="bx bx-plus cursor-pointer bg-blue-800 ml-2 font-extrabold text-white p-1 rounded-md"
                       ></i>
                     </div>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
                     <div
                       class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
@@ -842,7 +877,6 @@
                         </span>
                       </p>
                       <i
-                        v-show="!store.guard"
                         @click="getOneProduct(i.id, 'group')"
                         class="bx bx-plus cursor-pointer bg-blue-800 ml-2 font-extrabold text-white p-1 rounded-md"
                       ></i>
@@ -850,14 +884,13 @@
                   </td>
                   <td class="text-center font-medium px-5 py-3">
                     <button
-                      @click="enterSlug(i.id, i.full_name)"
+                      @click="enterSlug(i.id)"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
                     >
                       Batafsil
                     </button>
                   </td>
                   <td
-                    v-show="!store.guard"
                     v-if="i.role != 'superadmin'"
                     class="text-center whitespace-nowrap font-medium pr-5"
                   >
@@ -879,7 +912,7 @@
               v-show="store.PageProduct && store.error"
               class="w-full max-w-screen text-center p-20 text-2xl font-medium"
             >
-              <h1>O'qituvchilar ro'yhati bo'sh</h1>
+              <h1>Ro'yhat bo'sh</h1>
             </div>
           </div>
           <nav
@@ -969,7 +1002,7 @@ const store = reactive({
   groupModal: false,
   addSubject: "",
   hashed_password: "",
-  guard: false,
+  guard: true,
   filter: "",
   filter_show: false,
   searchList: [],
@@ -990,19 +1023,17 @@ function searchFunc() {
 }
 // ---------------------------- search end ------------------------------------
 
-function enterSlug(id, name) {
-  name = name.toLowerCase().split(" ").join("_");
-  router.push(`./employees/${id}/${name}`);
+function enterSlug(id) {
+  // name = name.toLowerCase().split(" ").join("_");
+  router.push(`./employee/${localStorage.getItem("school_id")}/${id}`);
 }
 
 function cancelFunc() {
   form.full_name = "";
   form.phone_number = "";
-  form.email = "";
   form.login = "";
   form.password = "";
-  form.telegram_username = "";
-  form.role = "Rektor";
+  form.role = "";
   form.subject = "";
   form.group = "";
   toggle.groups = [];
@@ -1036,11 +1067,9 @@ const toggle = reactive({
 const form = reactive({
   full_name: "",
   phone_number: "",
-  email: "",
   login: "",
   password: "",
-  telegram_username: "",
-  role: "Rektor",
+  role: "",
   subject: "",
   group: "",
 });
@@ -1048,11 +1077,9 @@ const form = reactive({
 const edit = reactive({
   full_name: "",
   phone_number: "",
-  email: "",
   login: "",
   password: "",
-  telegram_username: "",
-  role: "Rektor",
+  role: "",
   subject: "",
   group: "",
   id: "",
@@ -1070,14 +1097,15 @@ const remove = reactive({
 
 const createProduct = () => {
   const data = {
+    school_id: Number(localStorage.getItem("school_id")),
     full_name: form.full_name,
     phone_number: form.phone_number,
     login: form.login,
     password: form.password,
-    role: form.role || "admin",
+    role: form.role
   };
   axios
-    .post("/staff/create", data, {
+    .post("/employee", data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1102,14 +1130,13 @@ const createProduct = () => {
 
 const getAllProduct = () => {
   axios
-    .get("/staff", {
+    .get(`/employee/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data);
-      store.allProducts = res.data;
+      store.allProducts = res.data.sort((a, b) => b.id - a.id);
       store.error = false;
     })
     .catch((error) => {
@@ -1121,14 +1148,13 @@ const getAllProduct = () => {
 
 const getProduct = (page) => {
   axios
-    .get(`/staff/page?page=${page}`, {
+    .get(`/employee/${localStorage.getItem("school_id")}/page?page=${page}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data);
-      store.PageProduct = res.data?.data?.records;
+      store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
       const pagination = res.data?.data?.pagination;
       store.page = [];
       store.page.push(pagination.currentPage, pagination.total_count);
@@ -1142,7 +1168,7 @@ const getProduct = (page) => {
 
 const getOneProduct = (id, modal) => {
   axios
-    .get(`/staff/${id}`, {
+    .get(`/employee/${localStorage.getItem("school_id")}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1183,7 +1209,7 @@ const editProduct = () => {
     role: edit.role,
   };
   axios
-    .patch(`/staff/${edit.id}`, data, {
+    .put(`/employee/${localStorage.getItem("school_id")}/${edit.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1330,7 +1356,7 @@ const removeGroups = () => {
 
 const getSubject = () => {
   axios
-    .get("/subject", {
+    .get(`/subject/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1345,7 +1371,7 @@ const getSubject = () => {
 
 const getGroup = () => {
   axios
-    .get("/group", {
+    .get(`/group/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1363,7 +1389,7 @@ const deleteProduct = () => {
     admin_id: sessionStorage.getItem("userId"),
   };
   axios
-    .delete(`/staff/${remove.id}`, {
+    .delete(`/employee/${localStorage.getItem("school_id")}/${remove.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1381,52 +1407,31 @@ const deleteProduct = () => {
     });
 };
 
-const getGuard = () => {
-  axios
-    .delete("/staff/1", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {})
-    .catch((error) => {
-      if (error.response.data.message == "Admin huquqi sizda yo'q!") {
-        store.guard = true;
-      }
-    });
-};
+const checkGuard = () => {
+  if (localStorage.getItem("role") !== "teacher"){
+    store.guard = false;
+  }
+}
 
-onMounted(() => {
+onMounted(() => { 
   getProduct(1);
   getAllProduct();
   getSubject();
-  getGuard();
   getGroup();
+  checkGuard();
 });
 </script>
 
 <style lang="scss" scoped>
 .btnAdd {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 
 .btnKirish {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 
 .btnOrqaga {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 </style>

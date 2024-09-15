@@ -375,12 +375,12 @@
                   v-for="i in store.PageProduct"
                   :key="i.id"
                 >
-                  <th
+                  <td
                     scope="row"
                     class="text-center px-8 py-3 font-medium whitespace-nowrap"
                   >
-                    <span>{{ i.title }}</span>
-                  </th>
+                    <span>{{ i.name }}</span>
+                  </td>
                   <td class="text-center font-medium px-8 py-3">
                     <button
                       @click="enterSlug(i.id, i.title.toLowerCase())"
@@ -446,10 +446,9 @@
                 </tr>
               </tbody>
             </table>
+
             <div v-show="store.error" class="flex w-full justify-center">
-              <h1 class="p-20 text-2xl font-medium">
-                Fanlar ro'yhati bo'sh
-              </h1>
+              <h1 class="p-20 text-2xl font-medium">Fanlar ro'yhati bo'sh</h1>
             </div>
           </div>
           <nav
@@ -597,25 +596,32 @@ const remove = reactive({
 // ----------------------------------- axios --------------------------------
 const getAllProduct = () => {
   axios
-    .get("/subject", {
+    .get(`/subject/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
       store.allProducts = res.data;
+      console.log(res.data);
+
       store.error = false;
     })
     .catch((error) => {
       store.allProducts = error.response.data.message;
       store.error = true;
       console.log(error);
+
+      if (error.response.data.message == "Invalid or expired token") {
+        localStorage.removeItem("token");
+        router.push("/login");
+      }
     });
 };
 
 const getProduct = (page) => {
   axios
-    .get(`/subject/page?page=${page}`, {
+    .get(`/subject/${localStorage.getItem("school_id")}/page?page=${page}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -653,8 +659,10 @@ const getOneProduct = (id) => {
 };
 
 const createProduct = () => {
+  const school_id = localStorage.getItem("school_id");
   const data = {
-    title: form.title,
+    school_id: JSON.parse(school_id),
+    name: String(form.title),
   };
   axios
     .post("/subject", data, {
@@ -663,8 +671,9 @@ const createProduct = () => {
       },
     })
     .then((res) => {
-      notification.success("Guruh qo'shildi");
+      notification.success("Fan qo'shildi");
       getProduct(store.pagination);
+      getAllProduct();
       info.getSubjects();
       cancelFunc();
     })
@@ -675,11 +684,13 @@ const createProduct = () => {
 };
 
 const editProduct = () => {
+  const school_id = JSON.parse(localStorage.getItem("school_id"));
   const data = {
-    title: edit.title,
+    school_id: school_id,
+    name: edit.title,
   };
   axios
-    .patch(`/subject/${edit.id}`, data, {
+    .put(`/subject/${school_id}/${edit.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -687,6 +698,8 @@ const editProduct = () => {
     .then((res) => {
       notification.success(res.data.message);
       getProduct(store.pagination);
+      getAllProduct();
+      info.getSubjects();
       edit.title = "";
       edit.toggle = false;
     })
@@ -697,8 +710,9 @@ const editProduct = () => {
 };
 
 const deleteProduct = () => {
+  const school_id = JSON.parse(localStorage.getItem("school_id"));
   axios
-    .delete(`/subject/${remove.id}`, {
+    .delete(`/subject/${school_id}/${remove.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -706,6 +720,7 @@ const deleteProduct = () => {
     .then((res) => {
       notification.success(res.data.message);
       getProduct(store.pagination);
+      getAllProduct();
       info.getSubjects();
       remove.toggle = false;
     })
@@ -715,51 +730,23 @@ const deleteProduct = () => {
     });
 };
 
-const getGuard = () => {
-  axios
-    .delete("/staff/1", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {})
-    .catch((error) => {
-      if (error.response.data.message == "Admin huquqi sizda yo'q!") {
-        store.guard = true;
-      }
-    });
-};
-
 onMounted(() => {
   getProduct(1);
   getAllProduct();
-  getGuard();
 });
 </script>
 
 <style lang="scss" scoped>
 .btnAdd {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 
 .btnKirish {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 
 .btnOrqaga {
-  background-image: linear-gradient(
-    to right,
-    4141eb -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, 4141eb -450%, #4141eb);
 }
 
 .darkForm {

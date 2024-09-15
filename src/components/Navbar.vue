@@ -57,7 +57,7 @@
                 <img
                   @click="toggleUserInfo"
                   class="w-8 h-8 rounded-full bg-gray-800 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 cursor-pointer"
-                  src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                  src="https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
                   alt="user"
                 />
               </li>
@@ -94,44 +94,22 @@
 import { useNavStore } from "../stores/toggle.js";
 import { useSidebarStore } from "../stores/sidebar.js";
 import { useRouter } from "vue-router";
-import { onBeforeMount, reactive } from "vue";
-import axios from "../services/axios";
+import { reactive } from "vue";
 
 const router = useRouter();
 const sidebar = useSidebarStore();
 const navbar = useNavStore();
 
 const store = reactive({
-  guard: "Admin",
+  guard: localStorage.getItem("role"),
 });
 
 const Logout = () => {
-  localStorage.removeItem("userId");
+  localStorage.removeItem("id");
+  localStorage.removeItem("role");
   localStorage.removeItem("token");
   router.push("/login");
 };
-
-const getGuard = async () => {
-  try {
-    const id = localStorage.getItem("userId");
-    const response = await axios.get(`/staff/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    store.guard =
-      response.data.role[0].toUpperCase() + response.data.role.slice(1);
-  } catch (error) {
-    console.log(error);
-    if (error.response?.data?.message === "Admin huquqi sizda yo'q!") {
-      store.guard = "o'qituvchi";
-    }
-  }
-};
-
-onBeforeMount(() => {
-  getGuard();
-});
 
 const toggleSidebar = () => {
   sidebar.sidebar = !sidebar.sidebar;

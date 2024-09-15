@@ -1,14 +1,15 @@
 <template>
   <section :class="{ 'text-white': navbar.userNav }">
     <!-- Cards Section -->
-    <div v-if="store.data" class="rounded-lg pt-4">
+    <div v-show="!store.PageProduct">
+      <Placeholder1 />
+    </div>
+    <div v-show="store.PageProduct" class="rounded-lg pt-4">
       <!-- Cards -->
-      <div class="cards flex flex-wrap">
-        <div
-          class="card max-w-full px-2 mb-4 sm:w-full w-1/2 md:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4"
-          v-for="(i, index) in 4"
-          :key="index"
-        >
+      <div
+        class="cards grid xl:grid-cols-5 lg:grid-cols-2 sm:grid-cols-1 grid-cols-1 xl:mb-0 mb-5 gap-5 px-2"
+      >
+        <div class="card" v-for="(i, index) in 5" :key="index">
           <div
             class="relative xl:mb-4 flex flex-col min-w-0 break-words shadow-soft-xl rounded-lg bg-clip-border"
             :class="{
@@ -48,7 +49,10 @@
       </div>
 
       <!-- Charts -->
-      <div class="flex lg:flex-row flex-col gap-4 px-2 pb-4 items-center">
+      <div
+        v-if="store.data"
+        class="flex lg:flex-row flex-col gap-4 px-2 pb-4 items-center"
+      >
         <div
           class="lg:w-1/2 w-full py-4 rounded-lg overflow-hidden"
           :class="{
@@ -70,7 +74,7 @@
       </div>
 
       <!-- Table 1 -->
-      <div class="flex lg:flex-row flex-col gap-4 px-2">
+      <div v-if="store.data" class="flex lg:flex-row flex-col gap-4 px-2">
         <div
           class="relative overflow-x-auto rounded-lg lg:w-1/2 w-full"
           :class="{
@@ -195,76 +199,6 @@
           </table>
         </div>
       </div>
-
-      <!-- Cards (Commented Out) -->
-
-      <div class="cards flex flex-wrap mt-4">
-        <div
-          class="card max-w-full px-2 mb-4 sm:w-full w-1/2 md:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4"
-          v-for="(i, index) in 4"
-          :key="index"
-        >
-          <div
-            class="relative flex flex-col min-w-0 break-words shadow-soft-xl rounded-lg bg-clip-border"
-            :class="{
-              'bg-[#1877F2]': index == 0,
-              'bg-[#1D9BF0]': index == 1,
-              'bg-[#FE643B]': index == 2,
-              'bg-[#0A66C2]': index == 3,
-            }"
-          >
-            <div class="flex-auto p-4">
-              <div class="flex flex-row items-center -mx-3">
-                <div class="flex-none w-2/3 max-w-full px-3">
-                  <div>
-                    <p
-                      class="mb-0 font-sans font-semibold leading-normal text-sm"
-                    >
-                      Like us on facebook
-                    </p>
-                    <h5 class="mb-0 font-bold">50,095</h5>
-                  </div>
-                </div>
-                <div class="basis-1/3 float-right">
-                  <div
-                    class="w-14 h-12 float-right pr-3 flex justify-center text-lg items-center rounded-lg bg-gray-1000"
-                  >
-                    <div class="bg-white rounded">
-                      <i
-                        class="bx bxl-facebook m-3 p-1 rounded shadow-md shadow-blue-500 bg-[#1877F2]"
-                        v-show="index == 0"
-                      ></i>
-                    </div>
-                    <div class="bg-white rounded">
-                      <i
-                        class="bx bxl-twitter m-3 p-1 rounded shadow-md shadow-blue-500 bg-[#1D9BF0]"
-                        v-show="index == 1"
-                      ></i>
-                    </div>
-                    <div class="bg-white rounded">
-                      <i
-                        class="bx bxl-instagram m-3 p-1 rounded shadow-md shadow-red-600 bg-red-600"
-                        v-show="index == 2"
-                      ></i>
-                    </div>
-                    <div class="bg-white rounded">
-                      <i
-                        class="bx bxl-linkedin m-3 p-1 rounded shadow-md shadow-blue-700 bg-[#0A66C2]"
-                        v-show="index == 3"
-                      ></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Placeholder -->
-    <div v-if="!store.data">
-      <Placeholder1 />
     </div>
   </section>
 </template>
@@ -274,7 +208,6 @@ import { onBeforeMount, reactive } from "vue";
 import { ChartLine, UserChart, Placeholder1 } from "../../components";
 import { useNavStore } from "../../stores/toggle";
 import { useInfoStore } from "../../stores/dashboard";
-import axios from "../../services/axios";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -282,12 +215,13 @@ const navbar = useNavStore();
 const info = useInfoStore();
 
 const store = reactive({
+  PageProduct: "",
   data: false,
-  cards: ["Xodimlar", "O'quvchilar", "Fanlar", "Guruhlar"],
+  cards: ["Xodimlar", "O'quvchilar", "Fanlar", "Guruhlar", "To'lovlar"],
 });
 
 const getCardTitle = (index) => {
-  const titles = ["O'quvchilar", "Xodimlar", "Fanlar", "Guruhlar"];
+  const titles = ["O'quvchilar", "Xodimlar", "Fanlar", "Guruhlar", "To'lovlar"];
   return titles[index];
 };
 
@@ -297,6 +231,7 @@ const getCardValue = (index) => {
     info.Staff,
     info.Subjects,
     info.Groups,
+    info.Payment,
   ];
   return values[index];
 };
@@ -307,41 +242,23 @@ const getCardImages = (index) => {
     "https://cdn.pixabay.com/photo/2018/09/15/16/56/teacher-3679814_960_720.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuraLLKEykFDvI5Nc3Qo4RiqZqhzHLVU2vKQ&usqp=CAU",
     "https://www.pngfind.com/pngs/m/170-1708222_png-file-svg-group-people-icon-png-transparent.png",
+    "https://static.vecteezy.com/system/resources/thumbnails/000/173/239/small_2x/Sample_Money_Vector_Illustration.jpg",
   ];
   return [images[index]];
 };
 
 const getGuard = async () => {
-  try {
-    await axios.get("/staff", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-  } catch (error) {
-    if (error.response?.data?.message === "Admin huquqi sizda yo'q!") {
-      router.push("/start_test");
-    }
+  if (localStorage.getItem("role") == "owner") {
+    store.data = true;
   }
 };
 
 onBeforeMount(() => {
   getGuard();
-  setTimeout(() => {
-    store.data = true;
+  setTimeout(function () {
+    store.PageProduct = true;
   }, 1000);
 });
 </script>
 
-<style lang="scss" scoped>
-@media (max-width: 500px) {
-  .cards {
-    display: block;
-    width: 100%;
-  }
-
-  .card {
-    width: 100%;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -44,7 +44,7 @@
                 Ma'lumot
               </button>
             </li>
-            <li class="mr-2">
+            <li v-show="store.guard" class="mr-2">
               <button
                 @click="store.toggle = false"
                 id="services-tab"
@@ -100,12 +100,13 @@
                         store.data.full_name
                       }}</span
                       ><span class="text-[16px] uppercase">{{
-                        store.role
+                        store.data.role
                       }}</span>
                     </span>
                   </h2>
 
                   <h2
+                  v-show="store.guard"
                     class="w-full flex items-center justify-between border-b border-[#4141eb]"
                     :class="navbar.userNav ? 'text-white' : 'text-[#1e293b]'"
                   >
@@ -135,18 +136,6 @@
                       >
                         <span
                           :class="
-                            store.data.email
-                              ? 'flex items-center gap-3'
-                              : 'hidden'
-                          "
-                        >
-                          <i class="bx bx-envelope" style="color: #f50000"></i>|
-                          <span class="text-[16px] font-bold">{{
-                            store.data.email
-                          }}</span>
-                        </span>
-                        <span
-                          :class="
                             store.data.phone_number
                               ? 'flex items-center gap-3'
                               : 'hidden'
@@ -156,19 +145,6 @@
                           <span class="text-[16px] font-bold">{{
                             store.data.phone_number
                           }}</span>
-                        </span>
-                        <span
-                          :class="
-                            store.data.telegram_username
-                              ? 'flex items-center gap-3'
-                              : 'hidden'
-                          "
-                        >
-                          <i class="bx bxl-telegram" style="color: #009cf5"></i
-                          >|
-                          <a href="" class="text-[16px] font-bold underline">{{
-                            store.data.telegram_username
-                          }}</a>
                         </span>
                       </span>
                     </span>
@@ -270,12 +246,13 @@ const router = useRouter();
 const store = reactive({
   data: "",
   toggle: true,
+  guard: true,
 });
 
 const getStaff = () => {
   const id = router.currentRoute.value.params.id;
   axios
-    .get(`/staff/${id}`, {
+    .get(`/employee/${localStorage.getItem("school_id")}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -285,21 +262,24 @@ const getStaff = () => {
       console.log(res.data);
     })
     .catch((error) => {
-      // notification.warning(error.response.data.message);
+      notification.warning(error.response.data.message);
     });
+};
+
+const checkGuard = () => {
+  if (localStorage.getItem("role") !== "teacher") {
+    store.guard = false;
+  }
 };
 
 onMounted(() => {
   getStaff();
+  checkGuard()
 });
 </script>
 
 <style lang="scss" scoped>
 .btn {
-  background-image: linear-gradient(
-    to right,
-    white -450%,
-    #4141eb
-  );
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 </style>

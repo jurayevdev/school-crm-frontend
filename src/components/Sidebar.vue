@@ -9,7 +9,7 @@
       :class="{ 'bg-[#1e293b]': navbar.userNav, 'bg-white': !navbar.userNav }"
     >
       <ul class="space-y-2 font-medium">
-        <li v-for="i in header" v-show="i.role != store.guard" :key="i.id">
+        <li v-for="i in header" v-show="checkRole(i.role)" :key="i.id">
           <router-link
             class="flex items-center text-lg p-2 cursor-pointer duration-500 hover:bg-gray-400 hover:text-white rounded-lg gap-2"
             :class="{ 'text-white': navbar.userNav }"
@@ -27,36 +27,19 @@
 import { header } from "../constants/sidebar";
 import { useNavStore } from "../stores/toggle";
 import { useSidebarStore } from "../stores/sidebar.js";
-import { onMounted, reactive } from "vue";
-import { useRouter } from "vue-router";
-import axios from "../services/axios";
+import { reactive } from "vue";
 
-const router = useRouter();
 const sidebar = useSidebarStore();
 const navbar = useNavStore();
 
 const store = reactive({
-  guard: "",
+  guard: localStorage.getItem("role"),
 });
 
-onMounted(() => {
-  try {
-    axios
-      .get("/staff", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        store.guard = "staff";
-      })
-      .catch((err) => {
-        store.guard = "student";
-      });
-  } catch (error) {
-    console.log(error);
-  }
-});
+const checkRole = (roles) => {
+  const roleArray = roles.split(', ');
+  return roleArray.includes(store.guard);
+};
 </script>
 
 <style lang="scss" scoped>
