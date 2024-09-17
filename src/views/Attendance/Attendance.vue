@@ -20,37 +20,41 @@
           <h1 class="text-blue-700 font-bold text-lg w-full">Davomat</h1>
           <div class="w-full flex items-center lg:pb-0 pb-2 gap-5 justify-end">
             <form
-              @submit.prevent="addGroups"
+              @submit.prevent="getOneProduct(form.group_id)"
               :class="{ darkForm: navbar.userNav }"
-              class="lg:w-8/12 w-full"
+              class="lg:w-10/12 w-full flex items-center gap-5"
             >
-              <div class="w-full">
-                <input
-                  list="group-options"
-                  id="name"
-                  class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-1 pl-3"
-                  placeholder="Guruhni tanlang"
-                  required
-                />
-                <datalist id="group-options">
-                  <option v-for="i in store.groups" :key="i.id" :value="i.name">
-                    {{ i.name }}
-                  </option>
-                </datalist>
+              <select
+                v-model="form.group_id"
+                id="name"
+                class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full py-1.5 pl-3"
+                required
+              >
+                <option value="" disabled selected>Guruhni tanlang</option>
+                <option v-for="i in store.group" :key="i.id" :value="i.id">
+                  {{ i.name }}
+                </option>
+              </select>
+
+              <div
+                class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
+              >
+                <button
+                  id=""
+                  type="submit"
+                  class="btnAdd flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5"
+                >
+                  <span class="">Davomat qilish</span>
+                </button>
+                <button
+                  id=""
+                  type="submit"
+                  class="flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5"
+                >
+                  <span class="">Davomat saqlash</span>
+                </button>
               </div>
             </form>
-            <div
-              class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
-            >
-              <button
-                v-show="!store.guard"
-                id=""
-                type="button"
-                class="btnAdd flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
-              >
-                <span class="">Davomat qilish</span>
-              </button>
-            </div>
           </div>
         </div>
         <!------------------------------------------- Search ------------------------------------------->
@@ -71,8 +75,10 @@
                   <th scope="col" class="text-center py-3">Davomat</th>
                 </tr>
               </thead>
-              <tbody v-show="!store.error">
+              <tbody v-if="!store.error">
                 <tr
+                  v-for="i in store.allProducts"
+                  :key="i.id"
                   class="border-b"
                   :class="
                     navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
@@ -82,16 +88,26 @@
                     scope="row"
                     class="text-center px-8 py-3 font-medium whitespace-nowrap"
                   >
-                    <span>John Doe</span>
+                    <span>{{ i.full_name }}</span>
                   </th>
-                  <td class="text-center font-medium text-red-800 px-8 py-2">
-                    <p class="bg-red-100 whitespace-nowrap rounded-[5px] p-1">
-                      0 so'm
+                  <td class="text-center font-medium px-8 py-2">
+                    <p
+                      :class="{
+                        'bg-green-100 text-green-800':
+                          i.paymentStatus.includes('to\'langan'),
+                        'bg-red-100 text-red-800':
+                          i.paymentStatus.includes('to\'lanmagan'),
+                        'bg-yellow-100 text-yellow-800':
+                          i.paymentStatus.includes('0 so\'m'),
+                      }"
+                      class="rounded-[5px] p-1"
+                    >
+                      {{ i.paymentStatus }}
                     </p>
                   </td>
                   <td class="text-center font-medium text-blue-800 px-8 py-2">
                     <button
-                      @click="davomatToggle()"
+                      @click="davomatToggle(i.id, false)"
                       :class="
                         davomat
                           ? 'bg-green-600 rounded-lg w-24 py-2.5 text-white'
@@ -101,7 +117,7 @@
                       Keldi
                     </button>
                     <button
-                      @click="davomatToggle()"
+                      @click="davomatToggle(i.id, true)"
                       :class="
                         davomat
                           ? 'hidden'
@@ -115,10 +131,10 @@
               </tbody>
             </table>
             <div
-              v-show="store.PageProduct && store.error"
+              v-show="!store.allProducts"
               class="w-full max-w-screen text-center p-20 text-2xl font-medium"
             >
-              <h1>O'quvchilar ro'yhati bo'sh</h1>
+              <h1>Davomat ro'yhati bo'sh</h1>
             </div>
           </div>
           <nav
@@ -192,17 +208,6 @@ const notification = useNotificationStore();
 const navbar = useNavStore();
 const router = useRouter();
 
-const modal = ref(false);
-
-const toggleModal = () => {
-  modal.value = !modal.value;
-  form.full_name = "";
-  form.phone_number = "";
-  form.login = "";
-  form.password = "";
-  form.group_id = "";
-};
-
 const davomat = ref(true);
 const davomatToggle = () => (davomat.value = !davomat.value);
 
@@ -212,257 +217,204 @@ const store = reactive({
   pagination: 1,
   allProducts: false,
   error: false,
-  groups: [{ name: "Guruh yaratilmagan" }],
   guard: "",
-  groupModal: false,
+  group: "",
   filter: "",
   filter_show: false,
   searchList: [],
+  student: [],
 });
-
-// ---------------------------- search ------------------------------------
-function searchFunc() {
-  store.searchList = [];
-  for (let i of store.allProducts) {
-    if (i.full_name.toLowerCase().includes(store.filter.toLowerCase())) {
-      store.searchList.push(i);
-    }
-  }
-
-  if (!store.filter.length) {
-    store.searchList = [];
-  }
-}
-// ---------------------------- search end ------------------------------------
-
-function enterSlug(id, name) {
-  router.push(`./students/${id}/${name}`);
-}
 
 function cancelFunc() {
   form.full_name = "";
-  form.phone_number = "";
-  form.login = "";
-  form.password = "";
-  form.group_id = "";
-  modal.value = false;
-}
-
-function deleteFunc(id) {
-  remove.id = id;
-  remove.toggle = true;
+  form.payment = "";
+  form.status = [];
 }
 
 // ----------------------------------- forms -----------------------------------
 const form = reactive({
   full_name: "",
-  phone_number: "",
-  login: "",
-  password: "",
+  payment: "",
+  status: [],
   group_id: "",
-});
-
-const edit = reactive({
-  full_name: "",
-  phone_number: "",
-  login: "",
-  password: "",
-  group_id: "",
-  id: "",
-  toggle: false,
-});
-
-const remove = reactive({
-  id: "",
-  toggle: false,
 });
 
 // ----------------------------------- axios --------------------------------
-const getAllProduct = () => {
-  axios
-    .get("/student", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      console.log(res.data, "all");
-      store.allProducts = res.data;
-      store.error = false;
-    })
-    .catch((error) => {
-      store.allProducts = error.response.data.message;
-      store.error = true;
-      console.log("error", error);
-    });
+
+const calculatePaymentStatus = (paymentHistory, groupPrice, groupStartDate) => {
+  const startDate = new Date(groupStartDate);
+  const currentDate = new Date();
+
+  // Guruh ochilgan sanadan hozirgi kunga qadar oylar sonini hisoblash
+  const monthsDiff =
+    (currentDate.getFullYear() - startDate.getFullYear()) * 12 +
+    currentDate.getMonth() -
+    startDate.getMonth() +
+    1; // +1 agar to'liq hozirgi oyni hisobga olish kerak bo'lsa
+
+  if (!paymentHistory || paymentHistory.length === 0) {
+    return `(${groupPrice * monthsDiff}) so'm to'lanmagan`;
+  }
+
+  // To'lovlar ro'yxatini yaratish va to'lovlarni sanaga qarab guruhlash
+  const paymentsByMonth = {};
+  paymentHistory.forEach((payment) => {
+    const paymentDate = new Date(payment.year, payment.month - 1); // JavaScriptda oy 0-11 bo'ladi
+    const key = `${paymentDate.getFullYear()}-${paymentDate.getMonth() + 1}`;
+
+    if (!paymentsByMonth[key]) {
+      paymentsByMonth[key] = 0;
+    }
+    paymentsByMonth[key] += payment.price;
+    // console.log(paymentsByMonth);
+  });
+
+  // To'lovlar amalga oshirilgan oylar va to'lanmagan oylar hisoblanadi
+  let totalPaid = 0;
+  let totalDue = 0;
+
+  // Guruh ochilganidan hozirgi kungacha oylik to'lovlar
+  for (let i = 0; i < monthsDiff; i++) {
+    const monthDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + i
+    );
+
+    const key = `${monthDate.getFullYear()}-${monthDate.getMonth() + 1}`;
+
+    const monthDue = groupPrice;
+
+    const monthPaid = paymentsByMonth[key] || 0;
+
+    totalDue += monthDue;
+    totalPaid += monthPaid;
+  }
+  // To'lovlar sonini hisoblash
+  const monthsPaid = Object.keys(paymentsByMonth).length;
+
+  // Har bir oylik to'lov miqdorini hisoblash
+  const averagePayment = (groupPrice * monthsDiff) / monthsPaid;
+
+  // Qoldiq to'lov va qarzdorlikni hisoblash
+  const expectedPayment = averagePayment * monthsPaid;
+  const amountDue = totalDue - totalPaid;
+
+  if (amountDue < 0) {
+    return `(${Math.abs(amountDue)}) so'm ortiqcha to'langan`;
+  } else if (amountDue === 0) {
+    return "(0 so'm) hammasi to'langan";
+  } else {
+    return `(${amountDue}) so'm to'lanmagan`;
+  }
 };
 
-const getProduct = (page) => {
-  axios
-    .get(`/student/page?page=${page}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      console.log(res.data);
-      store.PageProduct = res.data?.data?.records;
-      const pagination = res.data?.data?.pagination;
-      store.page = [];
-      store.page.push(pagination.currentPage, pagination.total_count);
-      store.error = false;
-    })
-    .catch((error) => {
-      store.PageProduct = error.response.data.message;
-      store.error = true;
-    });
-};
-
-const getGroups = () => {
-  axios
-    .get("/group", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      console.log(res.data);
-      store.groups = res.data;
-    })
-    .catch((error) => {
-      store.groups = [{ name: "Guruh yaratilmagan" }];
-      console.log("error", error);
-    });
-};
-
-const getOneProduct = (id) => {
-  axios
-    .get(`/student/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      edit.full_name = res.data.full_name;
-      edit.phone_number = res.data.phone_number;
-      edit.login = res.data.login;
-      edit.password = res.data.password;
-      edit.group_id = res.data.group_id;
-      edit.id = id;
-      edit.toggle = true;
-    })
-    .catch((error) => {
-      notification.warning(error.response.data.message);
-      console.log("error", error);
-    });
-};
-
-const createProduct = () => {
-  const data = {
-    full_name: form.full_name,
-    phone_number: form.phone_number,
-    login: form.login,
-    password: form.password,
-    group_id: form.group_id || store.groups[0],
-  };
-  axios
-    .post("/student/create", data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      info.getStudent();
-      notification.success("Guruh qo'shildi");
-      getProduct(store.pagination);
-      cancelFunc();
-    })
-    .catch((error) => {
-      notification.warning(error.response.data.message);
-      console.log(error);
-    });
-};
-
-const editProduct = () => {
-  const data = {
-    full_name: edit.full_name,
-    phone_number: edit.phone_number,
-    login: edit.login,
-    password: edit.password || "parol",
-    group_id: edit.group_id,
-  };
-  axios
-    .patch(`/student/${edit.id}`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => {
-      console.log(res.data.statusCode);
-      notification.success("Guruh tahrirlandi");
-      getProduct(store.pagination);
-      edit.name = "";
-      edit.start_date = "";
-      edit.toggle = false;
-    })
-    .catch((error) => {
-      if (error.response.data.statusCode == 400) {
-        console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
-      } else if (error.response.data.statusCode == 401) {
-        console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
+const getOneProduct = async (id) => {
+  try {
+    const groupResponse = await axios.get(
+      `/group/${localStorage.getItem("school_id")}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-      console.log("error", error);
+    );
+
+    const groupPrice = Number(groupResponse.data.price);
+    const groupStartDate = groupResponse.data.start_date;
+
+    if (!groupStartDate || isNaN(Date.parse(groupStartDate))) {
+      throw new Error("Guruh ochilgan sana noto'g'ri");
+    }
+
+    const studentList = [];
+    const studentPromises = groupResponse.data.student.map(async (student) => {
+      const studentInfo = await axios.get(
+        `/student/${localStorage.getItem("school_id")}/${student.student_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      const payments = studentInfo.data.payment;
+      const paymentsForGroup = payments.filter(
+        (payment) => payment.group_id === form.group_id
+      );
+
+      studentInfo.data.paymentStatus = calculatePaymentStatus(
+        paymentsForGroup,
+        groupPrice,
+        groupStartDate
+      );
+      return studentInfo.data;
     });
+
+    for (const studentInfo of await Promise.all(studentPromises)) {
+      studentList.push(studentInfo);
+    }
+
+    store.allProducts = studentList;
+    listStudent(store.allProducts)
+  } catch (error) {
+    notification.warning(
+      error.response?.data?.message || "Something went wrong"
+    );
+    console.log("error", error);
+  }
 };
 
-const deleteProduct = () => {
+const getGroup = () => {
   axios
-    .delete(`/student/${remove.id}`, {
+    .get(`/group/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data.statusCode);
-      notification.success(res.data.message);
-      getProduct(store.pagination);
-      info.getStudent();
-      remove.toggle = false;
+      store.group = res.data;
     })
     .catch((error) => {
-      if (error.response.data.statusCode == 400) {
-        console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
-      } else if (error.response.data.statusCode == 401) {
-        console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
-      }
       console.log("error", error);
     });
 };
 
-const getGuard = () => {
-  axios
-    .delete("/staff/1", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+const addAttendance = async (schoolId, studentId, status) => {
+  try {
+    await axios.post(
+      `/attendance`,
+      {
+        school_id: schoolId,
+        student_id: studentId,
+        status: status,
       },
-    })
-    .then((res) => {})
-    .catch((error) => {
-      if (error.response.data.message == "Admin huquqi sizda yo'q!") {
-        store.guard = true;
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       }
-    });
+    );
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const listStudent = (all) => {
+  for (let i in all) {
+    let list = {
+      id: i.id,
+      status: true,
+    };
+    store.student.push(list);
+  }
+  console.log(store.student);
 };
 
 onMounted(() => {
-  getProduct(store.pagination);
-  getAllProduct();
-  getGroups();
-  getGuard();
+  getGroup();
+  setTimeout(function () {
+    store.PageProduct = true;
+  }, 500);
 });
 </script>
 

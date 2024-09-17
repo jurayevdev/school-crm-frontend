@@ -60,6 +60,7 @@
                   >Ota-ona ism familiyasi</label
                 >
                 <input
+                  v-model="form.parents_full_name"
                   type="text"
                   name="parents_fullname"
                   id="parents_fullname"
@@ -73,6 +74,7 @@
                   >Ota-ona raqami</label
                 >
                 <input
+                  v-model="form.parents_phone_number"
                   type="text"
                   name="parents_phone"
                   id="parents_phone"
@@ -185,11 +187,11 @@
               v-for="i in form.group"
               :key="i.id"
               @click="
-                remove.name = 'Ona tili';
-                removeGroups();
+                remove.name = i.group_name;
+                removeGroups(i.id);
               "
               class="bg-gray-300 rounded px-3 py-1"
-              >{{ i.name }}
+              >{{ i.group_name }}
               <i
                 class="bx bx-x cursor-pointer hover:bg-gray-500 rounded font-bold p-1"
               ></i
@@ -213,7 +215,7 @@
                   class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
                   required
                 >
-                  <option v-for="i in store.groups" :key="i.id" :value="i.name">
+                  <option v-for="i in store.group" :key="i.id" :value="i.id">
                     {{ i.name }}
                   </option>
                 </select>
@@ -300,6 +302,7 @@
                   >Ota-ona ism familiyasi</label
                 >
                 <input
+                  v-model="edit.parents_full_name"
                   type="text"
                   name="parents_fullname"
                   id="parents_fullname"
@@ -313,6 +316,7 @@
                   >Ota-ona raqami</label
                 >
                 <input
+                  v-model="edit.parents_phone_number"
                   type="text"
                   name="parents_phone"
                   id="parents_phone"
@@ -362,7 +366,7 @@
                 type="submit"
                 class="btnAdd text-white inline-flex items-center bg-[#4141eb] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
-              O'zgartirish
+                O'zgartirish
               </button>
             </div>
           </form>
@@ -477,7 +481,6 @@
               class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
             >
               <button
-                v-show="!store.guard"
                 @click="toggleModal"
                 id=""
                 type="button"
@@ -561,7 +564,7 @@
                   </th>
                   <th scope="col" class="text-center py-3">Telefon Raqami</th>
                   <th scope="col" class="text-center py-3">Holati</th>
-                  <th scope="col" class="text-center py-3">To'liq</th>
+                  <!-- <th scope="col" class="text-center py-3">To'liq</th> -->
                   <th></th>
                 </tr>
               </thead>
@@ -586,13 +589,12 @@
                       class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       <p>
-                        <span v-for="id in i.groups" :key="id.id"
-                          >{{ id.name }},
+                        <span v-for="id in i.group" :key="id.id"
+                          >{{ id.group_name }},
                         </span>
                       </p>
                       <i
-                        v-show="!store.guard"
-                        @click="store.groupModal = true"
+                        @click="getOneProduct(i.id, 'group')"
                         class="bx bx-plus cursor-pointer bg-blue-800 ml-2 font-extrabold text-white p-1 rounded-md"
                       ></i>
                     </div>
@@ -603,18 +605,18 @@
                     </p>
                   </td>
                   <td
-                    v-show="!i.is_active"
+                    v-show="!i.status"
                     class="text-center font-medium text-red-800 px-8 py-2"
                   >
                     <p class="bg-red-100 rounded-[5px] p-1">Faol emas</p>
                   </td>
                   <td
-                    v-show="i.is_active"
+                    v-show="i.status"
                     class="text-center font-medium text-green-700 px-8 py-2"
                   >
                     <p class="bg-green-100 rounded-[5px] p-1">Faol</p>
                   </td>
-                  <td class="text-center font-medium px-8 py-3">
+                  <!-- <td class="text-center font-medium px-8 py-3">
                     <button
                       @click="
                         enterSlug(
@@ -626,13 +628,12 @@
                     >
                       Kirish
                     </button>
-                  </td>
+                  </td> -->
                   <td
-                    v-show="!store.guard"
                     class="text-center whitespace-nowrap font-medium pr-5"
                   >
                     <i
-                      @click="getOneProduct(i.id)"
+                      @click="getOneProduct(i.id, 'edit')"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
                     >
                     </i>
@@ -658,22 +659,39 @@
                   >
                     <span>{{ i.full_name }}</span>
                   </th>
-                  <td class="text-center font-medium text-blue-800 px-8 py-2">
-                    <p class="bg-blue-100 rounded-[5px] p-1 whitespace-nowrap">
-                      {{ i.group?.name }}
-                    </p>
+                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                    <div
+                      class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
+                    >
+                      <p>
+                        <span v-for="id in i.group" :key="id.id"
+                          >{{ id.group_name }},
+                        </span>
+                      </p>
+                      <i
+                        @click="getOneProduct(i.id, 'group')"
+                        class="bx bx-plus cursor-pointer bg-blue-800 ml-2 font-extrabold text-white p-1 rounded-md"
+                      ></i>
+                    </div>
                   </td>
                   <td class="text-center font-medium text-red-800 px-8 py-2">
                     <p class="bg-red-100 rounded-[5px] p-1">
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-8 py-2">
-                    <p class="bg-blue-100 rounded-[5px] p-1">
-                      {{ i.is_active }}
-                    </p>
+                  <td
+                    v-show="!i.status"
+                    class="text-center font-medium text-red-800 px-8 py-2"
+                  >
+                    <p class="bg-red-100 rounded-[5px] p-1">Faol emas</p>
                   </td>
-                  <td class="text-center font-medium px-8 py-3">
+                  <td
+                    v-show="i.status"
+                    class="text-center font-medium text-green-700 px-8 py-2"
+                  >
+                    <p class="bg-green-100 rounded-[5px] p-1">Faol</p>
+                  </td>
+                  <!-- <td class="text-center font-medium px-8 py-3">
                     <button
                       @click="
                         enterSlug(
@@ -685,13 +703,10 @@
                     >
                       Kirish
                     </button>
-                  </td>
-                  <td
-                    v-show="!store.guard"
-                    class="text-center whitespace-nowrap font-medium pr-5"
-                  >
+                  </td> -->
+                  <td class="text-center whitespace-nowrap font-medium pr-5">
                     <i
-                      @click="getOneProduct(i.id)"
+                      @click="getOneProduct(i.id, 'edit')"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
                     >
                     </i>
@@ -786,11 +801,11 @@ const modal = ref(false);
 
 const toggleModal = () => {
   modal.value = !modal.value;
+  form.parents_full_name = "";
+  form.parents_phone_number = "";
   form.full_name = "";
   form.phone_number = "";
-  form.login = "";
-  form.password = "";
-  form.group_id = "";
+  form.group = "";
 };
 
 const store = reactive({
@@ -799,7 +814,7 @@ const store = reactive({
   pagination: 1,
   allProducts: false,
   error: false,
-  groups: [{ name: "Guruh yaratilmagan" }],
+  group: [{ name: "Guruh yaratilmagan" }],
   guard: "",
   groupModal: false,
   filter: "",
@@ -827,11 +842,11 @@ function enterSlug(id, name) {
 }
 
 function cancelFunc() {
+  form.parents_full_name = "";
+  form.parents_phone_number = "";
   form.full_name = "";
   form.phone_number = "";
-  form.login = "";
-  form.password = "";
-  form.group_id = "";
+  form.group = "";
   modal.value = false;
 }
 
@@ -841,20 +856,21 @@ function deleteFunc(id) {
 }
 
 // ----------------------------------- forms -----------------------------------
+
 const form = reactive({
+  parents_full_name: "",
+  parents_phone_number: "",
   full_name: "",
   phone_number: "",
-  login: "",
-  password: "",
-  group_id: "",
+  group: "",
 });
 
 const edit = reactive({
+  parents_full_name: "",
+  parents_phone_number: "",
   full_name: "",
   phone_number: "",
-  login: "",
-  password: "",
-  group_id: "",
+  name: "",
   id: "",
   toggle: false,
 });
@@ -865,16 +881,16 @@ const remove = reactive({
 });
 
 // ----------------------------------- axios --------------------------------
+
 const getAllProduct = () => {
   axios
-    .get("/student", {
+    .get(`/student/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data, "all");
-      store.allProducts = res.data;
+      store.allProducts = res.data.sort((a, b) => b.id - a.id);
       store.error = false;
     })
     .catch((error) => {
@@ -886,14 +902,13 @@ const getAllProduct = () => {
 
 const getProduct = (page) => {
   axios
-    .get(`/student/page?page=${page}`, {
+    .get(`/student/${localStorage.getItem("school_id")}/page?page=${page}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data);
-      store.PageProduct = res.data?.data?.records;
+      store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
       const pagination = res.data?.data?.pagination;
       store.page = [];
       store.page.push(pagination.currentPage, pagination.total_count);
@@ -907,86 +922,91 @@ const getProduct = (page) => {
 
 const getGroups = () => {
   axios
-    .get("/group", {
+    .get(`/group/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data);
-      store.groups = res.data;
+      store.group = res.data;
     })
     .catch((error) => {
-      store.groups = [{ name: "Guruh yaratilmagan" }];
+      store.group = [{ name: "Guruh yaratilmagan" }];
       console.log("error", error);
     });
 };
 
-const getOneProduct = (id) => {
+const getOneProduct = (id, modal) => {
   axios
-    .get(`/student/${id}`, {
+    .get(`/student/${localStorage.getItem("school_id")}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
+      edit.parents_full_name = res.data.parents_full_name,
+      edit.parents_phone_number = res.data.parents_phone_number,
       edit.full_name = res.data.full_name;
       edit.phone_number = res.data.phone_number;
-      edit.login = res.data.login;
-      edit.password = res.data.password;
-      edit.group_id = res.data.group_id;
+      edit.group = res.data.group;
+      form.group = res.data.group;
       edit.id = id;
-      edit.toggle = true;
+      if (modal == "edit") {
+        edit.toggle = true;
+      } else if (modal == "group") {
+        store.groupModal = true;
+      }
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur notog'ri");
       console.log("error", error);
     });
 };
 
 const createProduct = () => {
   const data = {
+    school_id: Number(localStorage.getItem("school_id")),
+    parents_full_name: form.parents_full_name,
+    parents_phone_number: form.parents_phone_number,
     full_name: form.full_name,
     phone_number: form.phone_number,
-    login: form.login,
-    password: form.password,
-    group_id: form.group_id || store.groups[0],
+    status: true,
+    // group: form.group || store.groups[0],
   };
   axios
-    .post("/student/create", data, {
+    .post("/student", data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
       info.getStudent();
-      notification.success("Guruh qo'shildi");
+      notification.success("O'quvchi qo'shildi");
       getProduct(store.pagination);
       cancelFunc();
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur notog'ri");
       console.log(error);
     });
 };
 
 const editProduct = () => {
   const data = {
+    parents_full_name: edit.parents_full_name,
+    parents_phone_number: edit.parents_phone_number,
     full_name: edit.full_name,
     phone_number: edit.phone_number,
-    login: edit.login,
-    password: edit.password || "parol",
-    group_id: edit.group_id,
+    group: edit.group,
   };
   axios
-    .patch(`/student/${edit.id}`, data, {
+    .put(`/student/${localStorage.getItem("school_id")}/${edit.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data.statusCode);
-      notification.success("Guruh tahrirlandi");
+      notification.success("O'quvchi tahrirlandi");
       getProduct(store.pagination);
       edit.name = "";
       edit.start_date = "";
@@ -995,10 +1015,10 @@ const editProduct = () => {
     .catch((error) => {
       if (error.response.data.statusCode == 400) {
         console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
+        notification.warning("Xatolik! Nimadur notog'ri");
       } else if (error.response.data.statusCode == 401) {
         console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
+        notification.warning("Xatolik! Nimadur notog'ri");
       }
       console.log("error", error);
     });
@@ -1006,14 +1026,13 @@ const editProduct = () => {
 
 const deleteProduct = () => {
   axios
-    .delete(`/student/${remove.id}`, {
+    .delete(`/student/${localStorage.getItem("school_id")}/${remove.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data.statusCode);
-      notification.success(res.data.message);
+      notification.success("O'quvchi o'chirildi");
       getProduct(store.pagination);
       info.getStudent();
       remove.toggle = false;
@@ -1021,27 +1040,86 @@ const deleteProduct = () => {
     .catch((error) => {
       if (error.response.data.statusCode == 400) {
         console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
+        notification.warning("Xatolik! Nimadur notog'ri");
       } else if (error.response.data.statusCode == 401) {
         console.log(error.response.data.message);
-        notification.warning(error.response.data.message);
+        notification.warning("Xatolik! Nimadur notog'ri");
       }
       console.log("error", error);
     });
 };
 
-const getGuard = () => {
+const addGroups = async () => {
+  const data = {
+    student_id: Number(edit.id),
+    group_id: Number(edit.name),
+    group_name: "",
+  };
+  async function add() {
+    const info = await axios.get(
+      `/student/${localStorage.getItem("school_id")}/${edit.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const group = await axios.get(
+      `/group/${localStorage.getItem("school_id")}/${data.group_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    
+
+    data.group_name = group.data.name;
+
+    for (let i of info.data.group) {
+      if (i.group_name == data.group_name) {
+        notification.warning("Bu guruh qo'shilgan");
+        return true;
+      }
+    }
+  }
+  if (await add()) {
+    return;
+  }
   axios
-    .delete("/staff/1", {
+    .post(`/student-group`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
-    .then((res) => {})
+    .then(async (res) => {
+      notification.success("Guruhga qo'shildi");
+      getProduct(store.pagination);
+      store.groupModal = false;
+    })
     .catch((error) => {
-      if (error.response.data.message == "Admin huquqi sizda yo'q!") {
-        store.guard = true;
-      }
+      notification.warning("Xatolik! Nimadur notog'ri");
+      console.log("error", error);
+    });
+};
+
+const removeGroups = (id) => {
+  axios
+    .delete(`/student-group/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      notification.success("Guruhdan o'chirildi");
+      getProduct(store.pagination);
+      store.groupModal = false;
+    })
+    .catch((error) => {
+      notification.warning("Xatolik! Nimadur notog'ri");
+      console.log("error", error);
     });
 };
 
@@ -1049,7 +1127,6 @@ onMounted(() => {
   getProduct(store.pagination);
   getAllProduct();
   getGroups();
-  getGuard();
 });
 </script>
 

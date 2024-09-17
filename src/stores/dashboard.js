@@ -99,9 +99,9 @@ export const useInfoStore = defineStore("info", () => {
       })
       .then((res) => {
         let sch = 0;
-        const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+        let currentMonth = new Date().getMonth() + 1;
+        currentMonth = currentMonth.toString().padStart(2, "0")
         const currentYear = new Date().getFullYear().toString();
-        
         res.data.forEach(payment => {
           if (
             payment.month === currentMonth &&

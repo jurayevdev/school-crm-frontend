@@ -78,6 +78,7 @@
                   >Guruh narxi</label
                 >
                 <input
+                  v-model="form.price"
                   type="number"
                   name="price"
                   id="price"
@@ -105,19 +106,60 @@
               <div></div>
               <div>
                 <label
+                  for="start_time"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Boshlanish vaqti</label
+                >
+                <input
+                  v-model="form.start_time"
+                  type="time"
+                  name="start_time"
+                  id="start_time"
+                  step="60"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  placeholder="Boshlanish vaqti"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="end_time"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Tugash vaqti</label
+                >
+                <input
+                  v-model="form.end_time"
+                  type="time"
+                  name="end_time"
+                  id="end_time"
+                  step="60"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  placeholder="Tugash vaqti"
+                  required
+                />
+              </div>
+              <div>
+                <label
                   for="subject"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Fan tanlang</label
                 >
                 <select
-                  v-model="form.role"
+                  v-model="form.subject"
                   id="subject"
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                  <option value="admin">English</option>
-                  <option value="o'qituvchi">Backend</option>
+                  <option
+                    v-for="i in store.subject"
+                    :key="i.id"
+                    :value="i.name"
+                  >
+                    {{ i.name }}
+                  </option>
                 </select>
               </div>
               <div>
@@ -128,13 +170,14 @@
                   >O'qituvchi tanlang</label
                 >
                 <select
-                  v-model="form.role"
+                  v-model="form.employee"
                   id="teacher"
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                  <option value="admin">Shoxruh</option>
-                  <option value="o'qituvchi">Farxod</option>
+                  <option v-for="i in store.employee" :key="i.id" :value="i.id">
+                    {{ i.full_name }}
+                  </option>
                 </select>
               </div>
               <div
@@ -242,6 +285,7 @@
                   >Guruh narxi</label
                 >
                 <input
+                  v-model="edit.price"
                   type="number"
                   name="price"
                   id="price"
@@ -258,7 +302,7 @@
                   >Guruh boshlanish sanasi</label
                 >
                 <input
-                  v-model="form.start_date"
+                  v-model="edit.start_date"
                   type="date"
                   name="phone"
                   id="phone"
@@ -269,19 +313,60 @@
               <div></div>
               <div>
                 <label
+                  for="start_time"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Boshlanish vaqti</label
+                >
+                <input
+                  v-model="edit.start_time"
+                  type="time"
+                  name="start_time"
+                  id="start_time"
+                  step="60"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  placeholder="Boshlanish vaqti"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  for="end_time"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Tugash vaqti</label
+                >
+                <input
+                  v-model="edit.end_time"
+                  type="time"
+                  name="end_time"
+                  id="end_time"
+                  step="60"
+                  class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  placeholder="Tugash vaqti"
+                  required
+                />
+              </div>
+              <div>
+                <label
                   for="subject"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Fan tanlang</label
                 >
                 <select
-                  v-model="form.role"
+                  v-model="edit.subject"
                   id="subject"
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                  <option value="admin">English</option>
-                  <option value="o'qituvchi">Backend</option>
+                  <option
+                    v-for="i in store.subject"
+                    :key="i.id"
+                    :value="i.name"
+                  >
+                    {{ i.name }}
+                  </option>
                 </select>
               </div>
               <div>
@@ -292,13 +377,14 @@
                   >O'qituvchi tanlang</label
                 >
                 <select
-                  v-model="form.role"
+                  v-model="edit.employee"
                   id="teacher"
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                  <option value="admin">Shoxruh</option>
-                  <option value="o'qituvchi">Farxod</option>
+                  <option v-for="i in store.employee" :key="i.id" :value="i.id">
+                    {{ i.full_name }}
+                  </option>
                 </select>
               </div>
               <div
@@ -432,7 +518,6 @@
               class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
             >
               <button
-                v-show="!store.guard"
                 @click="toggleModal"
                 id=""
                 type="button"
@@ -516,7 +601,7 @@
                   <th scope="col" class="text-center py-3">
                     Boshlanish sanasi
                   </th>
-                  <th scope="col" class="text-center py-3">To'liq</th>
+                  <!-- <th scope="col" class="text-center py-3">To'liq</th> -->
                   <th></th>
                 </tr>
               </thead>
@@ -530,41 +615,44 @@
                   v-for="i in store.PageProduct"
                   :key="i.id"
                 >
-                  <th
+                  <td
                     scope="row"
                     class="text-center px-8 py-3 font-medium whitespace-nowrap"
                   >
                     {{ i.name }}
-                  </th>
-                  <td
-                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
-                  >
-                    <p class="bg-blue-100 rounded-[5px] p-1">Node.js</p>
-                  </td>
-                  <td
-                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-2"
-                  >
-                    <p class="bg-red-100 rounded-[5px] p-1">400000 so'm</p>
                   </td>
                   <td
                     class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
                   >
                     <p class="bg-blue-100 rounded-[5px] p-1">
-                      {{ i.start_date?.slice(0, 10) }}
+                      <span v-for="fan in i.subject" :key="fan.id"
+                        >{{ fan.subject_name }}
+                      </span>
                     </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-3">
+                  <td
+                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-2"
+                  >
+                    <p class="bg-red-100 rounded-[5px] p-1">
+                      {{ i.price }} so'm
+                    </p>
+                  </td>
+                  <td
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                  >
+                    <p class="bg-blue-100 rounded-[5px] p-1">
+                      {{ i.start_date }}
+                    </p>
+                  </td>
+                  <!-- <td class="text-center font-medium px-8 py-3">
                     <button
                       @click="enterSlug(i.id, i.name.toLowerCase())"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
                     >
                       Kirish
                     </button>
-                  </td>
-                  <td
-                    v-show="!store.guard"
-                    class="text-center whitespace-nowrap font-medium pr-5"
-                  >
+                  </td> -->
+                  <td class="text-center whitespace-nowrap font-medium pr-5">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -586,31 +674,44 @@
                   v-for="i in store.searchList"
                   :key="i.id"
                 >
-                  <th
+                  <td
                     scope="row"
                     class="text-center px-8 py-3 font-medium whitespace-nowrap"
                   >
                     {{ i.name }}
-                  </th>
+                  </td>
                   <td
                     class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
                   >
                     <p class="bg-blue-100 rounded-[5px] p-1">
-                      {{ i.start_date?.slice(0, 10) }}
+                      <span v-for="fan in i.subject" :key="fan.id"
+                        >{{ fan.subject_name }}
+                      </span>
                     </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-3">
+                  <td
+                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-2"
+                  >
+                    <p class="bg-red-100 rounded-[5px] p-1">
+                      {{ i.price }} so'm
+                    </p>
+                  </td>
+                  <td
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                  >
+                    <p class="bg-blue-100 rounded-[5px] p-1">
+                      {{ i.start_date }}
+                    </p>
+                  </td>
+                  <!-- <td class="text-center font-medium px-8 py-3">
                     <button
                       @click="enterSlug(i.id, i.name.toLowerCase())"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
                     >
                       Kirish
                     </button>
-                  </td>
-                  <td
-                    v-show="!store.guard"
-                    class="text-center whitespace-nowrap font-medium pr-5"
-                  >
+                  </td> -->
+                  <td class="text-center whitespace-nowrap font-medium pr-5">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -719,6 +820,8 @@ const store = reactive({
   page: [],
   pagination: 1,
   allProducts: false,
+  subject: [{ name: "Fan yaratilmagan" }],
+  employee: [{ name: "O'qituvchi yaratilmagan" }],
   error: false,
   guard: false,
   filter: "",
@@ -748,12 +851,22 @@ function enterSlug(id, name) {
 function cancelFunc() {
   form.name = "";
   form.start_date = "";
+  form.price = "";
+  form.start_time = "";
+  form.end_time = "";
+  form.subject = "";
+  form.employee = "";
   modal.value = false;
 }
 
 function cancelFunc1() {
   edit.name = "";
   edit.start_date = "";
+  edit.price = "";
+  edit.start_time = "";
+  edit.end_time = "";
+  edit.subject = "";
+  edit.employee = "";
   edit.toggle = false;
 }
 
@@ -766,12 +879,23 @@ function deleteFunc(id) {
 const form = reactive({
   name: "",
   start_date: "",
+  price: "",
+  start_time: "",
+  end_time: "",
+  subject: "",
+  employee: "",
 });
 
 const edit = reactive({
   name: "",
   start_date: "",
+  price: "",
+  start_time: "",
+  end_time: "",
   id: "",
+  room_id: "",
+  subject: "",
+  employee: "",
   toggle: false,
 });
 
@@ -781,15 +905,16 @@ const remove = reactive({
 });
 
 // ----------------------------------- axios --------------------------------
+
 const getAllProduct = () => {
   axios
-    .get("/group", {
+    .get(`/group/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      store.allProducts = res.data;
+      store.allProducts = res.data.sort((a, b) => b.id - a.id);;
       store.error = false;
     })
     .catch((error) => {
@@ -800,14 +925,13 @@ const getAllProduct = () => {
 
 const getProduct = (page) => {
   axios
-    .get(`/group/page?page=${page}`, {
+    .get(`/group/${localStorage.getItem("school_id")}/page?page=${page}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      console.log(res.data);
-      store.PageProduct = res.data?.data?.records;
+      store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);;
       const pagination = res.data?.data?.pagination;
       store.page = [];
       store.page.push(pagination.currentPage, pagination.total_count);
@@ -821,15 +945,21 @@ const getProduct = (page) => {
 
 const getOneProduct = (id) => {
   axios
-    .get(`/group/${id}`, {
+    .get(`/group/${localStorage.getItem("school_id")}/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
       edit.name = res.data.name;
-      edit.start_date = res.data.start_date.slice(0, 10);
+      edit.start_date = res.data.start_date;
+      edit.price = res.data.price;
+      edit.start_time = res.data.start_time;
+      edit.end_time = res.data.end_time;
       edit.id = id;
+      edit.subject = res.data.subject[0].subject_name;
+      edit.employee = Number(res.data.employee[0].employee_id)
+      edit.room_id = res.data.room_id;
       edit.toggle = true;
     })
     .catch((error) => {
@@ -839,8 +969,14 @@ const getOneProduct = (id) => {
 
 const createProduct = () => {
   const data = {
+    school_id: Number(localStorage.getItem("school_id")),
     name: form.name,
     start_date: form.start_date,
+    price: String(form.price),
+    room_id: 1,
+    start_time: form.start_time,
+    end_time: form.end_time,
+    status: true,
   };
   axios
     .post("/group", data, {
@@ -852,7 +988,40 @@ const createProduct = () => {
       notification.success(res.data.message);
       info.getGroup();
       getProduct(store.pagination);
-      cancelFunc();
+      const data = {
+        group_id: res.data.group.id,
+        subject_name: form.subject,
+      };
+      axios
+        .post(`/group-subject`, data, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {})
+        .catch((error) => {
+          notification.warning(error.response.data.message);
+          console.log("error", error);
+        });
+
+      const dataEmployee = {
+        employee_id: form.employee,
+        group_id: res.data.group.id,
+        group_name: res.data.group.name,
+      };
+      axios
+        .post(`/employee-group`, dataEmployee, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then((res) => {
+          cancelFunc();
+        })
+        .catch((error) => {
+          notification.warning(error.response.data.message);
+          console.log("error", error);
+        });
     })
     .catch((error) => {
       notification.warning(error.response.data.message);
@@ -862,11 +1031,16 @@ const createProduct = () => {
 
 const editProduct = () => {
   const data = {
+    school_id: Number(localStorage.getItem("school_id")),
     name: edit.name,
     start_date: edit.start_date,
+    price: String(edit.price),
+    start_time: edit.start_time,
+    end_time: edit.end_time,
+    room_id: edit.room_id
   };
   axios
-    .patch(`/group/${edit.id}`, data, {
+    .put(`/group/${localStorage.getItem("school_id")}/${edit.id}`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -874,9 +1048,7 @@ const editProduct = () => {
     .then((res) => {
       notification.success(res.data.message);
       getProduct(store.pagination);
-      edit.name = "";
-      edit.start_date = "";
-      edit.toggle = false;
+      cancelFunc1()
     })
     .catch((error) => {
       if (error.response.data.statusCode == 400) {
@@ -890,7 +1062,7 @@ const editProduct = () => {
 
 const deleteProduct = () => {
   axios
-    .delete(`/group/${remove.id}`, {
+    .delete(`/group/${localStorage.getItem("school_id")}/${remove.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -911,25 +1083,43 @@ const deleteProduct = () => {
     });
 };
 
-const getGuard = () => {
+const getSubject = () => {
   axios
-    .delete("/staff/1", {
+    .get(`/subject/${localStorage.getItem("school_id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
-    .then((res) => {})
+    .then((res) => {
+      store.subject = res.data || [{ name: "Fan yaratilmagan" }];
+    })
     .catch((error) => {
-      if (error.response.data.message == "Admin huquqi sizda yo'q!") {
-        store.guard = true;
-      }
+      console.log("error", error);
+    });
+};
+
+const getEmployee = () => {
+  axios
+    .get(`/employee/${localStorage.getItem("school_id")}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      store.employee = res.data.filter(
+        (record) => record.role == "teacher"
+      ) || [{ name: "O'qituvchi yaratilmagan" }];
+    })
+    .catch((error) => {
+      console.log("error", error);
     });
 };
 
 onMounted(() => {
   getProduct(1);
   getAllProduct();
-  getGuard();
+  getSubject();
+  getEmployee();
 });
 </script>
 

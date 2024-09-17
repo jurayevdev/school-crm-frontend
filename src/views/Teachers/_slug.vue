@@ -44,7 +44,7 @@
                 Ma'lumot
               </button>
             </li>
-            <li v-show="store.guard" class="mr-2">
+            <li v-show="store.guard != 'teacher'" class="mr-2">
               <button
                 @click="store.toggle = false"
                 id="services-tab"
@@ -246,7 +246,7 @@ const router = useRouter();
 const store = reactive({
   data: "",
   toggle: true,
-  guard: true,
+  guard: "",
 });
 
 const getStaff = () => {
@@ -259,6 +259,7 @@ const getStaff = () => {
     })
     .then((res) => {
       store.data = res.data;
+      store.guard = res.data[0].role
       console.log(res.data);
     })
     .catch((error) => {

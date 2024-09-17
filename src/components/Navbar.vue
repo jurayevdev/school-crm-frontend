@@ -14,14 +14,14 @@
           </button>
           <router-link to="/" class="flex ml-2 md:mr-24">
             <img
-              src="../assets/img/devo.png"
+              :src="'https://school-crm-backend-n6fq.onrender.com/' + store.image"
               class="h-8 mr-3 rounded-full"
               alt="Logo"
             />
             <span
               class="self-center text-lg font-semibold sm:text-2xl whitespace-nowrap"
             >
-              DEVOSOFT SCHOOL
+            {{ store.data }}
             </span>
           </router-link>
         </div>
@@ -94,7 +94,8 @@
 import { useNavStore } from "../stores/toggle.js";
 import { useSidebarStore } from "../stores/sidebar.js";
 import { useRouter } from "vue-router";
-import { reactive } from "vue";
+import { onMounted, reactive } from "vue";
+import axios from "@/services/axios";
 
 const router = useRouter();
 const sidebar = useSidebarStore();
@@ -102,6 +103,8 @@ const navbar = useNavStore();
 
 const store = reactive({
   guard: localStorage.getItem("role"),
+  data: "",
+  image: "",
 });
 
 const Logout = () => {
@@ -113,11 +116,31 @@ const Logout = () => {
 
 const toggleSidebar = () => {
   sidebar.sidebar = !sidebar.sidebar;
+  
 };
 
 const toggleUserInfo = () => {
   navbar.userInfo = !navbar.userInfo;
 };
+
+const getOneProduct = () => {
+  axios
+    .get(`/school/${localStorage.getItem("school_id")}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      store.data = res.data.name;
+      store.image = res.data.image;
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
+};
+onMounted(() => {
+  getOneProduct();
+});
 </script>
 
 <style lang="scss" scoped>

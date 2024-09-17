@@ -14,7 +14,6 @@ import SlugTeachers from './Teachers/_slug.vue';
 import SlugTests from './Tests/_slug.vue';
 import SlugGroups from './Groups/_slug.vue';
 import SlugResults from './Results/_slug.vue';
-import SlugSubjects from './Subjects/_slug.vue';
 import Payment from './Payments/Payment.vue'
 import Attendance from './Attendance/Attendance.vue'
 import Customer from './Customers/Customer.vue'
@@ -37,7 +36,6 @@ export {
     SlugTests,
     SlugGroups,
     SlugResults,
-    SlugSubjects,
     Payment,
     Attendance,
     Customer,

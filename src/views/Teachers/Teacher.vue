@@ -135,7 +135,10 @@
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
-                  <option value="administrator">administrator</option>
+                  <option v-show="store.owner" value="administrator">
+                    administrator
+                  </option>
+                  <option v-show="!store.owner" value="teacher">teacher</option>
                 </select>
               </div>
             </div>
@@ -217,11 +220,11 @@
               v-for="i in form.subject"
               :key="i.id"
               @click="
-                remove.title = i.title;
-                removeSubjects();
+                remove.title = i.subject_name;
+                removeSubjects(i.id);
               "
-              class="bg-gray-300 rounded px-3 py-1"
-              >{{ i.title }}
+              class="bg-gray-300 rounded px-3 py-1 text-black"
+              >{{ i.subject_name }}
               <i
                 class="bx bx-x cursor-pointer hover:bg-white0 rounded font-bold p-1"
               ></i
@@ -240,17 +243,17 @@
                   >Fanni tanlang</label
                 >
                 <select
-                  v-model="edit.title"
+                  v-model="edit.name"
                   id="name"
-                  class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                  class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
                   <option
-                    v-for="i in store.subjects"
+                    v-for="i in store.subject"
                     :key="i.id"
-                    :value="i.title"
+                    :value="i.name"
                   >
-                    {{ i.title }}
+                    {{ i.name }}
                   </option>
                 </select>
               </div>
@@ -332,11 +335,11 @@
               v-for="i in form.group"
               :key="i.id"
               @click="
-                remove.name = 'Ona tili';
-                removeGroups();
+                remove.name = i.group_name;
+                removeGroups(i.id);
               "
               class="bg-gray-300 rounded px-3 py-1"
-              >{{ i.name }}
+              >{{ i.group_name }}
               <i
                 class="bx bx-x cursor-pointer hover:bg-white0 rounded font-bold p-1"
               ></i
@@ -360,7 +363,7 @@
                   class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
-                  <option v-for="i in store.groups" :key="i.id" :value="i.name">
+                  <option v-for="i in store.group" :key="i.id" :value="i.id">
                     {{ i.name }}
                   </option>
                 </select>
@@ -522,7 +525,10 @@
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
-                  <option value="administrator">administrator</option>
+                  <option v-show="store.owner" value="administrator">
+                    administrator
+                  </option>
+                  <option v-show="!store.owner" value="teacher">teacher</option>
                 </select>
               </div>
             </div>
@@ -656,7 +662,6 @@
               class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
             >
               <button
-                v-show="!store.guard"
                 @click="toggleModal"
                 id=""
                 type="button"
@@ -737,9 +742,9 @@
                   <th scope="col" class="text-center py-3">F. I. O.</th>
                   <th scope="col" class="text-center py-3">Lavozim</th>
                   <th scope="col" class="text-center py-3">Telefon raqam</th>
-                  <th v-show="store.guard" scope="col" class="text-center py-3">Fanlar</th>
-                  <th v-show="store.guard" scope="col" class="text-center py-3">Guruhlar</th>
-                  <th scope="col" class="text-center py-3">To'liq ma'lumot</th>
+                  <th scope="col" class="text-center py-3">Fanlar</th>
+                  <th scope="col" class="text-center py-3">Guruhlar</th>
+                  <!-- <th scope="col" class="text-center py-3">To'liq ma'lumot</th> -->
                   <th></th>
                 </tr>
               </thead>
@@ -753,12 +758,12 @@
                   v-for="i in store.PageProduct"
                   :key="i.id"
                 >
-                  <th
+                  <td
                     scope="row"
                     class="text-center px-5 py-3 font-medium whitespace-nowrap"
                   >
                     {{ i.full_name }}
-                  </th>
+                  </td>
                   <td class="text-center font-medium text-blue-800 px-5 py-2">
                     <p
                       class="bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
@@ -771,13 +776,16 @@
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td
+                    v-if="i.role == 'teacher'"
+                    class="text-center font-medium text-blue-800 px-5 py-2"
+                  >
                     <div
                       class="flex gap-1 justify-between text-center bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       <p>
-                        <span v-for="fan in i.subjects" :key="fan.id"
-                          >{{ fan.title }},
+                        <span v-for="fan in i.subject" :key="fan.id"
+                          >{{ fan.subject_name }},
                         </span>
                       </p>
                       <i
@@ -786,13 +794,20 @@
                       ></i>
                     </div>
                   </td>
-                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td
+                    v-if="i.role != 'teacher'"
+                    class="text-center px-5 py-3 font-medium whitespace-nowrap"
+                  ></td>
+                  <td
+                    v-if="i.role == 'teacher'"
+                    class="text-center font-medium text-blue-800 px-5 py-2"
+                  >
                     <div
                       class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       <p>
-                        <span v-for="id in i.groups" :key="id.id"
-                          >{{ id.name }},
+                        <span v-for="id in i.group" :key="id.id"
+                          >{{ id.group_name }},
                         </span>
                       </p>
                       <i
@@ -801,14 +816,18 @@
                       ></i>
                     </div>
                   </td>
-                  <td class="text-center font-medium px-5 py-3">
+                  <td
+                    v-if="i.role != 'teacher'"
+                    class="text-center px-5 py-3 font-medium whitespace-nowrap"
+                  ></td>
+                  <!-- <td class="text-center font-medium px-5 py-3">
                     <button
                       @click="enterSlug(i.id)"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
                     >
                       Batafsil
                     </button>
-                  </td>
+                  </td> -->
                   <td
                     v-if="i.role != 'superadmin'"
                     class="text-center whitespace-nowrap font-medium pr-5"
@@ -852,13 +871,13 @@
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td class="text-center font-medium text-blue-800 px-5 py-2">
                     <div
                       class="flex gap-1 justify-between text-center bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       <p>
-                        <span v-for="fan in i.subjects" :key="fan.id"
-                          >{{ fan.title }},
+                        <span v-for="fan in i.subject" :key="fan.id"
+                          >{{ fan.subject_name }},
                         </span>
                       </p>
                       <i
@@ -867,13 +886,13 @@
                       ></i>
                     </div>
                   </td>
-                  <td v-show="store.guard" class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td class="text-center font-medium text-blue-800 px-5 py-2">
                     <div
                       class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       <p>
-                        <span v-for="id in i.groups" :key="id.id"
-                          >{{ id.name }},
+                        <span v-for="id in i.group" :key="id.id"
+                          >{{ id.group_name }},
                         </span>
                       </p>
                       <i
@@ -882,14 +901,14 @@
                       ></i>
                     </div>
                   </td>
-                  <td class="text-center font-medium px-5 py-3">
+                  <!-- <td class="text-center font-medium px-5 py-3">
                     <button
                       @click="enterSlug(i.id)"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
                     >
                       Batafsil
                     </button>
-                  </td>
+                  </td> -->
                   <td
                     v-if="i.role != 'superadmin'"
                     class="text-center whitespace-nowrap font-medium pr-5"
@@ -994,8 +1013,8 @@ const store = reactive({
   page: [],
   pagination: 1,
   allProducts: false,
-  groups: [{ name: "Guruh yaratilmagan" }],
-  subjects: [{ title: "Fan yaratilmagan" }],
+  group: [{ name: "Guruh yaratilmagan" }],
+  subject: [{ name: "Fan yaratilmagan" }],
   roles: "",
   error: false,
   subjectModal: false,
@@ -1003,6 +1022,7 @@ const store = reactive({
   addSubject: "",
   hashed_password: "",
   guard: true,
+  owner: false,
   filter: "",
   filter_show: false,
   searchList: [],
@@ -1102,7 +1122,7 @@ const createProduct = () => {
     phone_number: form.phone_number,
     login: form.login,
     password: form.password,
-    role: form.role
+    role: form.role,
   };
   axios
     .post("/employee", data, {
@@ -1136,7 +1156,14 @@ const getAllProduct = () => {
       },
     })
     .then((res) => {
-      store.allProducts = res.data.sort((a, b) => b.id - a.id);
+      if (localStorage.getItem("role") == "owner") {
+        store.allProducts = res.data.sort((a, b) => b.id - a.id);
+      } else {
+        store.allProducts = res.data
+          .filter((record) => record.role !== localStorage.getItem("role"))
+          .sort((a, b) => b.id - a.id);
+      }
+
       store.error = false;
     })
     .catch((error) => {
@@ -1154,7 +1181,14 @@ const getProduct = (page) => {
       },
     })
     .then((res) => {
-      store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
+      if (localStorage.getItem("role") == "owner") {
+        store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
+      } else {
+        store.PageProduct = res.data?.data?.records
+          .filter((record) => record.role !== localStorage.getItem("role"))
+          .sort((a, b) => b.id - a.id);
+      }
+
       const pagination = res.data?.data?.pagination;
       store.page = [];
       store.page.push(pagination.currentPage, pagination.total_count);
@@ -1179,11 +1213,11 @@ const getOneProduct = (id, modal) => {
       edit.password = "";
       store.hashed_password = res.data.hashed_password;
       edit.role = res.data?.role;
-      edit.subject = res.data.subjects;
-      edit.group = res.data.groups;
+      edit.subject = res.data.subject;
+      edit.group = res.data.group;
       edit.phone_number = res.data.phone_number;
-      form.group = res.data.groups;
-      form.subject = res.data.subjects;
+      form.group = res.data.group;
+      form.subject = res.data.subject;
       edit.id = res.data.id;
       if (modal == "edit") {
         edit.toggle = true;
@@ -1232,19 +1266,22 @@ const editProduct = () => {
 
 const addSubjects = async () => {
   const data = {
-    staff_id: edit.id,
-    title: edit.title,
+    employee_id: edit.id,
+    subject_name: edit.name,
   };
   async function add() {
-    const info = await axios.get(`/staff/${edit.id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const info = await axios.get(
+      `/employee/${localStorage.getItem("school_id")}/${edit.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     console.log(info.data);
-    for (let i of info.data.subjects) {
-      console.log(i.title == data.title);
-      if (i.title == data.title) {
+    for (let i of info.data.subject) {
+      console.log(i.subject_name == data.subject_name);
+      if (i.subject_name == data.subject_name) {
         notification.warning("Bu fan qo'shilgan");
         return true;
       }
@@ -1254,7 +1291,7 @@ const addSubjects = async () => {
     return;
   }
   axios
-    .post(`/staff/addSubject`, data, {
+    .post(`/employee-subject`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1272,17 +1309,33 @@ const addSubjects = async () => {
 
 const addGroups = async () => {
   const data = {
-    staff_id: edit.id,
-    name: edit.name,
+    employee_id: edit.id,
+    group_id: Number(edit.name),
+    group_name: "",
   };
   async function add() {
-    const info = await axios.get(`/staff/${edit.id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
-    for (let i of info.data.groups) {
-      if (i.name == data.name) {
+    const info = await axios.get(
+      `/employee/${localStorage.getItem("school_id")}/${edit.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const group = await axios.get(
+      `/group/${localStorage.getItem("school_id")}/${data.group_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    data.group_name = group.data.name;
+
+    for (let i of info.data.group) {
+      if (i.group_name == data.group_name) {
         notification.warning("Bu guruh qo'shilgan");
         return true;
       }
@@ -1292,7 +1345,7 @@ const addGroups = async () => {
     return;
   }
   axios
-    .post(`/staff/addGroup`, data, {
+    .post(`/employee-group`, data, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1308,17 +1361,12 @@ const addGroups = async () => {
     });
 };
 
-const removeSubjects = () => {
-  const data = {
-    staff_id: edit.id,
-    title: remove.title,
-  };
+const removeSubjects = (id) => {
   axios
-    .delete(`/staff/removeSubject`, {
+    .delete(`/employee-subject/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      data,
     })
     .then((res) => {
       notification.success(res.data.message);
@@ -1331,17 +1379,12 @@ const removeSubjects = () => {
     });
 };
 
-const removeGroups = () => {
-  const data = {
-    staff_id: edit.id,
-    name: "n7",
-  };
+const removeGroups = (id) => {
   axios
-    .delete("/staff/removeGroup", {
+    .delete(`/employee-group/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      data,
     })
     .then((res) => {
       notification.success(res.data.message);
@@ -1362,7 +1405,7 @@ const getSubject = () => {
       },
     })
     .then((res) => {
-      store.subjects = res.data || [{ title: "Fan yaratilmagan" }];
+      store.subject = res.data || [{ name: "Fan yaratilmagan" }];
     })
     .catch((error) => {
       console.log("error", error);
@@ -1377,7 +1420,7 @@ const getGroup = () => {
       },
     })
     .then((res) => {
-      store.groups = res.data || [{ name: "Guruh yaratilmagan" }];
+      store.group = res.data || [{ name: "Guruh yaratilmagan" }];
     })
     .catch((error) => {
       console.log("error", error);
@@ -1408,12 +1451,12 @@ const deleteProduct = () => {
 };
 
 const checkGuard = () => {
-  if (localStorage.getItem("role") !== "teacher"){
-    store.guard = false;
+  if (localStorage.getItem("role") == "owner") {
+    store.owner = true;
   }
-}
+};
 
-onMounted(() => { 
+onMounted(() => {
   getProduct(1);
   getAllProduct();
   getSubject();

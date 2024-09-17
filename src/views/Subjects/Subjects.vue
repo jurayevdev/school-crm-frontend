@@ -280,7 +280,6 @@
               class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
             >
               <button
-                v-show="!store.guard"
                 @click="toggleModal"
                 id=""
                 type="button"
@@ -334,11 +333,11 @@
                     v-for="(i, index) in store.searchList"
                     :key="index"
                     @click="
-                      store.filter = i.title;
+                      store.filter = i.name;
                       searchFunc();
                     "
                   >
-                    {{ i.title }}
+                    {{ i.name }}
                   </li>
                 </ul>
               </div>
@@ -361,7 +360,7 @@
                   <th scope="col" class="text-center py-3 whitespace-nowrap">
                     Fan nomi
                   </th>
-                  <th scope="col" class="text-center py-3">To'liq</th>
+                  <th scope="col" class="text-center py-3">Ochilgan sana</th>
                   <th v-show="!store.guard"></th>
                 </tr>
               </thead>
@@ -376,23 +375,18 @@
                   :key="i.id"
                 >
                   <td
-                    scope="row"
                     class="text-center px-8 py-3 font-medium whitespace-nowrap"
                   >
                     <span>{{ i.name }}</span>
                   </td>
-                  <td class="text-center font-medium px-8 py-3">
-                    <button
-                      @click="enterSlug(i.id, i.title.toLowerCase())"
-                      class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
-                    >
-                      Kirish
-                    </button>
-                  </td>
                   <td
-                    v-show="!store.guard"
-                    class="text-center whitespace-nowrap font-medium pr-5"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
                   >
+                    <span class="bg-blue-100 rounded-[5px] p-1 px-10">{{
+                      i.createdAt.slice(0, 10)
+                    }}</span>
+                  </td>
+                  <td class="text-center whitespace-nowrap font-medium pr-5">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -414,24 +408,19 @@
                   v-for="i in store.searchList"
                   :key="i"
                 >
-                  <th
-                    scope="row"
+                  <td
                     class="text-center px-8 py-3 font-medium whitespace-nowrap"
                   >
-                    <span>{{ i.title }}</span>
-                  </th>
-                  <td class="text-center font-medium px-8 py-3">
-                    <button
-                      @click="enterSlug(i.id, i.title.toLowerCase())"
-                      class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
-                    >
-                      Kirish
-                    </button>
+                    <span>{{ i.name }}</span>
                   </td>
                   <td
-                    v-show="!store.guard"
-                    class="text-center whitespace-nowrap font-medium pr-5"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
                   >
+                    <span class="bg-blue-100 rounded-[5px] p-1 px-10">{{
+                      i.createdAt.slice(0, 10)
+                    }}</span>
+                  </td>
+                  <td class="text-center whitespace-nowrap font-medium pr-5">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -546,7 +535,7 @@ const store = reactive({
 function searchFunc() {
   store.searchList = [];
   for (let i of store.allProducts) {
-    if (i.title.toLowerCase().includes(store.filter.toLowerCase())) {
+    if (i.name.toLowerCase().includes(store.filter.toLowerCase())) {
       store.searchList.push(i);
     }
   }
@@ -556,10 +545,6 @@ function searchFunc() {
   }
 }
 // ---------------------------- search ------------------------------------
-
-function enterSlug(id, name) {
-  router.push(`./subjects/${id}/${name}`);
-}
 
 function cancelFunc() {
   form.title = "";

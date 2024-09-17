@@ -522,7 +522,7 @@
               v-show="store.PageProduct && store.error"
               class="w-full max-w-screen text-center p-20 text-2xl font-medium"
             >
-              <h1>O'quvchilar ro'yhati bo'sh</h1>
+              <h1>Mijozlar ro'yhati bo'sh</h1>
             </div>
           </div>
           <nav

@@ -241,7 +241,7 @@ const getCardImages = (index) => {
     "https://cdn.pixabay.com/photo/2021/01/30/12/06/icon-5963629_960_720.png",
     "https://cdn.pixabay.com/photo/2018/09/15/16/56/teacher-3679814_960_720.jpg",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuraLLKEykFDvI5Nc3Qo4RiqZqhzHLVU2vKQ&usqp=CAU",
-    "https://www.pngfind.com/pngs/m/170-1708222_png-file-svg-group-people-icon-png-transparent.png",
+    "https://static.vecteezy.com/system/resources/thumbnails/004/320/558/small_2x/group-icon-isolated-sign-symbol-illustration-five-people-gathered-icons-black-and-white-design-free-vector.jpg",
     "https://static.vecteezy.com/system/resources/thumbnails/000/173/239/small_2x/Sample_Money_Vector_Illustration.jpg",
   ];
   return [images[index]];
@@ -257,7 +257,7 @@ onBeforeMount(() => {
   getGuard();
   setTimeout(function () {
     store.PageProduct = true;
-  }, 1000);
+  }, 500);
 });
 </script>
 

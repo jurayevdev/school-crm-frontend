@@ -11,7 +11,7 @@
       <ul class="space-y-2 font-medium">
         <li v-for="i in header" v-show="checkRole(i.role)" :key="i.id">
           <router-link
-            class="flex items-center text-lg p-2 cursor-pointer duration-500 hover:bg-gray-400 hover:text-white rounded-lg gap-2"
+            class="flex items-center text-lg p-2 cursor-pointer duration-500 hover:bg-gray-400 rounded-lg gap-2"
             :class="{ 'text-white': navbar.userNav }"
             :to="i.link"
           >
@@ -37,13 +37,13 @@ const store = reactive({
 });
 
 const checkRole = (roles) => {
-  const roleArray = roles.split(', ');
+  const roleArray = roles.split(", ");
   return roleArray.includes(store.guard);
 };
 </script>
 
 <style lang="scss" scoped>
-.router-link-active {
+.router-link-exact-active {
   background: transparent;
 }
 
