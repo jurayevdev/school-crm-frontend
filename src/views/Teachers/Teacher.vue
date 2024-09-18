@@ -760,25 +760,25 @@
                 >
                   <td
                     scope="row"
-                    class="text-center px-5 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-5 py-4 font-medium whitespace-nowrap"
                   >
                     {{ i.full_name }}
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td class="text-center font-medium text-blue-800 px-5 py-4">
                     <p
                       class="bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       {{ i.role }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-red-800 px-5 py-2">
+                  <td class="text-center font-medium text-red-800 px-5 py-4">
                     <p class="bg-red-100 rounded-[5px] p-1 whitespace-nowrap">
                       {{ i.phone_number }}
                     </p>
                   </td>
                   <td
                     v-if="i.role == 'teacher'"
-                    class="text-center font-medium text-blue-800 px-5 py-2"
+                    class="text-center font-medium text-blue-800 px-5 py-4"
                   >
                     <div
                       class="flex gap-1 justify-between text-center bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
@@ -796,11 +796,11 @@
                   </td>
                   <td
                     v-if="i.role != 'teacher'"
-                    class="text-center px-5 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-5 py-4 font-medium whitespace-nowrap"
                   ></td>
                   <td
                     v-if="i.role == 'teacher'"
-                    class="text-center font-medium text-blue-800 px-5 py-2"
+                    class="text-center font-medium text-blue-800 px-5 py-4"
                   >
                     <div
                       class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
@@ -818,9 +818,9 @@
                   </td>
                   <td
                     v-if="i.role != 'teacher'"
-                    class="text-center px-5 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-5 py-4 font-medium whitespace-nowrap"
                   ></td>
-                  <!-- <td class="text-center font-medium px-5 py-3">
+                  <!-- <td class="text-center font-medium px-5 py-4">
                     <button
                       @click="enterSlug(i.id)"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
@@ -830,7 +830,7 @@
                   </td> -->
                   <td
                     v-if="i.role != 'superadmin'"
-                    class="text-center whitespace-nowrap font-medium pr-5"
+                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
                   >
                     <i
                       @click="getOneProduct(i.id, 'edit')"
@@ -855,23 +855,23 @@
                 >
                   <th
                     scope="row"
-                    class="text-center px-5 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-5 py-4 font-medium whitespace-nowrap"
                   >
                     {{ i.full_name }}
                   </th>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td class="text-center font-medium text-blue-800 px-5 py-4">
                     <p
                       class="bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
                       {{ i.role }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-red-800 px-5 py-2">
+                  <td class="text-center font-medium text-red-800 px-5 py-4">
                     <p class="bg-red-100 rounded-[5px] p-1 whitespace-nowrap">
                       {{ i.phone_number }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td class="text-center font-medium text-blue-800 px-5 py-4">
                     <div
                       class="flex gap-1 justify-between text-center bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
@@ -886,7 +886,7 @@
                       ></i>
                     </div>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-5 py-2">
+                  <td class="text-center font-medium text-blue-800 px-5 py-4">
                     <div
                       class="flex gap-2 justify-between bg-blue-100 min-w-fit rounded-[5px] px-2 py-1 whitespace-nowrap"
                     >
@@ -901,17 +901,17 @@
                       ></i>
                     </div>
                   </td>
-                  <!-- <td class="text-center font-medium px-5 py-3">
+                  <!-- <td class="text-center font-medium px-5 py-4">
                     <button
                       @click="enterSlug(i.id)"
-                      class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
+                      class="btnKirish bg-blue-600 rounded-lg px-5 py-4 text-white focus:ring-2"
                     >
                       Batafsil
                     </button>
                   </td> -->
                   <td
                     v-if="i.role != 'superadmin'"
-                    class="text-center whitespace-nowrap font-medium pr-5"
+                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
                   >
                     <i
                       @click="getOneProduct(i.id, 'edit')"
@@ -1132,7 +1132,7 @@ const createProduct = () => {
     })
     .then((res) => {
       modal.value = false;
-      notification.success(res.data.message);
+      notification.success("Xodim yaratildi");
       getProduct(store.pagination);
       info.getStaff();
       form.full_name = "";
@@ -1143,7 +1143,7 @@ const createProduct = () => {
     })
     .catch((error) => {
       if (error.response.data.statusCode == 400) {
-        notification.warning(error.response.data.message);
+        notification.warning("Xatolik! Nimadur noto'g'ri");
       }
     });
 };
@@ -1249,7 +1249,7 @@ const editProduct = () => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Xodim tahrirlandi");
       getProduct(store.pagination);
       edit.full_name = "";
       edit.login = "";
@@ -1259,7 +1259,7 @@ const editProduct = () => {
       edit.toggle = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1297,12 +1297,12 @@ const addSubjects = async () => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Fan qo'shildi");
       getProduct(store.pagination);
       store.subjectModal = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1351,12 +1351,12 @@ const addGroups = async () => {
       },
     })
     .then(async (res) => {
-      notification.success(res.data.message);
+      notification.success("Guruh qo'shildi");
       getProduct(store.pagination);
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1369,12 +1369,12 @@ const removeSubjects = (id) => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Fan o'shirildi");
       getProduct(store.pagination);
       store.subjectModal = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1387,12 +1387,12 @@ const removeGroups = (id) => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Guruh o'shirildi");
       getProduct(store.pagination);
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1439,13 +1439,13 @@ const deleteProduct = () => {
       data,
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Xodim o'shirildi");
       getProduct(store.pagination);
       remove.toggle = false;
       info.getStaff();
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log(error);
     });
 };

@@ -1,89 +1,73 @@
 <template>
   <nav
-    class="fixed top-0 z-50 w-full border-b"
+    class="fixed top-0 z-50 w-full"
     :class="{
       'bg-[#1e293b] text-white': navbar.userNav,
       'bg-white text-black': !navbar.userNav,
     }"
   >
-    <div class="px-3 py-3 lg:px-5 lg:pl-3">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
-          <button @click="toggleSidebar">
-            <i class="bx bx-menu text-2xl sm:hidden block"></i>
-          </button>
-          <router-link to="/" class="flex ml-2 md:mr-24">
-            <img
-              :src="'https://school-crm-backend-n6fq.onrender.com/' + store.image"
-              class="h-8 mr-3 rounded-full"
-              alt="Logo"
-            />
-            <span
-              class="self-center text-lg font-semibold sm:text-2xl whitespace-nowrap"
+    <div class="flex items-center justify-between px-3 py-3 lg:px-5 lg:pl-3">
+      <div class="flex items-center">
+        <button @click="toggleSidebar" class="xl:hidden">
+          <i class="bx bx-menu text-2xl"></i>
+        </button>
+        <router-link to="/" class="flex items-center ml-2">
+          <img
+            :src="store.image ? store.link + store.image : '../favicon.ico'"
+            class="h-12 mr-3 rounded-full"
+            alt="Logo"
+          />
+          <span class="text-lg font-semibold sm:text-2xl whitespace-nowrap">
+            {{ store.data ? store.data : "Devosoft" }}
+          </span>
+        </router-link>
+      </div>
+      <div class="flex items-center">
+        <div class="flex items-center mr-5">
+          <div class="relative cursor-pointer" @click="navbar.setMode()">
+            <b
+              class="flex items-center justify-between w-[4.5rem] h-9 border-2 rounded-full"
             >
-            {{ store.data }}
-            </span>
-          </router-link>
-        </div>
-        <div class="flex items-center">
-          <div class="flex items-center ml-3">
-            <ul class="flex sm:gap-5 text-2xl">
-              <li>
-                <div class="relative" @click="navbar.setMode()">
-                  <b
-                    class="flex mr-5 w-[4.1rem] items-center justify-between h-9 cursor-pointer border-2 rounded-full"
-                  >
-                    <span
-                      ><i
-                        class="bx bxs-moon pl-1 text-yellow-300 rounded-full"
-                      ></i
-                    ></span>
-                    <span
-                      ><i
-                        class="bx bxs-sun px-1 rounded-full text-yellow-300"
-                      ></i
-                    ></span>
-                  </b>
-                  <p
-                    class="w-8 h-8 rounded-full absolute top-[2px] -z-10 duration-1000"
-                    :class="{
-                      'translate-x-full bg-black': !navbar.userNav,
-                      'bg-white': navbar.userNav,
-                    }"
-                  ></p>
-                </div>
-              </li>
-              <li>
-                <img
-                  @click="toggleUserInfo"
-                  class="w-8 h-8 rounded-full bg-gray-800 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 cursor-pointer"
-                  src="https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
-                  alt="user"
-                />
-              </li>
-            </ul>
-            <div
-              v-show="navbar.userInfo"
-              @click="navbar.userInfo = false"
-              class="absolute z-50 top-14 right-2 border-2 shadow-black text-base rounded-lg list-none divide-y divide-gray-100 shadow-md overflow-hidden"
+              <span
+                ><i class="bx bxs-moon ml-1 text-yellow-300 rounded-full text-2xl"></i
+              ></span>
+              <span><i class="bx bxs-sun mr-1 text-yellow-300 rounded-full text-2xl"></i></span>
+            </b>
+            <p
+              class="absolute top-[1px] left-0 w-9 h-[2.1rem] -z-10 rounded-full duration-1000"
               :class="{
-                'bg-[#203843] border-white shadow-white': navbar.userNav,
-                'bg-white': !navbar.userNav,
+                'translate-x-full bg-black': !navbar.userNav,
+                'bg-white': navbar.userNav,
               }"
-            >
-              <div class="px-4 py-3 text-center">
-                <p class="text-lg font-bold">{{ store.guard }}</p>
-              </div>
-              <ul class="py-1 font-medium">
-                <li
-                  @click="Logout"
-                  class="block px-4 py-2 text-sm hover:cursor-pointer"
-                >
-                  <i class="bx bx-log-out"></i> Log out
-                </li>
-              </ul>
-            </div>
+            ></p>
           </div>
+        </div>
+        <img
+          @click="toggleUserInfo"
+          class="w-12 h-12 rounded-full bg-gray-800 cursor-pointer border-2 border-[#1e293b]"
+          src="https://static.vecteezy.com/system/resources/thumbnails/005/129/844/small_2x/profile-user-icon-isolated-on-white-background-eps10-free-vector.jpg"
+          alt="user"
+        />
+        <div
+          v-show="navbar.userInfo"
+          @click="navbar.userInfo = false"
+          class="absolute top-16 right-5 z-50 border-2 rounded-lg overflow-hidden shadow-md divide-y"
+          :class="{
+            'bg-[#1e293b] border-white shadow-white': navbar.userNav,
+            'bg-white': !navbar.userNav,
+          }"
+        >
+          <div class="px-4 py-3 text-center">
+            <p class="text-lg font-bold">{{ store.guard }}</p>
+          </div>
+          <ul class="py-1 font-medium">
+            <li
+              @click="Logout"
+              class="block px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
+            >
+              <i class="bx bx-log-out"></i> Log out
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -105,6 +89,7 @@ const store = reactive({
   guard: localStorage.getItem("role"),
   data: "",
   image: "",
+  link: "https://school-crm-backend-n6fq.onrender.com/",
 });
 
 const Logout = () => {
@@ -116,7 +101,6 @@ const Logout = () => {
 
 const toggleSidebar = () => {
   sidebar.sidebar = !sidebar.sidebar;
-  
 };
 
 const toggleUserInfo = () => {

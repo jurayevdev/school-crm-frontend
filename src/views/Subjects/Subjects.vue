@@ -375,18 +375,18 @@
                   :key="i.id"
                 >
                   <td
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     <span>{{ i.name }}</span>
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
                   >
-                    <span class="bg-blue-100 rounded-[5px] p-1 px-10">{{
+                    <span class="bg-blue-100 rounded-[5px] p-1 px-14">{{
                       i.createdAt.slice(0, 10)
                     }}</span>
                   </td>
-                  <td class="text-center whitespace-nowrap font-medium pr-5">
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -409,18 +409,18 @@
                   :key="i"
                 >
                   <td
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     <span>{{ i.name }}</span>
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
                   >
                     <span class="bg-blue-100 rounded-[5px] p-1 px-10">{{
                       i.createdAt.slice(0, 10)
                     }}</span>
                   </td>
-                  <td class="text-center whitespace-nowrap font-medium pr-5">
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -588,19 +588,12 @@ const getAllProduct = () => {
     })
     .then((res) => {
       store.allProducts = res.data;
-      console.log(res.data);
-
       store.error = false;
     })
     .catch((error) => {
       store.allProducts = error.response.data.message;
       store.error = true;
       console.log(error);
-
-      if (error.response.data.message == "Invalid or expired token") {
-        localStorage.removeItem("token");
-        router.push("/login");
-      }
     });
 };
 
@@ -612,7 +605,6 @@ const getProduct = (page) => {
       },
     })
     .then((res) => {
-      console.log(res.data);
       store.PageProduct = res.data?.data?.records;
       const pagination = res.data?.data?.pagination;
       store.page = [];
@@ -627,14 +619,14 @@ const getProduct = (page) => {
 
 const getOneProduct = (id) => {
   axios
-    .get(`/subject/${id}`, {
+    .get(`/subject/${localStorage.getItem("school_id")}/${id}`, {
       id,
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      edit.title = res.data.title;
+      edit.title = res.data.name;
       edit.id = id;
       edit.toggle = true;
     })
@@ -663,7 +655,7 @@ const createProduct = () => {
       cancelFunc();
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -681,7 +673,7 @@ const editProduct = () => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Fan tahrirlandi");
       getProduct(store.pagination);
       getAllProduct();
       info.getSubjects();
@@ -689,7 +681,7 @@ const editProduct = () => {
       edit.toggle = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -703,14 +695,14 @@ const deleteProduct = () => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Fan o'chirildi");
       getProduct(store.pagination);
       getAllProduct();
       info.getSubjects();
       remove.toggle = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };

@@ -9,7 +9,7 @@
         sidebar.sidebar = true;
         navbar.userInfo = false;
       "
-      class="bg-gray-200 pt-14 px-2 sm:ml-64 pb-4 overflow-y-auto max-h-[93vh] overflow-hidden min-h-screen"
+      class="bg-gray-200 mt-[70px] px-2 xl:ml-64 pb-4 overflow-y-auto max-h-[93vh] overflow-hidden min-h-screen"
       
     >
       <router-view></router-view>

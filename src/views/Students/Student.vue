@@ -580,7 +580,7 @@
                 >
                   <th
                     scope="row"
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     <span>{{ i.full_name }}</span>
                   </th>
@@ -599,24 +599,24 @@
                       ></i>
                     </div>
                   </td>
-                  <td class="text-center font-medium text-red-800 px-8 py-2">
+                  <td class="text-center font-medium text-red-800 px-8 py-4">
                     <p class="bg-red-100 whitespace-nowrap rounded-[5px] p-1">
                       {{ i.phone_number }}
                     </p>
                   </td>
                   <td
                     v-show="!i.status"
-                    class="text-center font-medium text-red-800 px-8 py-2"
+                    class="text-center font-medium text-red-800 px-8 py-4"
                   >
                     <p class="bg-red-100 rounded-[5px] p-1">Faol emas</p>
                   </td>
                   <td
                     v-show="i.status"
-                    class="text-center font-medium text-green-700 px-8 py-2"
+                    class="text-center font-medium text-green-700 px-8 py-4"
                   >
                     <p class="bg-green-100 rounded-[5px] p-1">Faol</p>
                   </td>
-                  <!-- <td class="text-center font-medium px-8 py-3">
+                  <!-- <td class="text-center font-medium px-8 py-4">
                     <button
                       @click="
                         enterSlug(
@@ -630,7 +630,7 @@
                     </button>
                   </td> -->
                   <td
-                    class="text-center whitespace-nowrap font-medium pr-5"
+                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
                   >
                     <i
                       @click="getOneProduct(i.id, 'edit')"
@@ -655,7 +655,7 @@
                 >
                   <th
                     scope="row"
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     <span>{{ i.full_name }}</span>
                   </th>
@@ -674,24 +674,24 @@
                       ></i>
                     </div>
                   </td>
-                  <td class="text-center font-medium text-red-800 px-8 py-2">
+                  <td class="text-center font-medium text-red-800 px-8 py-4">
                     <p class="bg-red-100 rounded-[5px] p-1">
                       {{ i.phone_number }}
                     </p>
                   </td>
                   <td
                     v-show="!i.status"
-                    class="text-center font-medium text-red-800 px-8 py-2"
+                    class="text-center font-medium text-red-800 px-8 py-4"
                   >
                     <p class="bg-red-100 rounded-[5px] p-1">Faol emas</p>
                   </td>
                   <td
                     v-show="i.status"
-                    class="text-center font-medium text-green-700 px-8 py-2"
+                    class="text-center font-medium text-green-700 px-8 py-4"
                   >
                     <p class="bg-green-100 rounded-[5px] p-1">Faol</p>
                   </td>
-                  <!-- <td class="text-center font-medium px-8 py-3">
+                  <!-- <td class="text-center font-medium px-8 py-4">
                     <button
                       @click="
                         enterSlug(
@@ -704,7 +704,7 @@
                       Kirish
                     </button>
                   </td> -->
-                  <td class="text-center whitespace-nowrap font-medium pr-5">
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
                     <i
                       @click="getOneProduct(i.id, 'edit')"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -986,7 +986,7 @@ const createProduct = () => {
       cancelFunc();
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur notog'ri");
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log(error);
     });
 };
@@ -1013,13 +1013,7 @@ const editProduct = () => {
       edit.toggle = false;
     })
     .catch((error) => {
-      if (error.response.data.statusCode == 400) {
-        console.log(error.response.data.message);
-        notification.warning("Xatolik! Nimadur notog'ri");
-      } else if (error.response.data.statusCode == 401) {
-        console.log(error.response.data.message);
-        notification.warning("Xatolik! Nimadur notog'ri");
-      }
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1038,13 +1032,7 @@ const deleteProduct = () => {
       remove.toggle = false;
     })
     .catch((error) => {
-      if (error.response.data.statusCode == 400) {
-        console.log(error.response.data.message);
-        notification.warning("Xatolik! Nimadur notog'ri");
-      } else if (error.response.data.statusCode == 401) {
-        console.log(error.response.data.message);
-        notification.warning("Xatolik! Nimadur notog'ri");
-      }
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1100,7 +1088,7 @@ const addGroups = async () => {
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur notog'ri");
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1118,7 +1106,7 @@ const removeGroups = (id) => {
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur notog'ri");
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };

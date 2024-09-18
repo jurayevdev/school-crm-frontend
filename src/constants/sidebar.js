@@ -6,6 +6,13 @@ export const header = [
         icon: "bx bxs-dashboard",
         role: "superadmin, owner, administrator",
     },
+    // {
+    //     id: 4,
+    //     title: "Mijozlar",
+    //     link: "/customer",
+    //     icon: "bx bx-body",
+    //     role: 'superadmin, administrator',
+    // },
     {
         id: 2,
         title: "Xodimlar",
@@ -18,13 +25,6 @@ export const header = [
         title: "O'quvchilar",
         link: "/students",
         icon: "bx bxs-user",
-        role: 'superadmin, administrator',
-    },
-    {
-        id: 4,
-        title: "Mijozlar",
-        link: "/customer",
-        icon: "bx bx-body",
         role: 'superadmin, administrator',
     },
     {
@@ -69,18 +69,18 @@ export const header = [
         icon: "bx bxs-credit-card",
         role: 'superadmin, administrator',
     },
-    {
-        id: 9,
-        title: "Sms",
-        link: "/sms",
-        icon: "bx bxs-message-rounded-dots",
-        role: 'superadmin, administrator',
-    },
-    {
-        id: 10,
-        title: "Sozlamalar",
-        link: "/settings",
-        icon: "bx bxs-cog",
-        role: 'superadmin, owner, administrator',
-    },
+    // {
+    //     id: 9,
+    //     title: "Sms",
+    //     link: "/sms",
+    //     icon: "bx bxs-message-rounded-dots",
+    //     role: 'superadmin, administrator',
+    // },
+    // {
+    //     id: 10,
+    //     title: "Sozlamalar",
+    //     link: "/settings",
+    //     icon: "bx bxs-cog",
+    //     role: 'superadmin, owner, administrator',
+    // },
 ];

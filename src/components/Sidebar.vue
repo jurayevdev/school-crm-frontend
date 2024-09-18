@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform duration-700 -translate-x-full bg-gray-200 border-r sm:translate-x-0"
+    class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform duration-700 -translate-x-full bg-gray-200 border-r xl:translate-x-0"
     :class="sidebar.sidebar ? '-translate-x-full' : 'translate-x-0'"
     @mousedown="sidebar.sidebar = true"
   >
@@ -8,7 +8,7 @@
       class="h-full px-3 py-4 pb-4 overflow-y-auto"
       :class="{ 'bg-[#1e293b]': navbar.userNav, 'bg-white': !navbar.userNav }"
     >
-      <ul class="space-y-2 font-medium">
+      <ul class="space-y-2 font-medium mt-[70px]">
         <li v-for="i in header" v-show="checkRole(i.role)" :key="i.id">
           <router-link
             class="flex items-center text-lg p-2 cursor-pointer duration-500 hover:bg-gray-400 rounded-lg gap-2"

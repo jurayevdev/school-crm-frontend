@@ -239,11 +239,11 @@
                 >
                   <th
                     scope="row"
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     <span>{{ i.full_name }}</span>
                   </th>
-                  <td class="text-center font-medium px-8 py-2">
+                  <td class="text-center font-medium px-8 py-4">
                     <p
                     :class="{
                         'bg-green-100 text-green-800':
@@ -259,7 +259,7 @@
                     </p>
                   </td>
 
-                  <td class="text-center font-medium text-blue-800 px-8 py-2.5">
+                  <td class="text-center font-medium text-blue-800 px-8 py-4">
                     <button
                       @click="toggleModal(i.id)"
                       class="bg-green-600 rounded-lg py-2.5 px-5 text-white"
@@ -386,7 +386,6 @@ function cancelFunc() {
   form.method = "";
   form.price = store.price;
   form.id = "";
-  form.group_id = "";
   modal.value = false;
 }
 
@@ -573,8 +572,6 @@ const addPayment = () => {
     price: form.price,
   };
 
-  console.log(form.group_id);
-
   const check = checkPayment(form.year, form.month, store.date);
 
   if (!check) {
@@ -589,6 +586,7 @@ const addPayment = () => {
       .then((res) => {
         cancelFunc();
         notification.success("To'lov qilindi!");
+        getOneProduct(form.group_id);
       })
       .catch((error) => {
         console.log("error", error);

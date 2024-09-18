@@ -46,15 +46,15 @@
                 >
                   <span class="">Davomat qilish</span>
                 </button>
-                <button
-                  id=""
-                  type="submit"
-                  class="flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5"
-                >
-                  <span class="">Davomat saqlash</span>
-                </button>
               </div>
             </form>
+            <button
+              id=""
+              @click="addAttendance()"
+              class="flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5"
+            >
+              <span class="">Davomat saqlash</span>
+            </button>
           </div>
         </div>
         <!------------------------------------------- Search ------------------------------------------->
@@ -86,11 +86,11 @@
                 >
                   <th
                     scope="row"
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     <span>{{ i.full_name }}</span>
                   </th>
-                  <td class="text-center font-medium px-8 py-2">
+                  <td class="text-center font-medium px-8 py-4">
                     <p
                       :class="{
                         'bg-green-100 text-green-800':
@@ -105,11 +105,11 @@
                       {{ i.paymentStatus }}
                     </p>
                   </td>
-                  <td class="text-center font-medium text-blue-800 px-8 py-2">
+                  <td class="text-center font-medium text-blue-800 px-8 py-4">
                     <button
                       @click="davomatToggle(i.id, false)"
                       :class="
-                        davomat
+                        getStudentStatus(i.id)
                           ? 'bg-green-600 rounded-lg w-24 py-2.5 text-white'
                           : 'hidden'
                       "
@@ -119,7 +119,7 @@
                     <button
                       @click="davomatToggle(i.id, true)"
                       :class="
-                        davomat
+                        getStudentStatus(i.id)
                           ? 'hidden'
                           : 'bg-red-600 rounded-lg w-24 py-2.5 text-white'
                       "
@@ -208,8 +208,17 @@ const notification = useNotificationStore();
 const navbar = useNavStore();
 const router = useRouter();
 
-const davomat = ref(true);
-const davomatToggle = () => (davomat.value = !davomat.value);
+const davomatToggle = (id, status) => {
+  let student = store.student.find((s) => s.student_id === id);
+  if (student) {
+    student.status = status;
+  }
+};
+
+const getStudentStatus = (id) => {
+  let student = store.student.find((s) => s.student_id === id);
+  return student ? student.status : false;
+};
 
 const store = reactive({
   PageProduct: "",
@@ -223,6 +232,8 @@ const store = reactive({
   filter_show: false,
   searchList: [],
   student: [],
+  status: false,
+  attendance_id: 0,
 });
 
 function cancelFunc() {
@@ -355,7 +366,10 @@ const getOneProduct = async (id) => {
     }
 
     store.allProducts = studentList;
-    listStudent(store.allProducts)
+    listStudent(store.allProducts, form.group_id);
+    if (store.status) {
+      notification.warning("Bu guruhga oldin davomat qilingan");
+    }
   } catch (error) {
     notification.warning(
       error.response?.data?.message || "Something went wrong"
@@ -379,39 +393,85 @@ const getGroup = () => {
     });
 };
 
-const addAttendance = async (schoolId, studentId, status) => {
+const addAttendance = () => {
   try {
-    await axios.post(
-      `/attendance`,
-      {
-        school_id: schoolId,
-        student_id: studentId,
-        status: status,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
+    if (!store.status) {
+      for (let i = 0; i < store.student.length; i++) {
+        console.log(store.student[i]);
+        axios
+          .post(`/attendance`, store.student[i], {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((res) => {})
+          .catch((error) => {
+            console.log("error", error);
+          });
       }
-    );
+      notification.success("Davomat saqlandi");
+    } else {
+      for (let i = 0; i < store.student.length; i++) {
+        axios
+          .put(
+            `/attendance/${store.student[i].school_id}/${store.student[i].attendance_id}`,
+            store.student[i],
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((res) => {})
+          .catch((error) => {
+            console.log("error", error);
+          });
+      }
+      notification.success("Davomat saqlandi");
+    }
+    setTimeout(function () {
+     window.location.reload()
+  }, 1000);
   } catch (error) {
     console.log(error);
+    notification.success("Xatolik! Nimadur noto'g'ri");
   }
 };
 
-const listStudent = (all) => {
-  for (let i in all) {
+const checkAttendance = (attendanceData, studentID, groupID) => {
+  const today = new Date().toISOString().split("T")[0];
+  const attendanceRecord = attendanceData.find(
+    (record) =>
+      record.student_id === studentID &&
+      record.group_id === groupID &&
+      record.createdAt.split("T")[0] === today
+  );
+  if (attendanceRecord) {
+    store.attendance_id = attendanceRecord.id;
+    store.status = true;
+  }
+  return attendanceRecord ? attendanceRecord.status : true;
+};
+
+const listStudent = (allStudent, groupID) => {
+  for (let i = 0; i < allStudent.length; i++) {
     let list = {
-      id: i.id,
-      status: true,
+      school_id: Number(localStorage.getItem("school_id")),
+      student_id: allStudent[i].id,
+      group_id: groupID,
+      status: checkAttendance(
+        allStudent[i].attendance,
+        allStudent[i].id,
+        groupID
+      ),
+      attendance_id: store.attendance_id,
     };
     store.student.push(list);
   }
-  console.log(store.student);
 };
 
 onMounted(() => {
-  getGroup();
+  getGroup(); /*  */
   setTimeout(function () {
     store.PageProduct = true;
   }, 500);

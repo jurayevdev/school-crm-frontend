@@ -617,12 +617,12 @@
                 >
                   <td
                     scope="row"
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     {{ i.name }}
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
                   >
                     <p class="bg-blue-100 rounded-[5px] p-1">
                       <span v-for="fan in i.subject" :key="fan.id"
@@ -631,20 +631,20 @@
                     </p>
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-4"
                   >
                     <p class="bg-red-100 rounded-[5px] p-1">
                       {{ i.price }} so'm
                     </p>
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
                   >
                     <p class="bg-blue-100 rounded-[5px] p-1">
                       {{ i.start_date }}
                     </p>
                   </td>
-                  <!-- <td class="text-center font-medium px-8 py-3">
+                  <!-- <td class="text-center font-medium px-8 py-4">
                     <button
                       @click="enterSlug(i.id, i.name.toLowerCase())"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
@@ -652,7 +652,7 @@
                       Kirish
                     </button>
                   </td> -->
-                  <td class="text-center whitespace-nowrap font-medium pr-5">
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -676,12 +676,12 @@
                 >
                   <td
                     scope="row"
-                    class="text-center px-8 py-3 font-medium whitespace-nowrap"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
                   >
                     {{ i.name }}
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
                   >
                     <p class="bg-blue-100 rounded-[5px] p-1">
                       <span v-for="fan in i.subject" :key="fan.id"
@@ -690,20 +690,20 @@
                     </p>
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-4"
                   >
                     <p class="bg-red-100 rounded-[5px] p-1">
                       {{ i.price }} so'm
                     </p>
                   </td>
                   <td
-                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-2"
+                    class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
                   >
                     <p class="bg-blue-100 rounded-[5px] p-1">
                       {{ i.start_date }}
                     </p>
                   </td>
-                  <!-- <td class="text-center font-medium px-8 py-3">
+                  <!-- <td class="text-center font-medium px-8 py-4">
                     <button
                       @click="enterSlug(i.id, i.name.toLowerCase())"
                       class="btnKirish bg-blue-600 rounded-lg px-5 py-2.5 text-white focus:ring-2"
@@ -711,7 +711,7 @@
                       Kirish
                     </button>
                   </td> -->
-                  <td class="text-center whitespace-nowrap font-medium pr-5">
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
                     <i
                       @click="getOneProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -985,7 +985,7 @@ const createProduct = () => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Guruh yaratildi");
       info.getGroup();
       getProduct(store.pagination);
       const data = {
@@ -1000,7 +1000,7 @@ const createProduct = () => {
         })
         .then((res) => {})
         .catch((error) => {
-          notification.warning(error.response.data.message);
+          notification.warning("Xatolik! Nimadur noto'g'ri");
           console.log("error", error);
         });
 
@@ -1046,16 +1046,12 @@ const editProduct = () => {
       },
     })
     .then((res) => {
-      notification.success(res.data.message);
+      notification.success("Guruh tahrirlandi");
       getProduct(store.pagination);
       cancelFunc1()
     })
     .catch((error) => {
-      if (error.response.data.statusCode == 400) {
-        notification.warning(error.response.data.message);
-      } else if (error.response.data.statusCode == 401) {
-        notification.warning(error.response.data.message);
-      }
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log("error", error);
     });
 };
@@ -1074,11 +1070,7 @@ const deleteProduct = () => {
       remove.toggle = false;
     })
     .catch((error) => {
-      if (error.response.data.statusCode == 400) {
-        notification.warning(error.response.data.message);
-      } else if (error.response.data.statusCode == 401) {
-        notification.warning(error.response.data.message);
-      }
+      notification.warning("Xatolik! Nimadur noto'g'ri");
       console.log(error);
     });
 };
