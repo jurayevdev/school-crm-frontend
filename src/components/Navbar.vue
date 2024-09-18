@@ -20,7 +20,7 @@
           <span class="hidden font-semibold  sm:block text-2xl whitespace-nowrap">
             {{ store.data ? store.data : "Devosoft" }}
           </span>
-        </router-link>ufw allow 22/tcp
+        </router-link>
       </div>
       <div class="flex items-center">
         <div class="flex items-center mr-5">
