@@ -11,155 +11,221 @@
 
       <div
         v-show="modal"
+        @click.self="toggleModal"
         :class="
           modal
-            ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+            ? 'fixed overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
             : 'hidden'
         "
       >
-        <div class="relative p-4 w-full max-w-3xl h-auto">
-          <!-- Modal content -->
-          <div
-            class="relative p-4 rounded-lg shadow sm:p-5"
-            :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
-          >
-            <!-- Modal header -->
+        <transition name="modal-fade">
+          <div v-show="modal" class="relative p-4 w-full max-w-3xl h-auto">
+            <!-- Modal content -->
             <div
-              class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+              class="relative p-4 rounded-lg shadow sm:p-5"
+              :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
             >
-              <h3
-                class="text-lg"
-                :class="navbar.userNav ? 'text-white' : 'text-black'"
-              >
-                To'lov qilish
-              </h3>
-              <button
-                @click="toggleModal"
-                type="button"
-                class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                :class="{ 'text-white': navbar.userNav }"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <span class="sr-only">Close modal</span>
-              </button>
-            </div>
-            <!-- Modal body -->
-            <form
-              @submit.prevent="addPayment"
-              :class="{ darkForm: navbar.userNav }"
-            >
-              <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
-                <div>
-                  <label for="year" class="block mb-2 text-sm"
-                    >Yilni tanlang</label
-                  >
-                  <select
-                    v-model="form.year"
-                    id="name"
-                    class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                    required
-                  >
-                    <option value="" disabled selected>Yilni tanlang</option>
-                    <option
-                      v-for="i in store.curentYil"
-                      :key="i.id"
-                      :value="i.name"
-                    >
-                      {{ i.name }}
-                    </option>
-                  </select>
-                </div>
-                <div>
-                  <label for="month" class="block mb-2 text-sm"
-                    >Oyni tanlang</label
-                  >
-                  <select
-                    v-model="form.month"
-                    id="month"
-                    class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                    required
-                  >
-                    <option value="" disabled selected>Oyni tanlang</option>
-                    <option value="01">Yanvar</option>
-                    <option value="02">Fevral</option>
-                    <option value="03">Mart</option>
-                    <option value="04">Aprel</option>
-                    <option value="05">May</option>
-                    <option value="06">Iyun</option>
-                    <option value="07">Iyul</option>
-                    <option value="08">Avgust</option>
-                    <option value="09">Sentabr</option>
-                    <option value="10">Oktabr</option>
-                    <option value="11">Noyabr</option>
-                    <option value="12">Dekabr</option>
-                  </select>
-                </div>
-                <div class="">
-                  <label for="price" class="block mb-2 text-sm">Price</label>
-                  <input
-                    v-model="form.price"
-                    type="number"
-                    name="price"
-                    id="price"
-                    class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full py-3 p-2.5"
-                    placeholder="To'lov sumani kiriting"
-                    required
-                  />
-                </div>
-                <div>
-                  <label
-                    for="name"
-                    class="block mb-2 text-sm"
-                    :class="navbar.userNav ? 'text-white' : 'text-black'"
-                    >To'lov turi tanlang</label
-                  >
-                  <select
-                    v-model="form.method"
-                    id="name"
-                    class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                    required
-                  >
-                    <option value="" disabled selected>
-                      To'lov turini tanlang
-                    </option>
-                    <option v-for="i in store.method" :key="i.id" :value="i.id">
-                      {{ i.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
+              <!-- Modal header -->
               <div
-                class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
               >
+                <h3
+                  class="text-lg"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                >
+                  To'lov qilish
+                </h3>
                 <button
                   @click="toggleModal"
                   type="button"
-                  class="border inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  :class="{ 'text-white': navbar.userNav }"
                 >
-                  Bekor qilish
-                </button>
-                <button
-                  type="submit"
-                  class="btnAdd text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                >
-                  To'lash
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
                 </button>
               </div>
-            </form>
+              <div
+                class="hidden sm:block max-w-md mx-auto bg-white shadow-lg rounded-lg p-6 mb-10"
+                id="receipt"
+              >
+                <div class="mb-10 flex items-center justify-center gap-3">
+                  <img class="w-20 rounded-full" :src="store.logo_link + store.school_logo" alt="">
+                  <h2 class="text-4xl font-bold uppercase">{{ store.school_name }}</h2>
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">To'lov turi:</span>
+                  <span id="paymentType">{{ form.method }}</span>
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">Talaba (F.I.O):</span>
+                  <span id="studentName">{{ store.student_name }}</span>
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">Guruh nomi:</span>
+                  <span id="group">{{ store.group_name }}</span>
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">Kurs narxi:</span>
+                  <span id="coursePrice">{{ store.price }} so'm</span>
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">Ustoz (F.I.O):</span>
+                  <span id="teacher">{{ store.teacher_name }}</span>
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">To'lov qilingan sana:</span>
+                  <span id="date" class="font-bold text-lg"
+                    >{{ form.year }}-{{ form.month }}</span
+                  >
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">To'lov summa:</span>
+                  <span id="amount" class="font-bold text-lg"
+                    >{{ form.price }} so'm</span
+                  >
+                </div>
+                <div class="item flex justify-between border-b py-2">
+                  <span class="font-semibold">Chek chop etilgan vaqt:</span>
+                  <span id="date">{{ store.chekDate }}</span>
+                </div>
+                <div
+                  class="flex items-center justify-end gap-1 text-[8px] mt-10"
+                >
+                  <img
+                    class="w-[20px]"
+                    src="/favicon.ico"
+                    alt=""
+                  />
+                  <span class="flex flex-col items-end"
+                    >Devosoft Group<span class="text-[5px]"
+                      >+998330237376</span
+                    ></span
+                  >
+                </div>
+              </div>
+              <!-- Modal body -->
+              <form
+                @submit.prevent="addPayment"
+                :class="{ darkForm: navbar.userNav }"
+              >
+                <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
+                  <div>
+                    <label for="year" class="block mb-2 text-sm"
+                      >Yilni tanlang</label
+                    >
+                    <select
+                      v-model="form.year"
+                      id="name"
+                      class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required
+                    >
+                      <option value="" disabled selected>Yilni tanlang</option>
+                      <option
+                        v-for="i in store.curentYil"
+                        :key="i.id"
+                        :value="i.name"
+                      >
+                        {{ i.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="month" class="block mb-2 text-sm"
+                      >Oyni tanlang</label
+                    >
+                    <select
+                      v-model="form.month"
+                      id="month"
+                      class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required
+                    >
+                      <option value="" disabled selected>Oyni tanlang</option>
+                      <option value="01">Yanvar</option>
+                      <option value="02">Fevral</option>
+                      <option value="03">Mart</option>
+                      <option value="04">Aprel</option>
+                      <option value="05">May</option>
+                      <option value="06">Iyun</option>
+                      <option value="07">Iyul</option>
+                      <option value="08">Avgust</option>
+                      <option value="09">Sentabr</option>
+                      <option value="10">Oktabr</option>
+                      <option value="11">Noyabr</option>
+                      <option value="12">Dekabr</option>
+                    </select>
+                  </div>
+                  <div class="">
+                    <label for="price" class="block mb-2 text-sm">Price</label>
+                    <input
+                      v-model="form.price"
+                      type="number"
+                      name="price"
+                      id="price"
+                      class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full py-3 p-2.5"
+                      placeholder="To'lov sumani kiriting"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="name"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >To'lov turi tanlang</label
+                    >
+                    <select
+                      v-model="form.method"
+                      id="name"
+                      class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required
+                    >
+                      <option value="" disabled selected>
+                        To'lov turini tanlang
+                      </option>
+                      <option
+                        v-for="i in store.method"
+                        :key="i.id"
+                        :value="i.id"
+                      >
+                        {{ i.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div
+                  class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                >
+                  <button
+                    @click="toggleModal"
+                    type="button"
+                    class="border inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Bekor qilish
+                  </button>
+                  <button
+                    type="submit"
+                    class="btnAdd text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    To'lash
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
-        </div>
+        </transition>
       </div>
 
       <div v-show="store.PageProduct" class="w-full max-w-screen">
@@ -245,13 +311,13 @@
                   </th>
                   <td class="text-center font-medium px-8 py-4">
                     <p
-                    :class="{
+                      :class="{
                         'bg-green-100 text-green-800':
                           i.paymentStatus.includes('to\'langan'),
                         'bg-red-100 text-red-800':
                           i.paymentStatus.includes('to\'lanmagan'),
                         'bg-yellow-100 text-yellow-800':
-                          i.paymentStatus.includes('0 so\'m')
+                          i.paymentStatus.includes('0 so\'m'),
                       }"
                       class="rounded-[5px] p-1"
                     >
@@ -261,7 +327,7 @@
 
                   <td class="text-center font-medium text-blue-800 px-8 py-4">
                     <button
-                      @click="toggleModal(i.id)"
+                      @click="toggleModal(i.id, i.full_name)"
                       class="bg-green-600 rounded-lg py-2.5 px-5 text-white"
                     >
                       To'lov qilish
@@ -320,15 +386,24 @@ const store = reactive({
   price: 0,
   date: "",
   curentYil: [],
+  chekDate: "",
+  group_name: "",
+  student_name: "",
+  teacher_name: "",
+  school_logo: "",
+  logo_link: "https://dev.edu-devosoft.uz/",
+  school_name: "",
 });
 
-const toggleModal = (id) => {
+const toggleModal = (id, name) => {
   modal.value = !modal.value;
   form.year = hozirgiYil;
   form.month = hozirgiOy;
   form.method = "";
   form.price = store.price;
   form.id = id;
+  store.student_name = name;
+  formatDateToNumeric(new Date());
 };
 
 function cancelFunc() {
@@ -350,6 +425,7 @@ const form = reactive({
   id: "",
   group_id: "",
 });
+
 
 // ----------------------------------- axios --------------------------------
 
@@ -435,7 +511,22 @@ const getOneProduct = async (id) => {
     const groupStartDate = groupResponse.data.start_date;
     store.price = groupPrice;
     store.date = groupStartDate;
+    store.group_name = groupResponse.data.name;
     form.group_id = id;
+    store.school_name = groupResponse.data.school.name;
+    store.school_logo = groupResponse.data.school.image;
+    
+
+    const employee = await axios.get(
+      `/employee/${localStorage.getItem("school_id")}/${groupResponse.data.employee[0].employee_id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    store.teacher_name = employee.data.full_name
 
     if (!groupStartDate || isNaN(Date.parse(groupStartDate))) {
       throw new Error("Guruh ochilgan sana noto'g'ri");
@@ -487,6 +578,7 @@ const getGroup = () => {
     })
     .then((res) => {
       store.group = res.data;
+      store.PageProduct = res.data;
     })
     .catch((error) => {
       console.log("error", error);
@@ -561,6 +653,16 @@ const getMethod = () => {
     });
 };
 
+const formatDateToNumeric = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hour = String(date.getHours()).padStart(2, "0");
+  const minute = String(date.getMinutes()).padStart(2, "0");
+
+  store.chekDate = `${year}-${month}-${day}, ${hour}:${minute}`;
+};
+
 onMounted(() => {
   getGroup();
   getMethod();
@@ -571,9 +673,6 @@ onMounted(() => {
     };
     store.curentYil.push(list);
   }
-  setTimeout(function () {
-    store.PageProduct = true;
-  }, 500);
 });
 </script>
 
@@ -594,6 +693,19 @@ onMounted(() => {
   label {
     color: white;
   }
+}
+
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: all 1s ease;
+}
+.modal-fade-enter-from {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+.modal-fade-leave-from {
+  opacity: 0;
+  transform: translateY(50px);
 }
 
 // #056674

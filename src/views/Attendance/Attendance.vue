@@ -338,6 +338,7 @@ const getGroup = () => {
     })
     .then((res) => {
       store.group = res.data;
+      store.PageProduct = res.data;
     })
     .catch((error) => {
       console.log("error", error);
@@ -423,9 +424,6 @@ const listStudent = (allStudent, groupID) => {
 
 onMounted(() => {
   getGroup(); /*  */
-  setTimeout(function () {
-    store.PageProduct = true;
-  }, 500);
 });
 </script>
 
