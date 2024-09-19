@@ -153,6 +153,7 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
+                <option value="" disabled selected>Fan tanlang</option>
                   <option
                     v-for="i in store.subject"
                     :key="i.id"
@@ -175,6 +176,7 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
+                <option value="" disabled selected>O'qituvchi tanlang</option>
                   <option v-for="i in store.employee" :key="i.id" :value="i.id">
                     {{ i.full_name }}
                   </option>
@@ -360,6 +362,7 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
+                <option value="" disabled selected>Fan tanlang</option>
                   <option
                     v-for="i in store.subject"
                     :key="i.id"
@@ -382,6 +385,7 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
+                <option value="" disabled selected>O'qituvchi tanlang</option>
                   <option v-for="i in store.employee" :key="i.id" :value="i.id">
                     {{ i.full_name }}
                   </option>

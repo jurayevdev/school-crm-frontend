@@ -60,7 +60,7 @@
         <!------------------------------------------- Search ------------------------------------------->
 
         <div
-          class="relative shadow-md rounded-lg overflow-hidden"
+          class="relative shadow-md rounded-lg overflow-hidden mb-20"
           :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
         >
           <div class="overflow-x-auto">
@@ -137,55 +137,6 @@
               <h1>Davomat ro'yhati bo'sh</h1>
             </div>
           </div>
-          <nav
-            v-if="!store.searchList.length"
-            class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4"
-            aria-label="Table navigation"
-          >
-            <ul class="inline-flex items-stretch -space-x-px">
-              <li
-                :class="{
-                  'pointer-events-none opacity-50': store.page[0] == 1,
-                }"
-                @click="
-                  store.pagination -= 1;
-                  getProduct(store.pagination);
-                "
-                href="#"
-                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
-              >
-                Oldingi
-              </li>
-            </ul>
-            <span class="text-sm font-normal">
-              Sahifa
-              <span class="font-semibold"
-                ><span>{{ store.page[0] * 10 - 9 }}</span> -
-                <span v-if="store.page[0] * 10 < store.page[1]">{{
-                  store.page[0] * 10
-                }}</span
-                ><span v-else>{{ store.page[1] }}</span></span
-              >
-              dan
-              <span class="font-semibold">{{ store.page[1] }}</span>
-            </span>
-            <ul class="inline-flex items-stretch -space-x-px">
-              <li
-                :class="{
-                  'pointer-events-none opacity-50':
-                    store.page[0] * 10 >= store.page[1],
-                }"
-                @click="
-                  store.pagination += 1;
-                  getProduct(store.pagination);
-                "
-                href="#"
-                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
-              >
-                Keyingi
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </section>

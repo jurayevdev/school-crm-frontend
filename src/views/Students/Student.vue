@@ -109,6 +109,25 @@
                   required
                 />
               </div>
+              <div class="sm:w-[205%]">
+                <label
+                  for="name"
+                  class="block mb-2 text-sm"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >Guruhni tanlang</label
+                >
+                <select
+                  v-model="edit.name"
+                  id="name"
+                  class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
+                  required
+                >
+                  <option value="" disabled selected>Guruh tanlang</option>
+                  <option v-for="i in store.group" :key="i.id" :value="i.id">
+                    {{ i.name }}
+                  </option>
+                </select>
+              </div>
             </div>
             <div
               class="w-full flex items-center justify-between border-t pt-5 mt-5"
@@ -215,6 +234,7 @@
                   class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5"
                   required
                 >
+                  <option value="" disabled selected>Guruh tanlang</option>
                   <option v-for="i in store.group" :key="i.id" :value="i.id">
                     {{ i.name }}
                   </option>
@@ -548,7 +568,7 @@
         <!------------------------------------------- Search ------------------------------------------->
 
         <div
-          class="relative shadow-md rounded-lg overflow-hidden"
+          class="relative shadow-md rounded-lg overflow-hidden mb-20"
           :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
         >
           <div class="overflow-x-auto">
@@ -704,7 +724,9 @@
                       Kirish
                     </button>
                   </td> -->
-                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
+                  <td
+                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
+                  >
                     <i
                       @click="getOneProduct(i.id, 'edit')"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -749,9 +771,9 @@
             <span class="text-sm font-normal">
               Sahifa
               <span class="font-semibold"
-                ><span>{{ store.page[0] * 10 - 9 }}</span> -
-                <span v-if="store.page[0] * 10 < store.page[1]">{{
-                  store.page[0] * 10
+                ><span>{{ store.page[0] * 50 - 49 }}</span> -
+                <span v-if="store.page[0] * 50 < store.page[1]">{{
+                  store.page[0] * 50
                 }}</span
                 ><span v-else>{{ store.page[1] }}</span></span
               >
@@ -762,7 +784,7 @@
               <li
                 :class="{
                   'pointer-events-none opacity-50':
-                    store.page[0] * 10 >= store.page[1],
+                    store.page[0] * 50 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;
@@ -801,10 +823,10 @@ const modal = ref(false);
 
 const toggleModal = () => {
   modal.value = !modal.value;
-  form.parents_full_name = "";
-  form.parents_phone_number = "";
+  form.parents_full_name = "Hurmatli ota-ona";
+  form.parents_phone_number = "+998";
   form.full_name = "";
-  form.phone_number = "";
+  form.phone_number = "+998";
   form.group = "";
 };
 
@@ -842,10 +864,10 @@ function enterSlug(id, name) {
 }
 
 function cancelFunc() {
-  form.parents_full_name = "";
-  form.parents_phone_number = "";
+  form.parents_full_name = "Hurmatli ota-ona";
+  form.parents_phone_number = "+998";
   form.full_name = "";
-  form.phone_number = "";
+  form.phone_number = "+998";
   form.group = "";
   modal.value = false;
 }
@@ -858,10 +880,10 @@ function deleteFunc(id) {
 // ----------------------------------- forms -----------------------------------
 
 const form = reactive({
-  parents_full_name: "",
-  parents_phone_number: "",
+  parents_full_name: "Hurmatli ota-ona",
+  parents_phone_number: "+998",
   full_name: "",
-  phone_number: "",
+  phone_number: "+998",
   group: "",
 });
 
@@ -944,9 +966,9 @@ const getOneProduct = (id, modal) => {
       },
     })
     .then((res) => {
-      edit.parents_full_name = res.data.parents_full_name,
-      edit.parents_phone_number = res.data.parents_phone_number,
-      edit.full_name = res.data.full_name;
+      (edit.parents_full_name = res.data.parents_full_name),
+        (edit.parents_phone_number = res.data.parents_phone_number),
+        (edit.full_name = res.data.full_name);
       edit.phone_number = res.data.phone_number;
       edit.group = res.data.group;
       form.group = res.data.group;
@@ -982,6 +1004,7 @@ const createProduct = () => {
     .then((res) => {
       info.getStudent();
       notification.success("O'quvchi qo'shildi");
+      addGroupsModal(res.data.student.id);
       getProduct(store.pagination);
       cancelFunc();
     })
@@ -1043,6 +1066,8 @@ const addGroups = async () => {
     group_id: Number(edit.name),
     group_name: "",
   };
+  console.log(data);
+
   async function add() {
     const info = await axios.get(
       `/student/${localStorage.getItem("school_id")}/${edit.id}`,
@@ -1061,8 +1086,6 @@ const addGroups = async () => {
         },
       }
     );
-
-    
 
     data.group_name = group.data.name;
 
@@ -1089,6 +1112,38 @@ const addGroups = async () => {
     })
     .catch((error) => {
       notification.warning("Xatolik! Nimadur noto'g'ri");
+      console.log("error", error);
+    });
+};
+
+const addGroupsModal = async (id) => {
+  const data = {
+    student_id: id,
+    group_id: Number(edit.name),
+    group_name: "",
+  };
+
+  const group = await axios.get(
+    `/group/${localStorage.getItem("school_id")}/${data.group_id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+
+  data.group_name = group.data.name;
+
+  axios
+    .post(`/student-group`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then(async (res) => {
+      getProduct(store.pagination);
+    })
+    .catch((error) => {
       console.log("error", error);
     });
 };

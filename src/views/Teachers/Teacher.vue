@@ -135,6 +135,7 @@
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
+                <option value="" disabled selected>Lavozim tanlang</option>
                   <option v-show="store.owner" value="administrator">
                     administrator
                   </option>
@@ -248,6 +249,7 @@
                   class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
+                <option value="" disabled selected>Fan tanlang</option>
                   <option
                     v-for="i in store.subject"
                     :key="i.id"
@@ -363,6 +365,7 @@
                   class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
+                <option value="" disabled selected>Guruh tanlang</option>
                   <option v-for="i in store.group" :key="i.id" :value="i.id">
                     {{ i.name }}
                   </option>
@@ -525,6 +528,7 @@
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
+                <option value="" disabled selected>Lavozim tanlang</option>
                   <option v-show="store.owner" value="administrator">
                     administrator
                   </option>
@@ -1050,7 +1054,7 @@ function enterSlug(id) {
 
 function cancelFunc() {
   form.full_name = "";
-  form.phone_number = "";
+  form.phone_number = "+998";
   form.login = "";
   form.password = "";
   form.role = "";
@@ -1086,7 +1090,7 @@ const toggle = reactive({
 // ----------------------------------- forms -----------------------------------
 const form = reactive({
   full_name: "",
-  phone_number: "",
+  phone_number: "+998",
   login: "",
   password: "",
   role: "",
