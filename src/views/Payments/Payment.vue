@@ -57,65 +57,69 @@
                   <span class="sr-only">Close modal</span>
                 </button>
               </div>
+
               <div
-                class="hidden sm:block max-w-md mx-auto bg-white shadow-lg rounded-lg p-6 mb-10"
+                class="hidden sm:block max-w-xs mx-auto bg-white shadow-lg rounded-lg p-3 mb-5"
                 id="receipt"
               >
-                <div class="mb-10 flex items-center justify-center gap-3">
-                  <img class="w-20 rounded-full" :src="store.logo_link + store.school_logo" alt="">
-                  <h2 class="text-4xl font-bold uppercase">{{ store.school_name }}</h2>
+                <div class="mb-5 mt-3 flex items-center justify-center gap-1.5">
+                  <img
+                    class="w-10 rounded-full"
+                    :src="store.logo_link + store.school_logo"
+                    alt=""
+                  />
+                  <h2 class="text-xl font-bold uppercase">
+                    {{ store.school_name }}
+                  </h2>
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">To'lov turi:</span>
                   <span id="paymentType">{{ form.method }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">Talaba (F.I.O):</span>
                   <span id="studentName">{{ store.student_name }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">Guruh nomi:</span>
                   <span id="group">{{ store.group_name }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">Kurs narxi:</span>
                   <span id="coursePrice">{{ store.price }} so'm</span>
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">Ustoz (F.I.O):</span>
                   <span id="teacher">{{ store.teacher_name }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">To'lov qilingan sana:</span>
-                  <span id="date" class="font-bold text-lg"
+                  <span id="date" class="font-bold text-xs"
                     >{{ form.year }}-{{ form.month }}</span
                   >
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">To'lov summa:</span>
-                  <span id="amount" class="font-bold text-lg"
+                  <span id="amount" class="font-bold text-xs"
                     >{{ form.price }} so'm</span
                   >
                 </div>
-                <div class="item flex justify-between border-b py-2">
+                <div class="item flex justify-between border-b py-1 text-sm">
                   <span class="font-semibold">Chek chop etilgan vaqt:</span>
                   <span id="date">{{ store.chekDate }}</span>
                 </div>
                 <div
-                  class="flex items-center justify-end gap-1 text-[8px] mt-10"
+                  class="flex items-center justify-end gap-0.5 text-[4px] mt-5"
                 >
-                  <img
-                    class="w-[20px]"
-                    src="/favicon.ico"
-                    alt=""
-                  />
+                  <img class="w-[10px]" src="/favicon.ico" alt="" />
                   <span class="flex flex-col items-end"
-                    >Devosoft Group<span class="text-[5px]"
+                    >Devosoft Group<span class="text-[2.5px]"
                       >+998330237376</span
                     ></span
                   >
                 </div>
               </div>
+
               <!-- Modal body -->
               <form
                 @submit.prevent="addPayment"
@@ -198,7 +202,7 @@
                       <option
                         v-for="i in store.method"
                         :key="i.id"
-                        :value="i.id"
+                        :value="i.name"
                       >
                         {{ i.name }}
                       </option>
@@ -426,7 +430,6 @@ const form = reactive({
   group_id: "",
 });
 
-
 // ----------------------------------- axios --------------------------------
 
 const calculatePaymentStatus = (paymentHistory, groupPrice, groupStartDate) => {
@@ -515,10 +518,11 @@ const getOneProduct = async (id) => {
     form.group_id = id;
     store.school_name = groupResponse.data.school.name;
     store.school_logo = groupResponse.data.school.image;
-    
 
     const employee = await axios.get(
-      `/employee/${localStorage.getItem("school_id")}/${groupResponse.data.employee[0].employee_id}`,
+      `/employee/${localStorage.getItem("school_id")}/${
+        groupResponse.data.employee[0].employee_id
+      }`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -526,7 +530,7 @@ const getOneProduct = async (id) => {
       }
     );
 
-    store.teacher_name = employee.data.full_name
+    store.teacher_name = employee.data.full_name;
 
     if (!groupStartDate || isNaN(Date.parse(groupStartDate))) {
       throw new Error("Guruh ochilgan sana noto'g'ri");
@@ -610,7 +614,7 @@ const addPayment = () => {
     group_id: Number(form.group_id),
     year: form.year,
     month: form.month,
-    method_id: form.method,
+    method: form.method,
     discount: 0,
     price: form.price,
   };
@@ -627,6 +631,7 @@ const addPayment = () => {
         },
       })
       .then((res) => {
+        printReceipt();
         cancelFunc();
         notification.success("To'lov qilindi!");
         getOneProduct(form.group_id);
@@ -661,6 +666,87 @@ const formatDateToNumeric = (date) => {
   const minute = String(date.getMinutes()).padStart(2, "0");
 
   store.chekDate = `${year}-${month}-${day}, ${hour}:${minute}`;
+};
+
+const printReceipt = () => {
+  const receiptContent = document.getElementById("receipt").innerHTML; // Chek HTML kodini olish
+  const printWindow = window.open("", "_blank"); // Yangi oynani ochish
+
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>Chek</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+      </head>
+      <body class="bg-gray-100">
+        <div class="max-w-md mx-auto bg-white rounded-lg p-6 mb-10">
+          <div class="mb-10 mt-5 flex items-center justify-center gap-3">
+            <img class="w-20 rounded-full" src="${store.logo_link}${store.school_logo}" alt="">
+            <h2 class="text-4xl font-bold uppercase">${store.school_name}</h2>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">To'lov turi:</span>
+            <span id="paymentType">${form.method}</span>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">Talaba (F.I.O):</span>
+            <span id="studentName">${store.student_name}</span>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">Guruh nomi:</span>
+            <span id="group">${store.group_name}</span>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">Kurs narxi:</span>
+            <span id="coursePrice">${store.price} so'm</span>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">Ustoz (F.I.O):</span>
+            <span id="teacher">${store.teacher_name}</span>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">To'lov qilingan sana:</span>
+            <span id="date" class="font-bold text-lg">${form.year}-${form.month}</span>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">To'lov summa:</span>
+            <span id="amount" class="font-bold text-lg">${form.price} so'm</span>
+          </div>
+          <div class="item flex justify-between border-b py-2">
+            <span class="font-semibold">Chek chop etilgan vaqt:</span>
+            <span id="date">${store.chekDate}</span>
+          </div>
+          <div style="font-size: 8px;" class="flex items-center justify-end gap-1 mt-10">
+            <img style="width: 20px;" src="/favicon.ico" alt="" />
+            <span class="brand_box">
+              <h5>Devosoft Group</h5>
+              <span style="font-size: 5px;" class:"phone_number">+998933279137</span>
+            </span>
+          </div>
+        </div>
+        <style>
+        .brand_box {
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:flex-end;
+
+        }
+          .brand_box h5 {
+            font-size:8px;
+            margin:0;
+            line:height:4px;
+          }
+            .phone_number {
+            text-align:end;
+            }
+        </style>
+      </body>
+    </html>
+  `);
+
+  printWindow.document.close(); // Yozishni yakunlash
+  printWindow.print(); // Chop etish
 };
 
 onMounted(() => {

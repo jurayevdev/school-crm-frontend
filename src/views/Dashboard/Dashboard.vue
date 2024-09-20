@@ -7,9 +7,9 @@
     <div v-show="store.PageProduct" class="rounded-lg pt-4">
       <!-- Cards -->
       <div
-        class="cards grid xl:grid-cols-5 lg:grid-cols-2 sm:grid-cols-1 grid-cols-1 xl:mb-0 mb-5 gap-5 px-2"
+        class="cards grid xl:grid-cols-4 lg:grid-cols-2 sm:grid-cols-1 grid-cols-1 xl:mb-0 mb-5 gap-5 px-2"
       >
-        <div class="card" v-for="(i, index) in 5" :key="index">
+        <div class="card" v-for="(i, index) in 4" :key="index">
           <div
             class="relative xl:mb-4 flex flex-col min-w-0 break-words shadow-soft-xl rounded-lg bg-clip-border"
             :class="{
@@ -217,11 +217,11 @@ const info = useInfoStore();
 const store = reactive({
   PageProduct: "",
   data: false,
-  cards: ["Xodimlar", "O'quvchilar", "Fanlar", "Guruhlar", "To'lovlar"],
+  cards: ["Xodimlar", "O'quvchilar", "Guruhlar", "To'lovlar"],
 });
 
 const getCardTitle = (index) => {
-  const titles = ["O'quvchilar", "Xodimlar", "Fanlar", "Guruhlar", "To'lovlar"];
+  const titles = ["O'quvchilar", "Xodimlar", "Guruhlar", "To'lovlar"];
   return titles[index];
 };
 
@@ -229,7 +229,7 @@ const getCardValue = (index) => {
   const values = [
     info.Students.length || 0,
     info.Staff,
-    info.Subjects,
+    // info.Subjects,
     info.Groups,
     info.Payment,
   ];
@@ -240,7 +240,7 @@ const getCardImages = (index) => {
   const images = [
     "https://cdn.pixabay.com/photo/2021/01/30/12/06/icon-5963629_960_720.png",
     "https://cdn.pixabay.com/photo/2018/09/15/16/56/teacher-3679814_960_720.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuraLLKEykFDvI5Nc3Qo4RiqZqhzHLVU2vKQ&usqp=CAU",
+    // "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuraLLKEykFDvI5Nc3Qo4RiqZqhzHLVU2vKQ&usqp=CAU",
     "https://static.vecteezy.com/system/resources/thumbnails/004/320/558/small_2x/group-icon-isolated-sign-symbol-illustration-five-people-gathered-icons-black-and-white-design-free-vector.jpg",
     "https://static.vecteezy.com/system/resources/thumbnails/000/173/239/small_2x/Sample_Money_Vector_Illustration.jpg",
   ];
