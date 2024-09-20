@@ -58,7 +58,7 @@
                 </button>
               </div>
 
-              <div
+              <!-- <div
                 class="hidden sm:block max-w-xs mx-auto bg-white shadow-lg rounded-lg p-3 mb-5"
                 id="receipt"
               >
@@ -118,7 +118,7 @@
                     ></span
                   >
                 </div>
-              </div>
+              </div> -->
 
               <!-- Modal body -->
               <form
@@ -631,7 +631,7 @@ const addPayment = () => {
         },
       })
       .then((res) => {
-        printReceipt();
+        // printReceipt();
         cancelFunc();
         notification.success("To'lov qilindi!");
         getOneProduct(form.group_id);
@@ -668,86 +668,86 @@ const formatDateToNumeric = (date) => {
   store.chekDate = `${year}-${month}-${day}, ${hour}:${minute}`;
 };
 
-const printReceipt = () => {
-  const receiptContent = document.getElementById("receipt").innerHTML; // Chek HTML kodini olish
-  const printWindow = window.open("", "_blank"); // Yangi oynani ochish
+// const printReceipt = () => {
+//   const receiptContent = document.getElementById("receipt").innerHTML; // Chek HTML kodini olish
+//   const printWindow = window.open("", "_blank"); // Yangi oynani ochish
 
-  printWindow.document.write(`
-    <html>
-      <head>
-        <title>Chek</title>
-        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-      </head>
-      <body class="bg-gray-100">
-        <div class="max-w-md mx-auto bg-white rounded-lg p-6 mb-10">
-          <div class="mb-10 mt-5 flex items-center justify-center gap-3">
-            <img class="w-20 rounded-full" src="${store.logo_link}${store.school_logo}" alt="">
-            <h2 class="text-4xl font-bold uppercase">${store.school_name}</h2>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">To'lov turi:</span>
-            <span id="paymentType">${form.method}</span>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">Talaba (F.I.O):</span>
-            <span id="studentName">${store.student_name}</span>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">Guruh nomi:</span>
-            <span id="group">${store.group_name}</span>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">Kurs narxi:</span>
-            <span id="coursePrice">${store.price} so'm</span>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">Ustoz (F.I.O):</span>
-            <span id="teacher">${store.teacher_name}</span>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">To'lov qilingan sana:</span>
-            <span id="date" class="font-bold text-lg">${form.year}-${form.month}</span>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">To'lov summa:</span>
-            <span id="amount" class="font-bold text-lg">${form.price} so'm</span>
-          </div>
-          <div class="item flex justify-between border-b py-2">
-            <span class="font-semibold">Chek chop etilgan vaqt:</span>
-            <span id="date">${store.chekDate}</span>
-          </div>
-          <div style="font-size: 8px;" class="flex items-center justify-end gap-1 mt-10">
-            <img style="width: 20px;" src="/favicon.ico" alt="" />
-            <span class="brand_box">
-              <h5>Devosoft Group</h5>
-              <span style="font-size: 5px;" class:"phone_number">+998933279137</span>
-            </span>
-          </div>
-        </div>
-        <style>
-        .brand_box {
-          display:flex;
-          flex-direction:column;
-          justify-content:center;
-          align-items:flex-end;
+//   printWindow.document.write(`
+//     <html>
+//       <head>
+//         <title>Chek</title>
+//         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+//       </head>
+//       <body class="bg-gray-100">
+//         <div class="max-w-md mx-auto bg-white rounded-lg p-6 mb-10">
+//           <div class="mb-10 mt-5 flex items-center justify-center gap-3">
+//             <img class="w-20 rounded-full" src="${store.logo_link}${store.school_logo}" alt="">
+//             <h2 class="text-4xl font-bold uppercase">${store.school_name}</h2>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">To'lov turi:</span>
+//             <span id="paymentType">${form.method}</span>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">Talaba (F.I.O):</span>
+//             <span id="studentName">${store.student_name}</span>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">Guruh nomi:</span>
+//             <span id="group">${store.group_name}</span>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">Kurs narxi:</span>
+//             <span id="coursePrice">${store.price} so'm</span>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">Ustoz (F.I.O):</span>
+//             <span id="teacher">${store.teacher_name}</span>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">To'lov qilingan sana:</span>
+//             <span id="date" class="font-bold text-lg">${form.year}-${form.month}</span>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">To'lov summa:</span>
+//             <span id="amount" class="font-bold text-lg">${form.price} so'm</span>
+//           </div>
+//           <div class="item flex justify-between border-b py-2">
+//             <span class="font-semibold">Chek chop etilgan vaqt:</span>
+//             <span id="date">${store.chekDate}</span>
+//           </div>
+//           <div style="font-size: 8px;" class="flex items-center justify-end gap-1 mt-10">
+//             <img style="width: 20px;" src="/favicon.ico" alt="" />
+//             <span class="brand_box">
+//               <h5>Devosoft Group</h5>
+//               <span style="font-size: 5px;" class:"phone_number">+998933279137</span>
+//             </span>
+//           </div>
+//         </div>
+//         <style>
+//         .brand_box {
+//           display:flex;
+//           flex-direction:column;
+//           justify-content:center;
+//           align-items:flex-end;
 
-        }
-          .brand_box h5 {
-            font-size:8px;
-            margin:0;
-            line:height:4px;
-          }
-            .phone_number {
-            text-align:end;
-            }
-        </style>
-      </body>
-    </html>
-  `);
+//         }
+//           .brand_box h5 {
+//             font-size:8px;
+//             margin:0;
+//             line:height:4px;
+//           }
+//             .phone_number {
+//             text-align:end;
+//             }
+//         </style>
+//       </body>
+//     </html>
+//   `);
 
-  printWindow.document.close(); // Yozishni yakunlash
-  printWindow.print(); // Chop etish
-};
+//   printWindow.document.close(); // Yozishni yakunlash
+//   printWindow.print(); // Chop etish
+// };
 
 onMounted(() => {
   getGroup();
