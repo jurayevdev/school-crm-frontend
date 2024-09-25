@@ -72,41 +72,44 @@
                     {{ store.school_name }}
                   </h2>
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">To'lov turi:</span>
                   <span id="paymentType">{{ form.method }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">Talaba:</span>
                   <span id="studentName">{{ store.student_name }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between gap-10 border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">Guruh nomi:</span>
-                  <span id="group">{{ store.group_name }}</span>
+                  <span id="group" class="text-end">{{ store.group_name }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">Kurs narxi:</span>
                   <span id="coursePrice">{{ store.price }} so'm</span>
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">Ustoz:</span>
                   <span id="teacher">{{ store.teacher_name }}</span>
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">Oy:</span>
                   <span id="date" class="font-bold text-xs"
                     >{{ monthNames(form.month) }}</span
                   >
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">To'lov:</span>
                   <span id="amount" class="font-bold text-xs"
                     >{{ form.price }} so'm</span
                   >
                 </div>
-                <div class="item flex justify-between border-b py-1 text-sm">
+                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
                   <span class="font-semibold">Sana:</span>
                   <span id="date">{{ store.chekDate }}</span>
+                </div>
+                <div class="item flex justify-center border-b border-dashed border-black py-1 text-sm text-center">
+                  <span>IT ni it deb o'qima, <br> Ingliz tili va AyTi ni <span class="font-bold uppercase">{{ store.school_name }}</span> da o'rgan! </span>
                 </div>
                 <div
                   class="flex items-center justify-end gap-0.5 text-[4px] mt-5"
@@ -711,9 +714,9 @@ const printReceipt = () => {
             <span style="font-size: 12px;" class="font-semibold">Talaba:</span>
             <span style="font-size: 12px;" id="studentName">${store.student_name}</span>
           </div>
-          <div class="item flex justify-between border-b border-dashed border-black py-2">
+          <div class="item flex justify-between gap-10 border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Guruh nomi:</span>
-            <span style="font-size: 12px;" id="group">${store.group_name}</span>
+            <span style="font-size: 12px; text-align:end;" id="group">${store.group_name}</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Kurs narxi:</span>
@@ -734,6 +737,9 @@ const printReceipt = () => {
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Sana:</span>
             <span style="font-size: 12px;" id="date">${store.chekDate}</span>
+          </div>
+          <div class="item flex justify-center text-center border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;">IT ni it deb o'qima, <br> Ingliz tili va AyTi ni <span class="font-bold uppercase">${ store.school_name }</span> da o'rgan!</span>
           </div>
           <div style="font-size: 8px;" class="flex items-center justify-end gap-1 mt-10 mb-20">
             <span class="brand_box">
