@@ -108,6 +108,8 @@ const toggleUserInfo = () => {
 };
 
 const getOneProduct = () => {
+  console.log("kirdi");
+  
   axios
     .get(`/school/${localStorage.getItem("school_id")}`, {
       headers: {
@@ -123,6 +125,8 @@ const getOneProduct = () => {
     });
 };
 onMounted(() => {
+  console.log("mound navbar");
+  
   getOneProduct();
 });
 </script>
