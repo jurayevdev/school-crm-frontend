@@ -958,12 +958,12 @@
                 Oldingi
               </li>
             </ul>
-            <span class="text-sm font-normal">
+            <span class="text-sm font-normal mb-10">
               Sahifa
               <span class="font-semibold"
-                ><span>{{ store.page[0] * 10 - 9 }}</span> -
-                <span v-if="store.page[0] * 10 < store.page[1]">{{
-                  store.page[0] * 10
+                ><span>{{ store.page[0] * 50 - 49 }}</span> -
+                <span v-if="store.page[0] * 50 < store.page[1]">{{
+                  store.page[0] * 50
                 }}</span
                 ><span v-else>{{ store.page[1] }}</span></span
               >
@@ -974,7 +974,7 @@
               <li
                 :class="{
                   'pointer-events-none opacity-50':
-                    store.page[0] * 10 >= store.page[1],
+                    store.page[0] * 50 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;

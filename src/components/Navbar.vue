@@ -14,7 +14,7 @@
         <router-link to="/" class="flex items-center ml-2">
           <img
             :src="store.image ? store.link + store.image : '../favicon.ico'"
-            class="h-8 sm:h-12 mr-2 rounded-full"
+            class="h-8 w-12 sm:h-12 mr-2 rounded-full"
             alt="Logo"
           />
           <span class="hidden font-semibold  sm:block text-2xl whitespace-nowrap">
@@ -108,8 +108,6 @@ const toggleUserInfo = () => {
 };
 
 const getOneProduct = () => {
-  console.log("kirdi");
-  
   axios
     .get(`/school/${localStorage.getItem("school_id")}`, {
       headers: {
@@ -125,8 +123,6 @@ const getOneProduct = () => {
     });
 };
 onMounted(() => {
-  console.log("mound navbar");
-  
   getOneProduct();
 });
 </script>

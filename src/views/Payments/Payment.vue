@@ -72,44 +72,71 @@
                     {{ store.school_name }}
                   </h2>
                 </div>
-                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">To'lov turi:</span>
                   <span id="paymentType">{{ form.method }}</span>
                 </div>
-                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">Talaba:</span>
                   <span id="studentName">{{ store.student_name }}</span>
                 </div>
-                <div class="item flex justify-between gap-10 border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between gap-10 border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">Guruh nomi:</span>
-                  <span id="group" class="text-end">{{ store.group_name }}</span>
+                  <span id="group" class="text-end">{{
+                    store.group_name
+                  }}</span>
                 </div>
-                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">Kurs narxi:</span>
                   <span id="coursePrice">{{ store.price }} so'm</span>
                 </div>
-                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">Ustoz:</span>
                   <span id="teacher">{{ store.teacher_name }}</span>
                 </div>
-                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">Oy:</span>
-                  <span id="date" class="font-bold text-xs"
-                    >{{ monthNames(form.month) }}</span
-                  >
+                  <span id="date" class="font-bold text-xs">{{
+                    monthNames(form.month)
+                  }}</span>
                 </div>
-                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">To'lov:</span>
                   <span id="amount" class="font-bold text-xs"
                     >{{ form.price }} so'm</span
                   >
                 </div>
-                <div class="item flex justify-between border-b border-dashed border-black py-1 text-sm">
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
                   <span class="font-semibold">Sana:</span>
                   <span id="date">{{ store.chekDate }}</span>
                 </div>
-                <div class="item flex justify-center border-b border-dashed border-black py-1 text-sm text-center">
-                  <span>IT ni it deb o'qima, <br> Ingliz tili va AyTi ni <span class="font-bold uppercase">{{ store.school_name }}</span> da o'rgan! </span>
+                <div
+                  class="item flex justify-center border-b border-dashed border-black py-1 text-sm text-center"
+                >
+                  <span
+                    >IT ni it deb o'qima, <br />
+                    Ingliz tili va AyTi ni
+                    <span class="font-bold uppercase">{{
+                      store.school_name
+                    }}</span>
+                    da o'rgan!
+                  </span>
                 </div>
                 <div
                   class="flex items-center justify-end gap-0.5 text-[4px] mt-5"
@@ -285,6 +312,7 @@
         <!------------------------------------------- Search ------------------------------------------->
 
         <div
+          v-show="store.allProducts"
           class="relative shadow-md rounded-lg overflow-hidden mb-20"
           :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
         >
@@ -350,6 +378,94 @@
             </div>
           </div>
         </div>
+
+        <div
+          v-show="!store.allProducts"
+          class="relative shadow-md rounded-lg overflow-hidden mb-20"
+          :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
+        >
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm text-left">
+              <thead
+                class="text-xs rounded-lg uppercase"
+                :class="navbar.userNav ? 'bg-gray-700' : 'bg-gray-50'"
+              >
+                <tr>
+                  <th scope="col" class="text-center py-3">
+                    O'quvchi (F . I . O)
+                  </th>
+                  <th scope="col" class="text-center py-3">
+                    O'qituvchi (F . I . O)
+                  </th>
+                  <th scope="col" class="text-center py-3">Guruh</th>
+                  <th scope="col" class="text-center py-3">Kurs narxi</th>
+                  <th scope="col" class="text-center py-3">To'lov turi</th>
+                  <th scope="col" class="text-center py-3">To'lov narxi</th>
+                  <th scope="col" class="text-center py-3">Oy</th>
+                  <!-- <th scope="col" class="text-center py-3"></th> -->
+                </tr>
+              </thead>
+              <tbody v-if="!store.error">
+                <tr
+                  v-for="i in store.oneDayProduct"
+                  :key="i.id"
+                  class="border-b"
+                  :class="
+                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                  "
+                >
+                  <th
+                    scope="row"
+                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
+                  >
+                    <span>{{ i.student_name }}</span>
+                  </th>
+                  <td class="text-center font-medium px-8 py-4">
+                    <p>
+                      {{ i.teacher_neme }}
+                    </p>
+                  </td>
+
+                  <td class="text-center font-medium px-8 py-4">
+                    <p>
+                      {{ i.group_name }}
+                    </p>
+                  </td>
+                  <td class="text-center font-medium px-8 py-4">
+                    <p>{{ i.group_price }} so'm</p>
+                  </td>
+                  <td class="text-center font-medium px-8 py-4">
+                    <p>
+                      {{ i.method }}
+                    </p>
+                  </td>
+                  <td class="text-center font-medium px-8 py-4">
+                    <p>{{ i.price }} so'm</p>
+                  </td>
+                  <td class="text-center font-medium px-8 py-4">
+                    <p>
+                      {{ monthNames(i.month) }}
+                    </p>
+                  </td>
+                  <!-- <td class="text-center font-medium px-8 py-4">
+                    <button
+                      @click="printReceipt()"
+                      class="btnAdd rounded-lg py-2.5 px-5 text-white"
+                    >
+                      Chek chiqarish
+                    </button>
+                  </td> -->
+                </tr>
+              </tbody>
+            </table>
+            <div
+              v-show="!store.oneDayProduct"
+              class="w-full max-w-screen text-center p-20 text-2xl font-medium"
+            >
+              <h1>To'lov ro'yhati bo'sh</h1>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -383,6 +499,8 @@ const store = reactive({
   page: [],
   pagination: 1,
   allProducts: false,
+  OneDay: [],
+  oneDayProduct: false,
   error: false,
   guard: "",
   method: "",
@@ -399,6 +517,7 @@ const store = reactive({
   school_logo: "",
   logo_link: "https://dev.edu-devosoft.uz/",
   school_name: "",
+  name_teacher: [],
 });
 
 const toggleModal = (id, name) => {
@@ -433,24 +552,35 @@ const form = reactive({
 });
 
 const monthNames = (month) => {
-  switch(month) {
-    case "01": return "Yanvar";
-    case "02": return "Fevral";
-    case "03": return "Mart";
-    case "04": return "Aprel";
-    case "05": return "May";
-    case "06": return "Iyun";
-    case "07": return "Iyul";
-    case "08": return "Avgust";
-    case "09": return "Sentabr";
-    case "10": return "Oktabr";
-    case "11": return "Noyabr";
-    case "12": return "Dekabr";
-    default: return "Notog'ri oy";
+  switch (month) {
+    case "01":
+      return "Yanvar";
+    case "02":
+      return "Fevral";
+    case "03":
+      return "Mart";
+    case "04":
+      return "Aprel";
+    case "05":
+      return "May";
+    case "06":
+      return "Iyun";
+    case "07":
+      return "Iyul";
+    case "08":
+      return "Avgust";
+    case "09":
+      return "Sentabr";
+    case "10":
+      return "Oktabr";
+    case "11":
+      return "Noyabr";
+    case "12":
+      return "Dekabr";
+    default:
+      return "Notog'ri oy";
   }
 };
-
-
 
 // ----------------------------------- axios --------------------------------
 
@@ -680,6 +810,62 @@ const getMethod = () => {
     });
 };
 
+const getPage = async () => {
+  try {
+    const res = await axios.get(
+      `/payment/${localStorage.getItem("school_id")}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    if (res.data) {
+      for (let i in res.data) {
+        try {
+          const groupResponse = await axios.get(
+            `/group/${localStorage.getItem("school_id")}/${
+              res.data[i].group.id
+            }`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          const employee = await axios.get(
+            `/employee/${localStorage.getItem("school_id")}/${
+              groupResponse.data.employee[0].employee_id
+            }`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+          store.OneDay.push({
+            id: res.data[i].id,
+            student_name: res.data[i].student.full_name,
+            teacher_neme: employee.data.full_name,
+            group_name: res.data[i].group.name,
+            group_price: res.data[i].group.price,
+            method: res.data[i].method,
+            price: res.data[i].price,
+            month: res.data[i].month,
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
+    store.oneDayProduct = store.OneDay
+    store.PageProduct = store.oneDayProduct;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+
 const formatDateToNumeric = (date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -691,9 +877,9 @@ const formatDateToNumeric = (date) => {
 };
 
 const printReceipt = () => {
-  const receiptContent = document.getElementById("receipt").innerHTML; 
-  const printWindow = window.open("", "_blank"); 
-  
+  const receiptContent = document.getElementById("receipt").innerHTML;
+  const printWindow = window.open("", "_blank");
+
   printWindow.document.write(`
     <html>
       <head>
@@ -703,43 +889,61 @@ const printReceipt = () => {
       <body class="bg-gray-100">
         <div class="max-w-md mx-auto bg-white rounded-lg pr-5 mb-10">
           <div class="mb-10 mt-5 flex items-center justify-center gap-1">
-            <img class="w-8 rounded-full" src="${store.logo_link}${store.school_logo}" alt="">
+            <img class="w-8 rounded-full" src="${store.logo_link}${
+    store.school_logo
+  }" alt="">
             <h2 class="text-xl font-bold uppercase">${store.school_name}</h2>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">To'lov turi:</span>
-            <span style="font-size: 12px;" id="paymentType">${form.method}</span>
+            <span style="font-size: 12px;" id="paymentType">${
+              form.method
+            }</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Talaba:</span>
-            <span style="font-size: 12px;" id="studentName">${store.student_name}</span>
+            <span style="font-size: 12px;" id="studentName">${
+              store.student_name
+            }</span>
           </div>
           <div class="item flex justify-between gap-10 border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Guruh nomi:</span>
-            <span style="font-size: 12px; text-align:end;" id="group">${store.group_name}</span>
+            <span style="font-size: 12px; text-align:end;" id="group">${
+              store.group_name
+            }</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Kurs narxi:</span>
-            <span style="font-size: 12px;" id="coursePrice">${store.price} so'm</span>
+            <span style="font-size: 12px;" id="coursePrice">${
+              store.price
+            } so'm</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Ustoz:</span>
-            <span style="font-size: 12px;" id="teacher">${store.teacher_name}</span>
+            <span style="font-size: 12px;" id="teacher">${
+              store.teacher_name
+            }</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Oy:</span>
-            <span style="font-size: 12px;" id="date" class="font-bold text-lg">${monthNames(form.month)}</span>
+            <span style="font-size: 12px;" id="date" class="font-bold text-lg">${monthNames(
+              form.month
+            )}</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">To'lov:</span>
-            <span style="font-size: 12px;" id="amount" class="font-bold text-lg">${form.price} so'm</span>
+            <span style="font-size: 12px;" id="amount" class="font-bold text-lg">${
+              form.price
+            } so'm</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Sana:</span>
             <span style="font-size: 12px;" id="date">${store.chekDate}</span>
           </div>
           <div class="item flex justify-center text-center border-b border-dashed border-black py-2">
-            <span style="font-size: 12px;">IT ni it deb o'qima, <br> Ingliz tili va AyTi ni <span class="font-bold uppercase">${ store.school_name }</span> da o'rgan!</span>
+            <span style="font-size: 12px;">IT ni it deb o'qima, <br> Ingliz tili va AyTi ni <span class="font-bold uppercase">${
+              store.school_name
+            }</span> da o'rgan!</span>
           </div>
           <div style="font-size: 8px;" class="flex items-center justify-end gap-1 mt-10 mb-20">
             <span class="brand_box">
@@ -782,6 +986,7 @@ const printReceipt = () => {
 onMounted(() => {
   getGroup();
   getMethod();
+  getPage();
   for (let i = 0; i < 5; i++) {
     let list = {
       id: i,
