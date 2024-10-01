@@ -733,7 +733,7 @@
         <!------------------------------------------- Search ------------------------------------------->
 
         <div
-          class="relative shadow-md rounded-lg overflow-hidden"
+          class="relative shadow-md rounded-lg overflow-hidden mb-20"
           :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
         >
           <div class="overflow-x-auto">
@@ -953,12 +953,12 @@
                   getProduct(store.pagination);
                 "
                 href="#"
-                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
+                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center cursor-pointer justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
               >
                 Oldingi
               </li>
             </ul>
-            <span class="text-sm font-normal mb-10">
+            <span class="text-sm font-normal">
               Sahifa
               <span class="font-semibold"
                 ><span>{{ store.page[0] * 50 - 49 }}</span> -
@@ -981,7 +981,7 @@
                   getProduct(store.pagination);
                 "
                 href="#"
-                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
+                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center cursor-pointer justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
               >
                 Keyingi
               </li>

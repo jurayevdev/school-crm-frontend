@@ -763,7 +763,7 @@
                   getProduct(store.pagination);
                 "
                 href="#"
-                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
+                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 cursor-pointer items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
               >
                 Oldingi
               </li>
@@ -791,7 +791,7 @@
                   getProduct(store.pagination);
                 "
                 href="#"
-                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
+                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 cursor-pointer rounded-lg leading-tight"
               >
                 Keyingi
               </li>

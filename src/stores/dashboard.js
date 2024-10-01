@@ -103,9 +103,10 @@ export const useInfoStore = defineStore("info", () => {
         currentMonth = currentMonth.toString().padStart(2, "0")
         const currentYear = new Date().getFullYear().toString();
         res.data.forEach(payment => {
+          
           if (
-            payment.month === currentMonth &&
-            payment.year === currentYear
+            payment.createdAt.slice(5, 7) === currentMonth &&
+            payment.createdAt.slice(0, 4) === currentYear
           ) {
             sch += payment.price;
           }
@@ -115,10 +116,6 @@ export const useInfoStore = defineStore("info", () => {
       })
       .catch((error) => {
         console.log(error);
-        if (error.response.data.message === "Invalid or expired token") {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }
       });
   };
 

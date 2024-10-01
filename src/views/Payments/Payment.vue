@@ -402,7 +402,7 @@
                   <th scope="col" class="text-center py-3">To'lov turi</th>
                   <th scope="col" class="text-center py-3">To'lov narxi</th>
                   <th scope="col" class="text-center py-3">Oy</th>
-                  <!-- <th scope="col" class="text-center py-3"></th> -->
+                  <th scope="col" class="text-center py-3"></th>
                 </tr>
               </thead>
               <tbody v-if="!store.error">
@@ -422,7 +422,7 @@
                   </th>
                   <td class="text-center font-medium px-8 py-4">
                     <p>
-                      {{ i.teacher_neme }}
+                      {{ i.teacher_name }}
                     </p>
                   </td>
 
@@ -447,14 +447,14 @@
                       {{ monthNames(i.month) }}
                     </p>
                   </td>
-                  <!-- <td class="text-center font-medium px-8 py-4">
+                  <td class="text-center font-medium px-8 py-4">
                     <button
-                      @click="printReceipt()"
+                      @click="printChek(i.id)"
                       class="btnAdd rounded-lg py-2.5 px-5 text-white"
                     >
                       Chek chiqarish
                     </button>
-                  </td> -->
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -499,7 +499,6 @@ const store = reactive({
   page: [],
   pagination: 1,
   allProducts: false,
-  OneDay: [],
   oneDayProduct: false,
   error: false,
   guard: "",
@@ -811,59 +810,19 @@ const getMethod = () => {
 };
 
 const getPage = async () => {
-  try {
-    const res = await axios.get(
-      `/payment/${localStorage.getItem("school_id")}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-
-    if (res.data) {
-      for (let i in res.data) {
-        try {
-          const groupResponse = await axios.get(
-            `/group/${localStorage.getItem("school_id")}/${
-              res.data[i].group.id
-            }`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-          const employee = await axios.get(
-            `/employee/${localStorage.getItem("school_id")}/${
-              groupResponse.data.employee[0].employee_id
-            }`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          );
-          store.OneDay.push({
-            id: res.data[i].id,
-            student_name: res.data[i].student.full_name,
-            teacher_neme: employee.data.full_name,
-            group_name: res.data[i].group.name,
-            group_price: res.data[i].group.price,
-            method: res.data[i].method,
-            price: res.data[i].price,
-            month: res.data[i].month,
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }
-    store.oneDayProduct = store.OneDay
-    store.PageProduct = store.oneDayProduct;
-  } catch (error) {
-    console.log("error", error);
-  }
+  axios
+    .get(`/payment/day/${localStorage.getItem("school_id")}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      store.oneDayProduct = res.data.sort((a, b) => b.id - a.id);
+      store.PageProduct = res.data;
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
 };
 
 const formatDateToNumeric = (date) => {
@@ -877,7 +836,6 @@ const formatDateToNumeric = (date) => {
 };
 
 const printReceipt = () => {
-  const receiptContent = document.getElementById("receipt").innerHTML;
   const printWindow = window.open("", "_blank");
 
   printWindow.document.write(`
@@ -981,6 +939,126 @@ const printReceipt = () => {
   printWindow.onafterprint = () => {
     printWindow.close();
   };
+};
+
+const printChek = (id) => {
+  const product = store.oneDayProduct.find((product) => product.id === id);
+  const [date, time] = product.createdAt.split("T");
+  const formattedTime = time.substring(0, 5);
+  axios
+    .get(`/school/${localStorage.getItem("school_id")}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      const printWindow = window.open("", "_blank");
+
+      printWindow.document.write(`
+    <html>
+      <head>
+        <title>Chek</title>
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+      </head>
+      <body class="bg-gray-100">
+        <div class="max-w-md mx-auto bg-white rounded-lg pr-5 mb-10">
+          <div class="mb-10 mt-5 flex items-center justify-center gap-1">
+            <img class="w-8 rounded-full" src="${store.logo_link}${
+        res.data.image
+      }" alt="">
+            <h2 class="text-xl font-bold uppercase">${res.data.name}</h2>
+          </div>
+          <div class="item flex justify-between border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">To'lov turi:</span>
+            <span style="font-size: 12px;" id="paymentType">${
+              product.method
+            }</span>
+          </div>
+          <div class="item flex justify-between border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">Talaba:</span>
+            <span style="font-size: 12px;" id="studentName">${
+              product.student_name
+            }</span>
+          </div>
+          <div class="item flex justify-between gap-10 border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">Guruh nomi:</span>
+            <span style="font-size: 12px; text-align:end;" id="group">${
+              product.group_name
+            }</span>
+          </div>
+          <div class="item flex justify-between border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">Kurs narxi:</span>
+            <span style="font-size: 12px;" id="coursePrice">${
+              product.group_price
+            } so'm</span>
+          </div>
+          <div class="item flex justify-between border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">Ustoz:</span>
+            <span style="font-size: 12px;" id="teacher">${
+              product.teacher_name
+            }</span>
+          </div>
+          <div class="item flex justify-between border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">Oy:</span>
+            <span style="font-size: 12px;" id="date" class="font-bold text-lg">${monthNames(
+              product.month
+            )}</span>
+          </div>
+          <div class="item flex justify-between border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">To'lov:</span>
+            <span style="font-size: 12px;" id="amount" class="font-bold text-lg">${
+              product.price
+            } so'm</span>
+          </div>
+          <div class="item flex justify-between border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;" class="font-semibold">Sana:</span>
+            <span style="font-size: 12px;" id="date">${date}, ${formattedTime}</span>
+          </div>
+          <div class="item flex justify-center text-center border-b border-dashed border-black py-2">
+            <span style="font-size: 12px;">IT ni it deb o'qima, <br> Ingliz tili va AyTi ni <span class="font-bold uppercase">${
+              res.data.name
+            }</span> da o'rgan!</span>
+          </div>
+          <div style="font-size: 8px;" class="flex items-center justify-end gap-1 mt-10 mb-20">
+            <span class="brand_box">
+              <h5>Devosoft Group</h5>
+              <span style="font-size: 7px; font-weight: 600;" class:"phone_number">+998933279137</span>
+            </span>
+          </div>
+        </div>
+        <style>
+        .brand_box {
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:flex-end;
+
+        }
+          .brand_box h5 {
+            font-size:10px;
+            margin:0;
+            line:height:4px;
+            font-weight: 600;
+          }
+            .phone_number {
+            text-align:end;
+            }
+        </style>
+      </body>
+    </html>
+  `);
+
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+
+      printWindow.onafterprint = () => {
+        printWindow.close();
+      };
+    })
+    .catch((error) => {
+      console.log("error", error);
+    });
 };
 
 onMounted(() => {
