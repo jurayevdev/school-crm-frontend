@@ -809,7 +809,7 @@ const getMethod = () => {
     });
 };
 
-/* const getPage = async () => {
+const getPage = async () => {
   axios
     .get(`/payment/day/${localStorage.getItem("school_id")}`, {
       headers: {
@@ -824,7 +824,7 @@ const getMethod = () => {
       console.log("error", error);
     });
 };
-*/
+
 
 const formatDateToNumeric = (date) => {
   const year = date.getFullYear();
@@ -1065,7 +1065,7 @@ const printChek = (id) => {
 onMounted(() => {
   getGroup();
   getMethod();
-  // getPage();
+  getPage();
   for (let i = 0; i < 5; i++) {
     let list = {
       id: i,
