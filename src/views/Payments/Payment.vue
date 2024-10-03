@@ -563,7 +563,7 @@ const store = reactive({
   student_name: "",
   teacher_name: "",
   school_logo: "",
-  logo_link: "http://localhost:3000/",
+  logo_link: "https://dev.edu-devosoft.uz/",
   school_name: "",
   name_teacher: [],
 });
