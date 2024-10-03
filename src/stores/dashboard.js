@@ -1,153 +1,45 @@
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import axios from "../services/axios";
 import { defineStore } from "pinia";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 export const useInfoStore = defineStore("info", () => {
   const store = reactive({
     staff: 0,
     students: 0,
-    subjects: 0,
     groups: 0,
     payment: 0,
   });
 
-  const getStaff = () => {
-    axios
-      .get(`/employee/${localStorage.getItem("school_id")}`, {
+  const getStatistics = async () => {
+    try {
+      const res = await axios.get(`/statistic/school/${localStorage.getItem("school_id")}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      })
-      .then((res) => {
-        store.staff = res.data;
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.response.data.message == "Invalid or expired token") {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }
       });
+      store.students = res.data.student_number;
+      store.staff = res.data.employee_number;
+      store.groups = res.data.group_number;
+      store.payment = res.data.payment_sum;
+    } catch (err) {
+      console.error("Statistikani olishda xato:", err);
+    }
   };
 
-  const getStudent = () => {
-    axios
-      .get(`/student/${localStorage.getItem("school_id")}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        store.students = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.data.message == "Invalid or expired token") {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }
-      });
-  };
-
-  const getSubjects = () => {
-    axios
-      .get(`/subject/${localStorage.getItem("school_id")}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        store.subjects = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.data.message == "Invalid or expired token") {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }
-      });
-  };
-
-  const getGroup = () => {
-    axios
-      .get(`/group/${localStorage.getItem("school_id")}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        store.groups = res.data;
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.data.message == "Invalid or expired token") {
-          localStorage.removeItem("token");
-          router.push("/login");
-        }
-      });
-  };
-
-  const getPayment = () => {
-    axios
-      .get(`/payment/${localStorage.getItem("school_id")}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        let sch = 0;
-        let currentMonth = new Date().getMonth() + 1;
-        currentMonth = currentMonth.toString().padStart(2, "0")
-        const currentYear = new Date().getFullYear().toString();
-        res.data.forEach(payment => {
-          
-          if (
-            payment.createdAt.slice(5, 7) === currentMonth &&
-            payment.createdAt.slice(0, 4) === currentYear
-          ) {
-            sch += payment.price;
-          }
-        });
-  
-        store.payment = sch;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  const Staff = computed(() => store.staff.length || 0);
-
-  const Students = computed(() => store.students || 0);
-
-  const Subjects = computed(() => store.subjects.length || 0);
-
-  const Groups = computed(() => store.groups.length || 0);
-
-  const Payment = computed(() => store.payment || 0);
-  
+  const Staff = computed(() => store.staff);
+  const Students = computed(() => store.students);
+  const Groups = computed(() => store.groups);
+  const Payment = computed(() => store.payment);
 
   onMounted(() => {
-    getStudent();
-    getStaff();
-    getGroup();
-    getSubjects();
-    getPayment();
+    getStatistics();
   });
 
   return {
     Staff,
     Students,
-    Subjects,
     Groups,
     Payment,
-    getStaff,
-    getStudent,
-    getSubjects,
-    getGroup,
-    getPayment
+    getStatistics,
   };
 });

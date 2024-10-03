@@ -771,9 +771,9 @@
             <span class="text-sm font-normal">
               Sahifa
               <span class="font-semibold"
-                ><span>{{ store.page[0] * 50 - 49 }}</span> -
-                <span v-if="store.page[0] * 50 < store.page[1]">{{
-                  store.page[0] * 50
+                ><span>{{ store.page[0] * 15 - 14 }}</span> -
+                <span v-if="store.page[0] * 15 < store.page[1]">{{
+                  store.page[0] * 15
                 }}</span
                 ><span v-else>{{ store.page[1] }}</span></span
               >
@@ -784,7 +784,7 @@
               <li
                 :class="{
                   'pointer-events-none opacity-50':
-                    store.page[0] * 50 >= store.page[1],
+                    store.page[0] * 15 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;

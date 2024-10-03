@@ -89,7 +89,7 @@ const store = reactive({
   guard: localStorage.getItem("role"),
   data: "",
   image: "",
-  link: "https://dev.edu-devosoft.uz/",
+  link: "http://localhost:3000/",
 });
 
 const Logout = () => {

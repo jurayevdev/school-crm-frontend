@@ -205,10 +205,11 @@
 
 <script setup>
 import { onBeforeMount, reactive } from "vue";
-import { ChartLine, UserChart, Placeholder1 } from "../../components";
 import { useNavStore } from "../../stores/toggle";
 import { useInfoStore } from "../../stores/dashboard";
 import { useRouter } from "vue-router";
+import UserChart from '@/components/UsersChart.vue';
+
 
 const router = useRouter();
 const navbar = useNavStore();
@@ -227,9 +228,8 @@ const getCardTitle = (index) => {
 
 const getCardValue = (index) => {
   const values = [
-    info.Students.length || 0,
+    info.Students,
     info.Staff,
-    // info.Subjects,
     info.Groups,
     info.Payment,
   ];

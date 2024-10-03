@@ -51,7 +51,7 @@ const routes = [
         },
       },
       {
-        path: "/employee/:id/:id",
+        path: "/employee/:school_id/:id",
         name: "slug_teachers",
         component: SlugTeachers,
         meta: {

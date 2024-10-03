@@ -407,7 +407,7 @@
               </thead>
               <tbody v-if="!store.error">
                 <tr
-                  v-for="i in store.oneDayProduct"
+                  v-for="i in store.PageProduct"
                   :key="i.id"
                   class="border-b"
                   :class="
@@ -459,12 +459,61 @@
               </tbody>
             </table>
             <div
-              v-show="!store.oneDayProduct"
+              v-show="store.PageProduct && store.error"
               class="w-full max-w-screen text-center p-20 text-2xl font-medium"
             >
               <h1>To'lov ro'yhati bo'sh</h1>
             </div>
           </div>
+          <nav
+            v-if="!store.searchList.length"
+            class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4"
+            aria-label="Table navigation"
+          >
+            <ul class="inline-flex items-stretch -space-x-px">
+              <li
+                :class="{
+                  'pointer-events-none opacity-50': store.page[0] == 1,
+                }"
+                @click="
+                  store.pagination -= 1;
+                  getProduct(store.pagination);
+                "
+                href="#"
+                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 cursor-pointer items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 rounded-lg leading-tight"
+              >
+                Oldingi
+              </li>
+            </ul>
+            <span class="text-sm font-normal">
+              Sahifa
+              <span class="font-semibold"
+                ><span>{{ store.page[0] * 15 - 14 }}</span> -
+                <span v-if="store.page[0] * 15 < store.page[1]">{{
+                  store.page[0] * 15
+                }}</span
+                ><span v-else>{{ store.page[1] }}</span></span
+              >
+              dan
+              <span class="font-semibold">{{ store.page[1] }}</span>
+            </span>
+            <ul class="inline-flex items-stretch -space-x-px">
+              <li
+                :class="{
+                  'pointer-events-none opacity-50':
+                    store.page[0] * 15 >= store.page[1],
+                }"
+                @click="
+                  store.pagination += 1;
+                  getProduct(store.pagination);
+                "
+                href="#"
+                class="flex font-bold text-black border-2 bg-white hover:bg-gray-300 items-center justify-center text-sm py-2 sm:mt-0 -mt-2 px-6 cursor-pointer rounded-lg leading-tight"
+              >
+                Keyingi
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
     </section>
@@ -514,7 +563,7 @@ const store = reactive({
   student_name: "",
   teacher_name: "",
   school_logo: "",
-  logo_link: "https://dev.edu-devosoft.uz/",
+  logo_link: "http://localhost:3000/",
   school_name: "",
   name_teacher: [],
 });
@@ -653,73 +702,40 @@ const calculatePaymentStatus = (paymentHistory, groupPrice, groupStartDate) => {
 
 const getOneProduct = async (id) => {
   try {
-    const groupResponse = await axios.get(
-      `/group/${localStorage.getItem("school_id")}/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    const groupPrice = Number(groupResponse.data.price);
-    const groupStartDate = groupResponse.data.start_date;
-    store.price = groupPrice;
+    const schoolId = localStorage.getItem("school_id");
+    const token = localStorage.getItem("token");
+    const headers = { headers: { Authorization: `Bearer ${token}` } };
+
+    const groupResponse = await axios.get(`/group/${schoolId}/${id}`, headers);
+    const { price: groupPrice, start_date: groupStartDate, name: groupName, school } = groupResponse.data;
+    
+    store.price = Number(groupPrice);
     store.date = groupStartDate;
-    store.group_name = groupResponse.data.name;
+    store.group_name = groupName;
     form.group_id = id;
-    store.school_name = groupResponse.data.school.name;
-    store.school_logo = groupResponse.data.school.image;
-
-    const employee = await axios.get(
-      `/employee/${localStorage.getItem("school_id")}/${
-        groupResponse.data.employee[0].employee_id
-      }`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-
-    store.teacher_name = employee.data.full_name;
-
+    store.school_name = school.name;
+    store.school_logo = school.image;
+    
+    const employeeResponse = await axios.get(`/employee/${schoolId}/${groupResponse.data.employee[0].employee_id}`, headers);
+    store.teacher_name = employeeResponse.data.full_name;
+   
     if (!groupStartDate || isNaN(Date.parse(groupStartDate))) {
       throw new Error("Guruh ochilgan sana noto'g'ri");
     }
 
-    const studentList = [];
     const studentPromises = groupResponse.data.student.map(async (student) => {
-      const studentInfo = await axios.get(
-        `/student/${localStorage.getItem("school_id")}/${student.student_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-
+      const studentInfo = await axios.get(`/student/${schoolId}/${student.student_id}`, headers);
       const payments = studentInfo.data.payment;
-      const paymentsForGroup = payments.filter(
-        (payment) => payment.group_id === form.group_id
-      );
-
-      studentInfo.data.paymentStatus = calculatePaymentStatus(
-        paymentsForGroup,
-        groupPrice,
-        groupStartDate
-      );
+      const paymentsForGroup = payments.filter(payment => payment.group_id === form.group_id);
+      
+      studentInfo.data.paymentStatus = calculatePaymentStatus(paymentsForGroup, groupPrice, groupStartDate);
       return studentInfo.data;
     });
+  
+    store.allProducts = await Promise.all(studentPromises);
 
-    for (const studentInfo of await Promise.all(studentPromises)) {
-      studentList.push(studentInfo);
-    }
-
-    store.allProducts = studentList;
   } catch (error) {
-    notification.warning(
-      error.response?.data?.message || "Something went wrong"
-    );
+    notification.warning(error.response?.data?.message || "Something went wrong");
     console.log("error", error);
   }
 };
@@ -809,22 +825,24 @@ const getMethod = () => {
     });
 };
 
-const getPage = async () => {
+const getPage = async (page) => {
   axios
-    .get(`/payment/day/${localStorage.getItem("school_id")}`, {
+    .get(`/payment/day/${localStorage.getItem("school_id")}/page?page=${page}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      store.oneDayProduct = res.data.sort((a, b) => b.id - a.id);
-      store.PageProduct = res.data;
+      store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
+      const pagination = res.data?.data?.pagination;
+      store.page = [];
+      store.page.push(pagination.currentPage, pagination.total_count);
+      store.error = false;
     })
     .catch((error) => {
       console.log("error", error);
     });
 };
-
 
 const formatDateToNumeric = (date) => {
   const year = date.getFullYear();
@@ -943,7 +961,7 @@ const printReceipt = () => {
 };
 
 const printChek = (id) => {
-  const product = store.oneDayProduct.find((product) => product.id === id);
+  const product = store.PageProduct.find((product) => product.id === id);
   const [date, time] = product.createdAt.split("T");
   const formattedTime = time.substring(0, 5);
   axios
@@ -1065,7 +1083,7 @@ const printChek = (id) => {
 onMounted(() => {
   getGroup();
   getMethod();
-  getPage();
+  getPage(store.pagination);
   for (let i = 0; i < 5; i++) {
     let list = {
       id: i,
