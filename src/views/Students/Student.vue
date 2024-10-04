@@ -935,6 +935,7 @@ const getProduct = (page) => {
       store.page = [];
       store.page.push(pagination.currentPage, pagination.total_count);
       store.error = false;
+      
     })
     .catch((error) => {
       store.PageProduct = error.response.data.message;
@@ -993,8 +994,11 @@ const createProduct = () => {
     full_name: form.full_name,
     phone_number: form.phone_number,
     status: true,
-    // group: form.group || store.groups[0],
+    group: form.group || store.group[0],
   };
+
+  console.log(data);
+  
   axios
     .post("/student", data, {
       headers: {
@@ -1002,7 +1006,6 @@ const createProduct = () => {
       },
     })
     .then((res) => {
-      info.getStudent();
       notification.success("O'quvchi qo'shildi");
       addGroupsModal(res.data.student.id);
       getProduct(store.pagination);
@@ -1051,7 +1054,6 @@ const deleteProduct = () => {
     .then((res) => {
       notification.success("O'quvchi o'chirildi");
       getProduct(store.pagination);
-      info.getStudent();
       remove.toggle = false;
     })
     .catch((error) => {

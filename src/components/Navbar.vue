@@ -17,7 +17,7 @@
             class="h-8 w-12 sm:h-12 mr-2 rounded-full"
             alt="Logo"
           />
-          <span class="hidden font-semibold  sm:block text-2xl whitespace-nowrap">
+          <span class="hidden font-semibold  sm:block text-2xl whitespace-nowrap uppercase">
             {{ store.data ? store.data : "Devosoft" }}
           </span>
         </router-link>

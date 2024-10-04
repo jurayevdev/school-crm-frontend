@@ -312,11 +312,10 @@
         <!------------------------------------------- Search ------------------------------------------->
 
         <div
-          v-show="store.allProducts"
           class="relative shadow-md rounded-lg overflow-hidden mb-20"
           :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
         >
-          <div class="overflow-x-auto">
+          <div v-show="store.allProducts" class="overflow-x-auto">
             <table class="w-full text-sm text-left">
               <thead
                 class="text-xs rounded-lg uppercase"
@@ -377,14 +376,8 @@
               <h1>To'lov ro'yhati bo'sh</h1>
             </div>
           </div>
-        </div>
 
-        <div
-          v-show="!store.allProducts"
-          class="relative shadow-md rounded-lg overflow-hidden mb-20"
-          :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
-        >
-          <div class="overflow-x-auto">
+          <div v-show="!store.allProducts" class="overflow-x-auto">
             <table class="w-full text-sm text-left">
               <thead
                 class="text-xs rounded-lg uppercase"
@@ -405,10 +398,10 @@
                   <th scope="col" class="text-center py-3"></th>
                 </tr>
               </thead>
-              <tbody v-if="!store.error">
+              <tbody v-show="!store.error">
                 <tr
                   v-for="i in store.PageProduct"
-                  :key="i.id"
+                  :key="i"
                   class="border-b"
                   :class="
                     navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
@@ -421,29 +414,29 @@
                     <span>{{ i.student_name }}</span>
                   </th>
                   <td class="text-center font-medium px-8 py-4">
-                    <p>
+                    <p class="whitespace-nowrap">
                       {{ i.teacher_name }}
                     </p>
                   </td>
 
                   <td class="text-center font-medium px-8 py-4">
-                    <p>
+                    <p class="whitespace-nowrap">
                       {{ i.group_name }}
                     </p>
                   </td>
                   <td class="text-center font-medium px-8 py-4">
-                    <p>{{ i.group_price }} so'm</p>
+                    <p class="whitespace-nowrap">{{ i.group_price }} so'm</p>
                   </td>
                   <td class="text-center font-medium px-8 py-4">
-                    <p>
+                    <p class="whitespace-nowrap">
                       {{ i.method }}
                     </p>
                   </td>
                   <td class="text-center font-medium px-8 py-4">
-                    <p>{{ i.price }} so'm</p>
+                    <p class="whitespace-nowrap">{{ i.price }} so'm</p>
                   </td>
                   <td class="text-center font-medium px-8 py-4">
-                    <p>
+                    <p class="whitespace-nowrap">
                       {{ monthNames(i.month) }}
                     </p>
                   </td>
@@ -458,15 +451,20 @@
                 </tr>
               </tbody>
             </table>
+
             <div
-              v-show="store.PageProduct && store.error"
+              v-show="
+                (store.PageProduct && store.error) ||
+                store.PageProduct.length == 0
+              "
               class="w-full max-w-screen text-center p-20 text-2xl font-medium"
             >
               <h1>To'lov ro'yhati bo'sh</h1>
             </div>
           </div>
+
           <nav
-            v-if="!store.searchList.length"
+            v-show="!store.allProducts"
             class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4"
             aria-label="Table navigation"
           >
@@ -548,7 +546,6 @@ const store = reactive({
   page: [],
   pagination: 1,
   allProducts: false,
-  oneDayProduct: false,
   error: false,
   guard: "",
   method: "",
@@ -565,7 +562,6 @@ const store = reactive({
   school_logo: "",
   logo_link: "https://dev.edu-devosoft.uz/",
   school_name: "",
-  name_teacher: [],
 });
 
 const toggleModal = (id, name) => {
@@ -707,35 +703,53 @@ const getOneProduct = async (id) => {
     const headers = { headers: { Authorization: `Bearer ${token}` } };
 
     const groupResponse = await axios.get(`/group/${schoolId}/${id}`, headers);
-    const { price: groupPrice, start_date: groupStartDate, name: groupName, school } = groupResponse.data;
-    
+    const {
+      price: groupPrice,
+      start_date: groupStartDate,
+      name: groupName,
+      school,
+    } = groupResponse.data;
+
     store.price = Number(groupPrice);
     store.date = groupStartDate;
     store.group_name = groupName;
     form.group_id = id;
     store.school_name = school.name;
     store.school_logo = school.image;
-    
-    const employeeResponse = await axios.get(`/employee/${schoolId}/${groupResponse.data.employee[0].employee_id}`, headers);
+
+    const employeeResponse = await axios.get(
+      `/employee/${schoolId}/${groupResponse.data.employee[0].employee_id}`,
+      headers
+    );
     store.teacher_name = employeeResponse.data.full_name;
-   
+
     if (!groupStartDate || isNaN(Date.parse(groupStartDate))) {
       throw new Error("Guruh ochilgan sana noto'g'ri");
     }
 
     const studentPromises = groupResponse.data.student.map(async (student) => {
-      const studentInfo = await axios.get(`/student/${schoolId}/${student.student_id}`, headers);
+      const studentInfo = await axios.get(
+        `/student/${schoolId}/${student.student_id}`,
+        headers
+      );
       const payments = studentInfo.data.payment;
-      const paymentsForGroup = payments.filter(payment => payment.group_id === form.group_id);
-      
-      studentInfo.data.paymentStatus = calculatePaymentStatus(paymentsForGroup, groupPrice, groupStartDate);
+      const paymentsForGroup = payments.filter(
+        (payment) => payment.group_id === form.group_id
+      );
+
+      studentInfo.data.paymentStatus = calculatePaymentStatus(
+        paymentsForGroup,
+        groupPrice,
+        groupStartDate
+      );
       return studentInfo.data;
     });
-  
-    store.allProducts = await Promise.all(studentPromises);
 
+    store.allProducts = await Promise.all(studentPromises);
   } catch (error) {
-    notification.warning(error.response?.data?.message || "Something went wrong");
+    notification.warning(
+      error.response?.data?.message || "Something went wrong"
+    );
     console.log("error", error);
   }
 };
@@ -749,7 +763,6 @@ const getGroup = () => {
     })
     .then((res) => {
       store.group = res.data;
-      store.PageProduct = res.data;
     })
     .catch((error) => {
       console.log("error", error);
@@ -825,13 +838,16 @@ const getMethod = () => {
     });
 };
 
-const getPage = async (page) => {
+const getProduct = (page) => {
   axios
-    .get(`/payment/day/${localStorage.getItem("school_id")}/page?page=${page}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    .get(
+      `/payment/day/${localStorage.getItem("school_id")}/page?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
     .then((res) => {
       store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
       const pagination = res.data?.data?.pagination;
@@ -840,7 +856,8 @@ const getPage = async (page) => {
       store.error = false;
     })
     .catch((error) => {
-      console.log("error", error);
+      store.PageProduct = error.response.data.message;
+      store.error = true;
     });
 };
 
@@ -1081,9 +1098,9 @@ const printChek = (id) => {
 };
 
 onMounted(() => {
+  getProduct(store.pagination);
   getGroup();
   getMethod();
-  getPage(store.pagination);
   for (let i = 0; i < 5; i++) {
     let list = {
       id: i,

@@ -736,7 +736,7 @@
           class="relative shadow-md rounded-lg overflow-hidden mb-20"
           :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
         >
-          <div class="overflow-x-auto">
+          <div class="overflow-x-auto table">
             <table class="w-full text-sm text-left">
               <thead
                 class="text-xs rounded-lg uppercase"
@@ -938,6 +938,7 @@
               <h1>Ro'yhat bo'sh</h1>
             </div>
           </div>
+          
           <nav
             v-if="!store.searchList.length"
             class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4"
