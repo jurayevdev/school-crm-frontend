@@ -737,7 +737,7 @@
           class="relative shadow-md rounded-lg overflow-hidden mb-20"
           :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
         >
-          <div class="overflow-x-auto table">
+          <div class="overflow-x-auto">
             <table class="w-full text-sm text-left">
               <thead
                 class="text-xs rounded-lg uppercase"

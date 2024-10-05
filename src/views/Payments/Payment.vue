@@ -9,6 +9,304 @@
       </div>
       <!------------------------------------------- Search ------------------------------------------->
 
+      <!-- ----------------------------------------- Delete modal ---------------------------------------------------- -->
+      <div
+        :class="
+          remove.toggle
+            ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+            : 'hidden'
+        "
+      >
+        <div class="relative p-4 max-w-5xl min-w-[30%] h-auto">
+          <!-- Modal content -->
+          <div
+            class="relative p-4 rounded-lg shadow sm:p-5"
+            :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+          >
+            <!-- Modal header -->
+            <div
+              class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+            >
+              <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
+                To'lovni o'chirib tashlash
+              </h3>
+              <button
+                @click="remove.toggle = false"
+                type="button"
+                class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                :class="navbar.userNav ? 'text-white' : 'text-black'"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div :class="{ darkForm: navbar.userNav }">
+              <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+                <div>
+                  <div></div>
+                  <h1
+                    class="text-2xl"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    Siz to'lovni o'chirishni xohlaysizmi?
+                  </h1>
+                </div>
+                <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
+                  <button
+                    @click="remove.toggle = false"
+                    type="button"
+                    class="border cursor-pointer inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Bekor qilish
+                  </button>
+                  <button
+                    @click="deleteProduct"
+                    class="btnAdd cursor-pointer text-white inline-flex items-center bg-[#4141eb] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    O'chirish
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ----------------------------------------- delete modal end ---------------------------------------------------- -->
+
+      <!-- ------------------------------------------ Edit modal --------------------------------------------------------- -->
+      <div
+        @click.self="cenecleEdit"
+        :class="
+          edit.modal
+            ? 'fixed overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+            : 'hidden'
+        "
+      >
+        <transition name="modal-fade">
+          <div class="relative p-4 w-full max-w-3xl h-auto">
+            <!-- Modal content -->
+            <div
+              class="relative p-4 rounded-lg shadow sm:p-5"
+              :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+            >
+              <!-- Modal header -->
+              <div
+                class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+              >
+                <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
+                  To'lov qilish
+                </h3>
+                <button
+                  @click="cenecleEdit"
+                  type="button"
+                  class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  :class="{ 'text-white': navbar.userNav }"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                  <span class="sr-only">Close modal</span>
+                </button>
+              </div>
+
+              <div
+                class="hidden sm:block max-w-xs mx-auto bg-white shadow-lg rounded-lg p-3 mb-5"
+                id="receipt"
+              >
+                <div class="mb-5 mt-3 flex items-center justify-center gap-1.5">
+                  <img
+                    class="w-10 rounded-full"
+                    :src="store.logo_link + store.school_logo"
+                    alt=""
+                  />
+                  <h2 class="text-xl font-bold uppercase">
+                    {{ store.school_name }}
+                  </h2>
+                </div>
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">To'lov turi:</span>
+                  <span id="paymentType">{{ form.method }}</span>
+                </div>
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">Talaba:</span>
+                  <span id="studentName">{{ store.student_name }}</span>
+                </div>
+                <div
+                  class="item flex justify-between gap-10 border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">Guruh nomi:</span>
+                  <span id="group" class="text-end">{{ store.group_name }}</span>
+                </div>
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">Kurs narxi:</span>
+                  <span id="coursePrice">{{ store.price }} so'm</span>
+                </div>
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">Ustoz:</span>
+                  <span id="teacher">{{ store.teacher_name }}</span>
+                </div>
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">Oy:</span>
+                  <span id="date" class="font-bold text-xs">{{
+                    monthNames(form.month)
+                  }}</span>
+                </div>
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">To'lov:</span>
+                  <span id="amount" class="font-bold text-xs">{{ form.price }} so'm</span>
+                </div>
+                <div
+                  class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
+                >
+                  <span class="font-semibold">Sana:</span>
+                  <span id="date">{{ store.chekDate }}</span>
+                </div>
+                <div
+                  class="item flex justify-center border-b border-dashed border-black py-1 text-sm text-center"
+                >
+                  <span
+                    >IT ni it deb o'qima, <br />
+                    Ingliz tili va AyTi ni
+                    <span class="font-bold uppercase">{{ store.school_name }}</span>
+                    da o'rgan!
+                  </span>
+                </div>
+                <div class="flex items-center justify-end gap-0.5 text-[4px] mt-5">
+                  <span class="flex flex-col items-end"
+                    >Devosoft Group<span class="text-[2.5px]">+998330237376</span></span
+                  >
+                </div>
+              </div>
+
+              <!-- Modal body -->
+              <form @submit.prevent="editProduct" :class="{ darkForm: navbar.userNav }">
+                <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
+                  <div>
+                    <label for="year" class="block mb-2 text-sm">Yilni tanlang</label>
+                    <select
+                      v-model="form.year"
+                      id="name"
+                      class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required
+                    >
+                      <option value="" disabled selected>Yilni tanlang</option>
+                      <option v-for="i in store.curentYil" :key="i.id" :value="i.name">
+                        {{ i.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="month" class="block mb-2 text-sm">Oyni tanlang</label>
+                    <select
+                      v-model="form.month"
+                      id="month"
+                      class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required
+                    >
+                      <option value="" disabled selected>Oyni tanlang</option>
+                      <option value="01">Yanvar</option>
+                      <option value="02">Fevral</option>
+                      <option value="03">Mart</option>
+                      <option value="04">Aprel</option>
+                      <option value="05">May</option>
+                      <option value="06">Iyun</option>
+                      <option value="07">Iyul</option>
+                      <option value="08">Avgust</option>
+                      <option value="09">Sentabr</option>
+                      <option value="10">Oktabr</option>
+                      <option value="11">Noyabr</option>
+                      <option value="12">Dekabr</option>
+                    </select>
+                  </div>
+                  <div class="">
+                    <label for="price" class="block mb-2 text-sm">Price</label>
+                    <input
+                      v-model="form.price"
+                      type="number"
+                      name="price"
+                      id="price"
+                      class="bg-gray-50 border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full py-3 p-2.5"
+                      placeholder="To'lov sumani kiriting"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      for="name"
+                      class="block mb-2 text-sm"
+                      :class="navbar.userNav ? 'text-white' : 'text-black'"
+                      >To'lov turi tanlang</label
+                    >
+                    <select
+                      v-model="form.method"
+                      id="name"
+                      class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
+                      required
+                    >
+                      <option value="" disabled selected>To'lov turini tanlang</option>
+                      <option v-for="i in store.method" :key="i.id" :value="i.name">
+                        {{ i.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
+                  <button
+                    @click="cenecleEdit"
+                    type="button"
+                    class="border inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Bekor qilish
+                  </button>
+                  <button
+                    type="submit"
+                    class="btnAdd text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    O'zgartirish
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </transition>
+      </div>
+      <!-- ------------------------------------------ edit modal end ----------------------------------------------------- -->
+
+      <!-- ------------------------------------------ Add modal -------------------------------------------------------- -->
       <div
         v-show="modal"
         @click.self="toggleModal"
@@ -29,10 +327,7 @@
               <div
                 class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
               >
-                <h3
-                  class="text-lg"
-                  :class="navbar.userNav ? 'text-white' : 'text-black'"
-                >
+                <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
                   To'lov qilish
                 </h3>
                 <button
@@ -88,9 +383,7 @@
                   class="item flex justify-between gap-10 border-b border-dashed border-black py-1 text-sm"
                 >
                   <span class="font-semibold">Guruh nomi:</span>
-                  <span id="group" class="text-end">{{
-                    store.group_name
-                  }}</span>
+                  <span id="group" class="text-end">{{ store.group_name }}</span>
                 </div>
                 <div
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
@@ -116,9 +409,7 @@
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
                 >
                   <span class="font-semibold">To'lov:</span>
-                  <span id="amount" class="font-bold text-xs"
-                    >{{ form.price }} so'm</span
-                  >
+                  <span id="amount" class="font-bold text-xs">{{ form.price }} so'm</span>
                 </div>
                 <div
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
@@ -132,33 +423,22 @@
                   <span
                     >IT ni it deb o'qima, <br />
                     Ingliz tili va AyTi ni
-                    <span class="font-bold uppercase">{{
-                      store.school_name
-                    }}</span>
+                    <span class="font-bold uppercase">{{ store.school_name }}</span>
                     da o'rgan!
                   </span>
                 </div>
-                <div
-                  class="flex items-center justify-end gap-0.5 text-[4px] mt-5"
-                >
+                <div class="flex items-center justify-end gap-0.5 text-[4px] mt-5">
                   <span class="flex flex-col items-end"
-                    >Devosoft Group<span class="text-[2.5px]"
-                      >+998330237376</span
-                    ></span
+                    >Devosoft Group<span class="text-[2.5px]">+998330237376</span></span
                   >
                 </div>
               </div>
 
               <!-- Modal body -->
-              <form
-                @submit.prevent="addPayment"
-                :class="{ darkForm: navbar.userNav }"
-              >
+              <form @submit.prevent="addPayment" :class="{ darkForm: navbar.userNav }">
                 <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
                   <div>
-                    <label for="year" class="block mb-2 text-sm"
-                      >Yilni tanlang</label
-                    >
+                    <label for="year" class="block mb-2 text-sm">Yilni tanlang</label>
                     <select
                       v-model="form.year"
                       id="name"
@@ -166,19 +446,13 @@
                       required
                     >
                       <option value="" disabled selected>Yilni tanlang</option>
-                      <option
-                        v-for="i in store.curentYil"
-                        :key="i.id"
-                        :value="i.name"
-                      >
+                      <option v-for="i in store.curentYil" :key="i.id" :value="i.name">
                         {{ i.name }}
                       </option>
                     </select>
                   </div>
                   <div>
-                    <label for="month" class="block mb-2 text-sm"
-                      >Oyni tanlang</label
-                    >
+                    <label for="month" class="block mb-2 text-sm">Oyni tanlang</label>
                     <select
                       v-model="form.month"
                       id="month"
@@ -225,22 +499,14 @@
                       class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required
                     >
-                      <option value="" disabled selected>
-                        To'lov turini tanlang
-                      </option>
-                      <option
-                        v-for="i in store.method"
-                        :key="i.id"
-                        :value="i.name"
-                      >
+                      <option value="" disabled selected>To'lov turini tanlang</option>
+                      <option v-for="i in store.method" :key="i.id" :value="i.name">
                         {{ i.name }}
                       </option>
                     </select>
                   </div>
                 </div>
-                <div
-                  class="w-full flex items-center justify-between border-t pt-5 mt-5"
-                >
+                <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
                   <button
                     @click="toggleModal"
                     type="button"
@@ -260,26 +526,66 @@
           </div>
         </transition>
       </div>
+      <!-- ------------------------------------------- add modal end ----------------------------------------------------- -->
 
       <div v-show="store.PageProduct" class="w-full max-w-screen">
         <!-- Start coding here -->
 
         <!------------------------------------------- Search ------------------------------------------->
+
         <div
           class="shadow rounded-xl flex flex-col lg:flex-row items-center justify-between lg:space-x-4 p-4 gap-3 mb-4"
           :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
         >
-          <h1 class="text-blue-700 font-bold text-lg w-full">To'lov</h1>
-          <div class="w-full flex items-center lg:pb-0 pb-2 gap-5 justify-end">
+          <h1 class="text-blue-700 font-bold text-lg w-auto">To'lov</h1>
+          <div class="w-full flex items-center lg:pb-0 pb-2 gap-5">
             <form
               @submit.prevent="getOneProduct(form.group_id)"
               :class="{ darkForm: navbar.userNav }"
-              class="lg:w-10/12 w-full flex items-center gap-5"
+              class="w-full flex sm:flex-row flex-col items-center justify-end gap-5"
             >
+              <select
+                v-model="form.year"
+                id="name"
+                class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[200px] w-full py-1.5 pl-3"
+                required
+              >
+                <option value="" disabled selected>Yilni tanlang</option>
+                <option v-for="i in store.curentYil" :key="i.id" :value="i.name">
+                  {{ i.name }}
+                </option>
+              </select>
+              <select
+                v-model="form.month"
+                id="month"
+                class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[200px] w-full py-1.5 pl-3"
+                required
+              >
+                <option value="" disabled selected>Oyni tanlang</option>
+                <option value="01">Yanvar</option>
+                <option value="02">Fevral</option>
+                <option value="03">Mart</option>
+                <option value="04">Aprel</option>
+                <option value="05">May</option>
+                <option value="06">Iyun</option>
+                <option value="07">Iyul</option>
+                <option value="08">Avgust</option>
+                <option value="09">Sentabr</option>
+                <option value="10">Oktabr</option>
+                <option value="11">Noyabr</option>
+                <option value="12">Dekabr</option>
+              </select>
+              <input
+                type="number"
+                class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[200px] w-full py-1.5 pl-3"
+                placeholder="Kuni kiriting.."
+                min="1"
+                max="31"
+              />
               <select
                 v-model="form.group_id"
                 id="name"
-                class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full py-1.5 pl-3"
+                class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[300px] w-full py-1.5 pl-3"
                 required
               >
                 <option value="" disabled selected>Guruhni tanlang</option>
@@ -289,7 +595,7 @@
               </select>
 
               <div
-                class="lg:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3"
+                class="lg:w-auto w-full flex flex-row md:space-y-0 items-center justify-between md:justify-end md:space-x-3"
               >
                 <button
                   id=""
@@ -298,13 +604,13 @@
                 >
                   <span class="">To'lov qilish</span>
                 </button>
-                <!-- <button
+                <button
                   id=""
                   type=""
                   class="btnAdd flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5"
                 >
                   <span class="">To'lov tarixi</span>
-                </button> -->
+                </button>
               </div>
             </form>
           </div>
@@ -332,9 +638,7 @@
                   v-for="i in store.allProducts"
                   :key="i.id"
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                 >
                   <th
                     scope="row"
@@ -345,12 +649,15 @@
                   <td class="text-center font-medium px-8 py-4">
                     <p
                       :class="{
-                        'bg-green-100 text-green-800':
-                          i.paymentStatus.includes('to\'langan'),
-                        'bg-red-100 text-red-800':
-                          i.paymentStatus.includes('to\'lanmagan'),
-                        'bg-yellow-100 text-yellow-800':
-                          i.paymentStatus.includes('0 so\'m'),
+                        'bg-green-100 text-green-800': i.paymentStatus.includes(
+                          'to\'langan'
+                        ),
+                        'bg-red-100 text-red-800': i.paymentStatus.includes(
+                          'to\'lanmagan'
+                        ),
+                        'bg-yellow-100 text-yellow-800': i.paymentStatus.includes(
+                          '0 so\'m'
+                        ),
                       }"
                       class="rounded-[5px] p-1"
                     >
@@ -358,10 +665,7 @@
                     </p>
                   </td>
 
-                  <td
-                    v-show="store.btn_lamp"
-                    class="text-center font-medium px-8 py-4"
-                  >
+                  <td v-show="store.btn_lamp" class="text-center font-medium px-8 py-4">
                     <button
                       v-show="store.btn_lamp"
                       @click="toggleModal(i.id, i.full_name)"
@@ -388,17 +692,14 @@
                 :class="navbar.userNav ? 'bg-gray-700' : 'bg-gray-50'"
               >
                 <tr>
-                  <th scope="col" class="text-center py-3">
-                    O'quvchi (F . I . O)
-                  </th>
-                  <th scope="col" class="text-center py-3">
-                    O'qituvchi (F . I . O)
-                  </th>
+                  <th scope="col" class="text-center py-3">O'quvchi (F . I . O)</th>
+                  <th scope="col" class="text-center py-3">O'qituvchi (F . I . O)</th>
                   <th scope="col" class="text-center py-3">Guruh</th>
                   <th scope="col" class="text-center py-3">Kurs narxi</th>
                   <th scope="col" class="text-center py-3">To'lov turi</th>
                   <th scope="col" class="text-center py-3">To'lov narxi</th>
                   <th scope="col" class="text-center py-3">Oy</th>
+                  <th scope="col" class="text-center py-3">Chek</th>
                   <th scope="col" class="text-center py-3"></th>
                 </tr>
               </thead>
@@ -407,9 +708,7 @@
                   v-for="i in store.PageProduct"
                   :key="i"
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                 >
                   <th
                     scope="row"
@@ -417,34 +716,38 @@
                   >
                     <span>{{ i.student_name }}</span>
                   </th>
-                  <td class="text-center font-medium px-8 py-4">
-                    <p class="whitespace-nowrap">
+                  <td class="text-center font-medium text-red-800 px-8 py-4">
+                    <p class="bg-red-100 rounded-[5px] p-1 whitespace-nowrap">
                       {{ i.teacher_name }}
                     </p>
                   </td>
 
-                  <td class="text-center font-medium px-8 py-4">
-                    <p class="whitespace-nowrap">
+                  <td class="text-center font-medium text-blue-800 px-8 py-4">
+                    <p class="bg-blue-100 rounded-[5px] p-1 whitespace-nowrap">
                       {{ i.group_name }}
                     </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-4">
-                    <p class="whitespace-nowrap">{{ i.group_price }} so'm</p>
+                  <td class="text-center font-medium text-red-800 px-8 py-4">
+                    <p class="bg-red-100 rounded-[5px] p-1 whitespace-nowrap">
+                      {{ i.group_price }} so'm
+                    </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-4">
-                    <p class="whitespace-nowrap">
+                  <td class="text-center font-medium text-blue-800 px-8 py-4">
+                    <p class="bg-blue-100 rounded-[5px] p-1 whitespace-nowrap">
                       {{ i.method }}
                     </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-4">
-                    <p class="whitespace-nowrap">{{ i.price }} so'm</p>
+                  <td class="text-center font-medium text-green-700 px-8 py-4">
+                    <p class="bg-green-100 rounded-[5px] p-1 whitespace-nowrap">
+                      {{ i.price }} so'm
+                    </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-4">
-                    <p class="whitespace-nowrap">
+                  <td class="text-center font-medium text-blue-800 px-8 py-4">
+                    <p class="bg-blue-100 rounded-[5px] p-1 whitespace-nowrap">
                       {{ monthNames(i.month) }}
                     </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-4">
+                  <td class="text-center font-medium px-8 py-4 whitespace-nowrap">
                     <button
                       @click="printChek(i.id)"
                       class="btnAdd rounded-lg py-2.5 px-5 text-white"
@@ -452,15 +755,24 @@
                       Chek chiqarish
                     </button>
                   </td>
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
+                    <i
+                      @click="getEditProduct(i.id)"
+                      class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
+                    >
+                    </i>
+                    <i
+                      @click="deleteFunc(i.id)"
+                      class="bx bxs-trash bg-red-300 cursor-pointer text-red-600 rounded-lg p-2 focus:ring-2"
+                    >
+                    </i>
+                  </td>
                 </tr>
               </tbody>
             </table>
 
             <div
-              v-show="
-                (store.PageProduct && store.error) ||
-                store.PageProduct.length == 0
-              "
+              v-show="(store.PageProduct && store.error) || store.PageProduct.length == 0"
               class="w-full max-w-screen text-center p-20 text-2xl font-medium"
             >
               <h1>To'lov ro'yhati bo'sh</h1>
@@ -502,8 +814,7 @@
             <ul class="inline-flex items-stretch -space-x-px">
               <li
                 :class="{
-                  'pointer-events-none opacity-50':
-                    store.page[0] * 15 >= store.page[1],
+                  'pointer-events-none opacity-50': store.page[0] * 15 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;
@@ -576,6 +887,11 @@ const toggleModal = (id, name) => {
   formatDateToNumeric(new Date());
 };
 
+const cenecleEdit = () => {
+  edit.modal = false;
+  cancelFunc();
+};
+
 function cancelFunc() {
   form.year = "";
   form.month = "";
@@ -594,6 +910,21 @@ const form = reactive({
   price: store.price,
   id: "",
   group_id: "",
+});
+
+const edit = reactive({
+  modal: false,
+  id: false,
+});
+
+function deleteFunc(id) {
+  remove.id = id;
+  remove.toggle = true;
+}
+
+const remove = reactive({
+  id: "",
+  toggle: false,
 });
 
 const monthNames = (month) => {
@@ -670,10 +1001,7 @@ const calculatePaymentStatus = (
   let totalDue = 0;
 
   for (let i = 0; i < monthsDiff; i++) {
-    const monthDate = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth() + i
-    );
+    const monthDate = new Date(startDate.getFullYear(), startDate.getMonth() + i);
 
     const key = `${monthDate.getFullYear()}-${monthDate.getMonth() + 1}`;
 
@@ -690,7 +1018,7 @@ const calculatePaymentStatus = (
 
   const expectedPayment = averagePayment * monthsPaid;
   const amountDue = totalDue - totalPaid;
-  
+
   if (amountDue < 0) {
     return `(${Math.abs(amountDue)}) so'm ortiqcha to'langan`;
   } else if (amountDue === 0) {
@@ -753,8 +1081,8 @@ const getOneProduct = async (id) => {
     store.allProducts = await Promise.all(studentPromises);
   } catch (error) {
     notification.warning(
-        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
-      );
+      "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+    );
   }
 };
 
@@ -769,7 +1097,7 @@ const getGroup = () => {
       store.group = res.data;
     })
     .catch((error) => {
-      store.group = [{name: "Guruh yaratilmagan"}]
+      store.group = [{ name: "Guruh yaratilmagan" }];
     });
 };
 
@@ -822,8 +1150,8 @@ const addPayment = () => {
       })
       .catch((error) => {
         notification.warning(
-        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
-      );
+          "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+        );
       });
   }
 };
@@ -839,20 +1167,17 @@ const getMethod = () => {
       store.method = res.data;
     })
     .catch((error) => {
-      store.method = [{name: "To'lov turi yaratilmagan"}]
+      store.method = [{ name: "To'lov turi yaratilmagan" }];
     });
 };
 
 const getProduct = (page) => {
   axios
-    .get(
-      `/payment/day/${localStorage.getItem("school_id")}/page?page=${page}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    )
+    .get(`/payment/day/${localStorage.getItem("school_id")}/page?page=${page}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
     .then((res) => {
       store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
       const pagination = res.data?.data?.pagination;
@@ -863,6 +1188,95 @@ const getProduct = (page) => {
     .catch((error) => {
       store.PageProduct = error.response.data.message;
       store.error = true;
+    });
+};
+
+const getEditProduct = (id) => {
+  axios
+    .get(`/payment/${localStorage.getItem("school_id")}/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      edit.id = id;
+      form.year = res.data.year;
+      form.month = res.data.month;
+      form.price = res.data.price;
+      form.method = res.data.method;
+      form.id = res.data.student.id;
+      form.group_id = res.data.group.id;
+      formatDateToNumeric(new Date(res.data.createdAt));
+      store.school_logo = res.data.school.image;
+      store.school_name = res.data.school.name;
+      store.student_name = res.data.student.full_name;
+      store.group_name = res.data.group.name;
+      store.price = res.data.group.price;
+      const teacher = store.PageProduct.find((teacher) => teacher.id === id);
+      store.teacher_name = teacher.teacher_name;
+      edit.modal = true;
+    })
+    .catch((error) => {
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
+    });
+};
+
+const editProduct = () => {
+  const data = {
+    school_id: Number(localStorage.getItem("school_id")),
+    student_id: form.id,
+    group_id: Number(form.group_id),
+    year: form.year,
+    month: form.month,
+    method: form.method,
+    discount: 0,
+    price: form.price,
+  };
+
+  const check = checkPayment(form.year, form.month, store.date);
+
+  if (!check) {
+    notification.warning("To'lov qilmoqchi bo'lgan sanada guruh boshlanmagan");
+  } else {
+    axios
+      .put(`/payment/${localStorage.getItem("school_id")}/${edit.id}`, data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        printReceipt();
+        cancelFunc();
+        cenecleEdit();
+        notification.success("To'lov tahrirlandi!");
+        getProduct(store.pagination);
+      })
+      .catch((error) => {
+        notification.warning(
+          "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+        );
+      });
+  }
+};
+
+const deleteProduct = () => {
+  axios
+    .delete(`/payment/${localStorage.getItem("school_id")}/${remove.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      notification.success("To'lov o'chirildi");
+      getProduct(store.pagination);
+      remove.toggle = false;
+    })
+    .catch((error) => {
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -895,15 +1309,11 @@ const printReceipt = () => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">To'lov turi:</span>
-            <span style="font-size: 12px;" id="paymentType">${
-              form.method
-            }</span>
+            <span style="font-size: 12px;" id="paymentType">${form.method}</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Talaba:</span>
-            <span style="font-size: 12px;" id="studentName">${
-              store.student_name
-            }</span>
+            <span style="font-size: 12px;" id="studentName">${store.student_name}</span>
           </div>
           <div class="item flex justify-between gap-10 border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Guruh nomi:</span>
@@ -913,15 +1323,11 @@ const printReceipt = () => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Kurs narxi:</span>
-            <span style="font-size: 12px;" id="coursePrice">${
-              store.price
-            } so'm</span>
+            <span style="font-size: 12px;" id="coursePrice">${store.price} so'm</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Ustoz:</span>
-            <span style="font-size: 12px;" id="teacher">${
-              store.teacher_name
-            }</span>
+            <span style="font-size: 12px;" id="teacher">${store.teacher_name}</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Oy:</span>
@@ -984,8 +1390,7 @@ const printReceipt = () => {
 
 const printChek = (id) => {
   const product = store.PageProduct.find((product) => product.id === id);
-  const [date, time] = product.createdAt.split("T");
-  const formattedTime = time.substring(0, 5);
+  formatDateToNumeric(new Date(product.createdAt));
   axios
     .get(`/school/${localStorage.getItem("school_id")}`, {
       headers: {
@@ -1011,15 +1416,11 @@ const printChek = (id) => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">To'lov turi:</span>
-            <span style="font-size: 12px;" id="paymentType">${
-              product.method
-            }</span>
+            <span style="font-size: 12px;" id="paymentType">${product.method}</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Talaba:</span>
-            <span style="font-size: 12px;" id="studentName">${
-              product.student_name
-            }</span>
+            <span style="font-size: 12px;" id="studentName">${product.student_name}</span>
           </div>
           <div class="item flex justify-between gap-10 border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Guruh nomi:</span>
@@ -1035,9 +1436,7 @@ const printChek = (id) => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Ustoz:</span>
-            <span style="font-size: 12px;" id="teacher">${
-              product.teacher_name
-            }</span>
+            <span style="font-size: 12px;" id="teacher">${product.teacher_name}</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Oy:</span>
@@ -1053,7 +1452,7 @@ const printChek = (id) => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Sana:</span>
-            <span style="font-size: 12px;" id="date">${date}, ${formattedTime}</span>
+            <span style="font-size: 12px;" id="date">${store.chekDate}</span>
           </div>
           <div class="item flex justify-center text-center border-b border-dashed border-black py-2">
             <span style="font-size: 12px;">IT ni it deb o'qima, <br> Ingliz tili va AyTi ni <span class="font-bold uppercase">${

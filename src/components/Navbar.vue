@@ -14,24 +14,33 @@
         <router-link to="/" class="flex items-center ml-2">
           <img
             :src="store.image ? store.link + store.image : '../favicon.ico'"
-            class="h-8 w-12 sm:h-12 mr-2 rounded-full"
+            class="h-10 w-12 sm:h-12 mr-2 rounded-full"
             alt="Logo"
           />
-          <span class="hidden font-semibold  sm:block text-2xl whitespace-nowrap uppercase">
+          <span
+            class="hidden font-semibold sm:block text-2xl whitespace-nowrap uppercase"
+          >
             {{ store.data ? store.data : "Devosoft" }}
           </span>
         </router-link>
       </div>
       <div class="flex items-center">
         <div class="flex items-center mr-5">
-          <div class="relative flex items-center cursor-pointer" @click="navbar.setMode()">
+          <div
+            class="relative flex items-center cursor-pointer"
+            @click="navbar.setMode()"
+          >
             <b
               class="flex items-center justify-between w-[3rem] sm:w-[4.5rem] h-6 sm:h-9 border-2 rounded-full"
             >
               <span
                 ><i class="bx bxs-moon ml-1 text-yellow-300 rounded-full sm:text-2xl"></i
               ></span>
-              <span><i class="bx bxs-sun mr-1 text-yellow-300 rounded-full mt-1 sm:mt-0 sm:text-2xl"></i></span>
+              <span
+                ><i
+                  class="bx bxs-sun mr-1 text-yellow-300 rounded-full mt-1 sm:mt-0 sm:text-2xl"
+                ></i
+              ></span>
             </b>
             <p
               class="absolute top-[1px] left-0 w-[1.4rem] h-[1.4rem] sm:w-9 sm:h-[2.1rem] -z-10 rounded-full duration-1000"

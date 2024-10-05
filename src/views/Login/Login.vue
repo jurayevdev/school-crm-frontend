@@ -1,16 +1,10 @@
 <template>
   <div
-    class="bg-[#1e293b] flex justify-center items-center min-h-screen bg-cover bg-center"
+    class="bg-[#1e293b] flex justify-center items-center min-h-screen bg-cover bg-center px-5"
   >
     <div class="w-[400px] md:w-[500px] p-10 bg-white rounded-xl bg-opacity-60">
-      <img
-        class="w-24 sm:w-[120px] mx-auto"
-        src="../../assets/img/devo.png"
-        alt="Logo"
-      />
-      <h1 class="text-2xl sm:text-[28px] font-bold text-center py-5">
-        Tizimga kirish
-      </h1>
+      <img class="w-24 sm:w-[120px] mx-auto" src="../../assets/img/devo.png" alt="Logo" />
+      <h1 class="text-2xl sm:text-[28px] font-bold text-center py-5">Tizimga kirish</h1>
       <form @submit.prevent="handleSubmit">
         <div class="mb-4">
           <label for="login" class="block mb-2 font-semibold">Login</label>
