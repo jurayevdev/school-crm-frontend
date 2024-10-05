@@ -135,7 +135,7 @@
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
-                <option value="" disabled selected>Lavozim tanlang</option>
+                  <option value="" disabled selected>Lavozim tanlang</option>
                   <option v-show="store.owner" value="administrator">
                     administrator
                   </option>
@@ -238,18 +238,18 @@
             <div class="grid font-medium gap-4 mb-4 grid-cols-1">
               <div>
                 <label
-                  for="name"
+                  for="subject_name"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Fanni tanlang</label
                 >
                 <select
                   v-model="edit.name"
-                  id="name"
+                  id="subject_name"
                   class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
-                <option value="" disabled selected>Fan tanlang</option>
+                  <option value="" disabled selected>Fan tanlang</option>
                   <option
                     v-for="i in store.subject"
                     :key="i.id"
@@ -354,18 +354,18 @@
             <div class="grid font-medium gap-4 mb-4 grid-cols-1">
               <div>
                 <label
-                  for="name"
+                  for="group_name"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Guruhni tanlang</label
                 >
                 <select
                   v-model="edit.name"
-                  id="name"
+                  id="group_name"
                   class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   required
                 >
-                <option value="" disabled selected>Guruh tanlang</option>
+                  <option value="" disabled selected>Guruh tanlang</option>
                   <option v-for="i in store.group" :key="i.id" :value="i.id">
                     {{ i.name }}
                   </option>
@@ -449,7 +449,7 @@
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
                 <label
-                  for="login"
+                  for="edit_login"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Login</label
@@ -458,7 +458,7 @@
                   v-model="edit.login"
                   type="text"
                   name="login"
-                  id="login"
+                  id="edit_login"
                   class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="login"
                   required
@@ -466,7 +466,7 @@
               </div>
               <div>
                 <label
-                  for="password"
+                  for="edit_password"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Parol</label
@@ -475,14 +475,14 @@
                   v-model="edit.password"
                   type="password"
                   name="password"
-                  id="password"
+                  id="edit_password"
                   class="bg-white placeholder-black border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="*********"
                 />
               </div>
               <div class="w-[205%]">
                 <label
-                  for="name"
+                  for="edit_name"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >To'liq ismi (I . F . O)</label
@@ -491,7 +491,7 @@
                   v-model="edit.full_name"
                   type="text"
                   name="name"
-                  id="name"
+                  id="edit_name"
                   class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="To'liq ismini kiriting"
                   required
@@ -500,7 +500,7 @@
               <div></div>
               <div>
                 <label
-                  for="phone"
+                  for="edit_phone"
                   class="block mb-2 text-sm"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Telefon raqami</label
@@ -509,7 +509,7 @@
                   v-model="edit.phone_number"
                   type="tel"
                   name="phone"
-                  id="phone"
+                  id="edit_phone"
                   class="bg-white border border-gray-300 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                   placeholder="Telefon raqamini kiriting"
                   required
@@ -517,18 +517,19 @@
               </div>
               <div>
                 <label
-                  for="category"
+                  for="edit_category"
                   class="block mb-2 text-sm font-medium"
                   :class="navbar.userNav ? 'text-white' : 'text-black'"
                   >Lavozimi</label
                 >
                 <select
                   v-model="edit.role"
-                  id="category"
+                  id="edit_category"
                   class="bg-white border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
                 >
-                <option value="" disabled selected>Lavozim tanlang</option>
+                  edit_
+                  <option value="" disabled selected>Lavozim tanlang</option>
                   <option v-show="store.owner" value="administrator">
                     administrator
                   </option>
@@ -938,7 +939,7 @@
               <h1>Ro'yhat bo'sh</h1>
             </div>
           </div>
-          
+
           <nav
             v-if="!store.searchList.length"
             class="flex flex-row justify-between items-center md:items-center space-y-3 md:space-y-0 p-4"
@@ -1120,6 +1121,7 @@ const remove = reactive({
 
 // ----------------------------------- axios --------------------------------
 
+
 const createProduct = () => {
   const data = {
     school_id: Number(localStorage.getItem("school_id")),
@@ -1147,9 +1149,9 @@ const createProduct = () => {
       form.phone_number = "";
     })
     .catch((error) => {
-      if (error.response.data.statusCode == 400) {
-        notification.warning("Xatolik! Nimadur noto'g'ri");
-      }
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1172,7 +1174,6 @@ const getAllProduct = () => {
       store.error = false;
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
       store.error = true;
       store.allProducts = error.response.data.message;
     });
@@ -1235,7 +1236,9 @@ const getOneProduct = (id, modal) => {
       }
     })
     .catch((error) => {
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1264,8 +1267,9 @@ const editProduct = () => {
       edit.toggle = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1283,9 +1287,8 @@ const addSubjects = async () => {
         },
       }
     );
-    console.log(info.data);
+    
     for (let i of info.data.subject) {
-      console.log(i.subject_name == data.subject_name);
       if (i.subject_name == data.subject_name) {
         notification.warning("Bu fan qo'shilgan");
         return true;
@@ -1307,8 +1310,9 @@ const addSubjects = async () => {
       store.subjectModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1361,8 +1365,9 @@ const addGroups = async () => {
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1379,8 +1384,9 @@ const removeSubjects = (id) => {
       store.subjectModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1397,8 +1403,9 @@ const removeGroups = (id) => {
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1413,7 +1420,7 @@ const getSubject = () => {
       store.subject = res.data || [{ name: "Fan yaratilmagan" }];
     })
     .catch((error) => {
-      console.log("error", error);
+      store.subject = [{ name: "Fan yaratilmagan" }];
     });
 };
 
@@ -1428,7 +1435,7 @@ const getGroup = () => {
       store.group = res.data || [{ name: "Guruh yaratilmagan" }];
     })
     .catch((error) => {
-      console.log("error", error);
+      store.group = [{ name: "Guruh yaratilmagan" }];
     });
 };
 
@@ -1450,8 +1457,9 @@ const deleteProduct = () => {
       info.getStaff();
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log(error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 

@@ -358,8 +358,12 @@
                     </p>
                   </td>
 
-                  <td class="text-center font-medium text-blue-800 px-8 py-4">
+                  <td
+                    v-show="store.btn_lamp"
+                    class="text-center font-medium px-8 py-4"
+                  >
                     <button
+                      v-show="store.btn_lamp"
                       @click="toggleModal(i.id, i.full_name)"
                       class="bg-green-600 rounded-lg py-2.5 px-5 text-white"
                     >
@@ -522,17 +526,13 @@
 
 <script setup>
 import { onMounted, ref, reactive } from "vue";
-import { useRouter } from "vue-router";
 import { useNavStore } from "../../stores/toggle";
 import { Placeholder2 } from "../../components";
 import { useNotificationStore } from "../../stores/notification";
 import axios from "@/services/axios";
-import { useInfoStore } from "../../stores/dashboard";
 
-const info = useInfoStore();
 const notification = useNotificationStore();
 const navbar = useNavStore();
-const router = useRouter();
 
 const modal = ref(false);
 const hozirgiSana = new Date();
@@ -562,6 +562,7 @@ const store = reactive({
   school_logo: "",
   logo_link: "https://dev.edu-devosoft.uz/",
   school_name: "",
+  btn_lamp: true,
 });
 
 const toggleModal = (id, name) => {
@@ -628,39 +629,46 @@ const monthNames = (month) => {
 
 // ----------------------------------- axios --------------------------------
 
-const calculatePaymentStatus = (paymentHistory, groupPrice, groupStartDate) => {
-  const startDate = new Date(groupStartDate);
+const calculatePaymentStatus = (
+  paymentHistory,
+  groupPrice,
+  groupStartDate,
+  studentGroup
+) => {
+  const startDate = new Date(studentGroup[0].createdAt);
+  const groupStart = new Date(groupStartDate);
   const currentDate = new Date();
 
-  // Guruh ochilgan sanadan hozirgi kunga qadar oylar sonini hisoblash
+  if (groupStart > currentDate) {
+    store.btn_lamp = false;
+    return "Guruh hali boshlanmagan";
+  }
+  store.btn_lamp = true;
+
   const monthsDiff =
     (currentDate.getFullYear() - startDate.getFullYear()) * 12 +
     currentDate.getMonth() -
     startDate.getMonth() +
-    1; // +1 agar to'liq hozirgi oyni hisobga olish kerak bo'lsa
+    1;
 
   if (!paymentHistory || paymentHistory.length === 0) {
     return `(${groupPrice * monthsDiff}) so'm to'lanmagan`;
   }
 
-  // To'lovlar ro'yxatini yaratish va to'lovlarni sanaga qarab guruhlash
   const paymentsByMonth = {};
   paymentHistory.forEach((payment) => {
-    const paymentDate = new Date(payment.year, payment.month - 1); // JavaScriptda oy 0-11 bo'ladi
+    const paymentDate = new Date(payment.year, payment.month - 1);
     const key = `${paymentDate.getFullYear()}-${paymentDate.getMonth() + 1}`;
 
     if (!paymentsByMonth[key]) {
       paymentsByMonth[key] = 0;
     }
     paymentsByMonth[key] += payment.price;
-    // console.log(paymentsByMonth);
   });
 
-  // To'lovlar amalga oshirilgan oylar va to'lanmagan oylar hisoblanadi
   let totalPaid = 0;
   let totalDue = 0;
 
-  // Guruh ochilganidan hozirgi kungacha oylik to'lovlar
   for (let i = 0; i < monthsDiff; i++) {
     const monthDate = new Date(
       startDate.getFullYear(),
@@ -669,24 +677,20 @@ const calculatePaymentStatus = (paymentHistory, groupPrice, groupStartDate) => {
 
     const key = `${monthDate.getFullYear()}-${monthDate.getMonth() + 1}`;
 
-    const monthDue = groupPrice;
-
+    const monthDue = Number(groupPrice);
     const monthPaid = paymentsByMonth[key] || 0;
 
     totalDue += monthDue;
     totalPaid += monthPaid;
   }
 
-  // To'lovlar sonini hisoblash
   const monthsPaid = Object.keys(paymentsByMonth).length;
 
-  // Har bir oylik to'lov miqdorini hisoblash
   const averagePayment = (groupPrice * monthsDiff) / monthsPaid;
 
-  // Qoldiq to'lov va qarzdorlikni hisoblash
   const expectedPayment = averagePayment * monthsPaid;
   const amountDue = totalDue - totalPaid;
-
+  
   if (amountDue < 0) {
     return `(${Math.abs(amountDue)}) so'm ortiqcha to'langan`;
   } else if (amountDue === 0) {
@@ -740,7 +744,8 @@ const getOneProduct = async (id) => {
       studentInfo.data.paymentStatus = calculatePaymentStatus(
         paymentsForGroup,
         groupPrice,
-        groupStartDate
+        groupStartDate,
+        studentInfo.data.group
       );
       return studentInfo.data;
     });
@@ -748,9 +753,8 @@ const getOneProduct = async (id) => {
     store.allProducts = await Promise.all(studentPromises);
   } catch (error) {
     notification.warning(
-      error.response?.data?.message || "Something went wrong"
-    );
-    console.log("error", error);
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
   }
 };
 
@@ -765,7 +769,7 @@ const getGroup = () => {
       store.group = res.data;
     })
     .catch((error) => {
-      console.log("error", error);
+      store.group = [{name: "Guruh yaratilmagan"}]
     });
 };
 
@@ -817,8 +821,9 @@ const addPayment = () => {
         getOneProduct(form.group_id);
       })
       .catch((error) => {
-        console.log("error", error);
-        notification.warning("Xatolik! To'lov qilinmadi");
+        notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
       });
   }
 };
@@ -834,7 +839,7 @@ const getMethod = () => {
       store.method = res.data;
     })
     .catch((error) => {
-      console.log("error", error);
+      store.method = [{name: "To'lov turi yaratilmagan"}]
     });
 };
 
@@ -1093,7 +1098,9 @@ const printChek = (id) => {
       };
     })
     .catch((error) => {
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1142,6 +1149,4 @@ onMounted(() => {
   opacity: 0;
   transform: translateY(50px);
 }
-
-// #056674
 </style>

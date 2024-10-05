@@ -203,39 +203,46 @@ const form = reactive({
 
 // ----------------------------------- axios --------------------------------
 
-const calculatePaymentStatus = (paymentHistory, groupPrice, groupStartDate) => {
-  const startDate = new Date(groupStartDate);
+const calculatePaymentStatus = (
+  paymentHistory,
+  groupPrice,
+  groupStartDate,
+  studentGroup
+) => {
+  const startDate = new Date(studentGroup[0].createdAt);
+  const groupStart = new Date(groupStartDate);
   const currentDate = new Date();
 
-  // Guruh ochilgan sanadan hozirgi kunga qadar oylar sonini hisoblash
+  if (groupStart > currentDate) {
+    store.btn_lamp = false;
+    return "Guruh hali boshlanmagan";
+  }
+  store.btn_lamp = true;
+
   const monthsDiff =
     (currentDate.getFullYear() - startDate.getFullYear()) * 12 +
     currentDate.getMonth() -
     startDate.getMonth() +
-    1; // +1 agar to'liq hozirgi oyni hisobga olish kerak bo'lsa
+    1;
 
   if (!paymentHistory || paymentHistory.length === 0) {
     return `(${groupPrice * monthsDiff}) so'm to'lanmagan`;
   }
 
-  // To'lovlar ro'yxatini yaratish va to'lovlarni sanaga qarab guruhlash
   const paymentsByMonth = {};
   paymentHistory.forEach((payment) => {
-    const paymentDate = new Date(payment.year, payment.month - 1); // JavaScriptda oy 0-11 bo'ladi
+    const paymentDate = new Date(payment.year, payment.month - 1);
     const key = `${paymentDate.getFullYear()}-${paymentDate.getMonth() + 1}`;
 
     if (!paymentsByMonth[key]) {
       paymentsByMonth[key] = 0;
     }
     paymentsByMonth[key] += payment.price;
-    // console.log(paymentsByMonth);
   });
 
-  // To'lovlar amalga oshirilgan oylar va to'lanmagan oylar hisoblanadi
   let totalPaid = 0;
   let totalDue = 0;
 
-  // Guruh ochilganidan hozirgi kungacha oylik to'lovlar
   for (let i = 0; i < monthsDiff; i++) {
     const monthDate = new Date(
       startDate.getFullYear(),
@@ -244,20 +251,17 @@ const calculatePaymentStatus = (paymentHistory, groupPrice, groupStartDate) => {
 
     const key = `${monthDate.getFullYear()}-${monthDate.getMonth() + 1}`;
 
-    const monthDue = groupPrice;
-
+    const monthDue = Number(groupPrice);
     const monthPaid = paymentsByMonth[key] || 0;
 
     totalDue += monthDue;
     totalPaid += monthPaid;
   }
-  // To'lovlar sonini hisoblash
+
   const monthsPaid = Object.keys(paymentsByMonth).length;
 
-  // Har bir oylik to'lov miqdorini hisoblash
   const averagePayment = (groupPrice * monthsDiff) / monthsPaid;
 
-  // Qoldiq to'lov va qarzdorlikni hisoblash
   const expectedPayment = averagePayment * monthsPaid;
   const amountDue = totalDue - totalPaid;
 
@@ -307,7 +311,8 @@ const getOneProduct = async (id) => {
       studentInfo.data.paymentStatus = calculatePaymentStatus(
         paymentsForGroup,
         groupPrice,
-        groupStartDate
+        groupStartDate,
+        studentInfo.data.group
       );
       return studentInfo.data;
     });
@@ -323,9 +328,8 @@ const getOneProduct = async (id) => {
     }
   } catch (error) {
     notification.warning(
-      error.response?.data?.message || "Something went wrong"
+      "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
     );
-    console.log("error", error);
   }
 };
 
@@ -341,7 +345,7 @@ const getGroup = () => {
       store.PageProduct = res.data;
     })
     .catch((error) => {
-      console.log("error", error);
+      store.group = [{ name: "Guruh yaratilmagan" }];
     });
 };
 
@@ -349,7 +353,6 @@ const addAttendance = () => {
   try {
     if (!store.status) {
       for (let i = 0; i < store.student.length; i++) {
-        console.log(store.student[i]);
         axios
           .post(`/attendance`, store.student[i], {
             headers: {
@@ -358,7 +361,9 @@ const addAttendance = () => {
           })
           .then((res) => {})
           .catch((error) => {
-            console.log("error", error);
+            notification.warning(
+              "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+            );
           });
       }
       notification.success("Davomat saqlandi");
@@ -376,17 +381,20 @@ const addAttendance = () => {
           )
           .then((res) => {})
           .catch((error) => {
-            console.log("error", error);
+            notification.warning(
+              "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+            );
           });
       }
       notification.success("Davomat saqlandi");
     }
     setTimeout(function () {
-     window.location.reload()
-  }, 1000);
+      window.location.reload();
+    }, 1000);
   } catch (error) {
-    console.log(error);
-    notification.success("Xatolik! Nimadur noto'g'ri");
+    notification.warning(
+      "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+    );
   }
 };
 
@@ -423,7 +431,7 @@ const listStudent = (allStudent, groupID) => {
 };
 
 onMounted(() => {
-  getGroup(); /*  */
+  getGroup();
 });
 </script>
 

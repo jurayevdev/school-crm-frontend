@@ -904,6 +904,7 @@ const remove = reactive({
 
 // ----------------------------------- axios --------------------------------
 
+
 const getAllProduct = () => {
   axios
     .get(`/student/${localStorage.getItem("school_id")}`, {
@@ -918,9 +919,8 @@ const getAllProduct = () => {
     .catch((error) => {
       store.allProducts = error.response.data.message;
       store.error = true;
-      console.log("error", error);
     });
-};
+}
 
 const getProduct = (page) => {
   axios
@@ -955,7 +955,6 @@ const getGroups = () => {
     })
     .catch((error) => {
       store.group = [{ name: "Guruh yaratilmagan" }];
-      console.log("error", error);
     });
 };
 
@@ -981,8 +980,9 @@ const getOneProduct = (id, modal) => {
       }
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur notog'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -995,9 +995,7 @@ const createProduct = () => {
     phone_number: form.phone_number,
     status: true,
     group: form.group || store.group[0],
-  };
-
-  console.log(data);
+  };;
   
   axios
     .post("/student", data, {
@@ -1012,8 +1010,9 @@ const createProduct = () => {
       cancelFunc();
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log(error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1039,8 +1038,9 @@ const editProduct = () => {
       edit.toggle = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1057,8 +1057,9 @@ const deleteProduct = () => {
       remove.toggle = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1068,7 +1069,6 @@ const addGroups = async () => {
     group_id: Number(edit.name),
     group_name: "",
   };
-  console.log(data);
 
   async function add() {
     const info = await axios.get(
@@ -1113,8 +1113,9 @@ const addGroups = async () => {
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1146,7 +1147,9 @@ const addGroupsModal = async (id) => {
       getProduct(store.pagination);
     })
     .catch((error) => {
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1163,8 +1166,9 @@ const removeGroups = (id) => {
       store.groupModal = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 

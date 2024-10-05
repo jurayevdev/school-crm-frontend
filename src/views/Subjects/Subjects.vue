@@ -504,9 +504,7 @@ import { useNavStore } from "../../stores/toggle";
 import { Placeholder2 } from "../../components";
 import { useNotificationStore } from "../../stores/notification";
 import axios from "@/services/axios";
-import { useInfoStore } from "../../stores/dashboard";
 
-const info = useInfoStore();
 const notification = useNotificationStore();
 const navbar = useNavStore();
 const router = useRouter();
@@ -579,6 +577,7 @@ const remove = reactive({
 });
 
 // ----------------------------------- axios --------------------------------
+
 const getAllProduct = () => {
   axios
     .get(`/subject/${localStorage.getItem("school_id")}`, {
@@ -593,7 +592,6 @@ const getAllProduct = () => {
     .catch((error) => {
       store.allProducts = error.response.data.message;
       store.error = true;
-      console.log(error);
     });
 };
 
@@ -631,7 +629,9 @@ const getOneProduct = (id) => {
       edit.toggle = true;
     })
     .catch((error) => {
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -651,12 +651,12 @@ const createProduct = () => {
       notification.success("Fan qo'shildi");
       getProduct(store.pagination);
       getAllProduct();
-      info.getSubjects();
       cancelFunc();
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -676,13 +676,13 @@ const editProduct = () => {
       notification.success("Fan tahrirlandi");
       getProduct(store.pagination);
       getAllProduct();
-      info.getSubjects();
       edit.title = "";
       edit.toggle = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -698,12 +698,12 @@ const deleteProduct = () => {
       notification.success("Fan o'chirildi");
       getProduct(store.pagination);
       getAllProduct();
-      info.getSubjects();
       remove.toggle = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 

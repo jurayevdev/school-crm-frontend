@@ -100,7 +100,9 @@ const handleSubmit = () => {
       }
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 </script>

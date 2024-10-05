@@ -804,9 +804,7 @@ import { useNavStore } from "../../stores/toggle";
 import { Placeholder2 } from "../../components";
 import { useNotificationStore } from "../../stores/notification";
 import axios from "@/services/axios";
-import { useInfoStore } from "../../stores/dashboard";
 
-const info = useInfoStore();
 const notification = useNotificationStore();
 const navbar = useNavStore();
 const router = useRouter();
@@ -967,7 +965,7 @@ const getOneProduct = (id) => {
       edit.toggle = true;
     })
     .catch((error) => {
-      console.log("error", error);
+      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
     });
 };
 
@@ -990,7 +988,6 @@ const createProduct = () => {
     })
     .then((res) => {
       notification.success("Guruh yaratildi");
-      info.getGroup();
       getProduct(store.pagination);
       const data = {
         group_id: res.data.group.id,
@@ -1004,8 +1001,7 @@ const createProduct = () => {
         })
         .then((res) => {})
         .catch((error) => {
-          notification.warning("Xatolik! Nimadur noto'g'ri");
-          console.log("error", error);
+          notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
         });
 
       const dataEmployee = {
@@ -1023,13 +1019,11 @@ const createProduct = () => {
           cancelFunc();
         })
         .catch((error) => {
-          notification.warning(error.response.data.message);
-          console.log("error", error);
+          notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
         });
     })
     .catch((error) => {
-      notification.warning(error.response.data.message);
-      console.log(error);
+      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
     });
 };
 
@@ -1055,8 +1049,7 @@ const editProduct = () => {
       cancelFunc1()
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log("error", error);
+      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
     });
 };
 
@@ -1069,13 +1062,11 @@ const deleteProduct = () => {
     })
     .then((res) => {
       notification.success("Guruh o'chirildi");
-      info.getGroup();
       getProduct(store.pagination);
       remove.toggle = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadur noto'g'ri");
-      console.log(error);
+      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
     });
 };
 
@@ -1090,7 +1081,7 @@ const getSubject = () => {
       store.subject = res.data || [{ name: "Fan yaratilmagan" }];
     })
     .catch((error) => {
-      console.log("error", error);
+      store.subject = error.response.data.message;
     });
 };
 
@@ -1107,7 +1098,7 @@ const getEmployee = () => {
       ) || [{ name: "O'qituvchi yaratilmagan" }];
     })
     .catch((error) => {
-      console.log("error", error);
+      store.employee = error.response.data.message;
     });
 };
 
