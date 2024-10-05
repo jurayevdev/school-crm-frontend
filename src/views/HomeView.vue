@@ -26,4 +26,19 @@ const sidebar = useSidebarStore();
 const navbar = useNavStore();
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track{
+    background: #e5e7eb;
+    box-shadow: inset 0 0 5px e5e7eb;
+}
+
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(to right, white -450%, #4141eb);
+    border-radius: 15px;
+
+}
+</style>
