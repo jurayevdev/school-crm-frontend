@@ -21,10 +21,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Yangi o'quvchi qo'shish
             </h3>
             <button
@@ -50,10 +47,7 @@
             </button>
           </div>
           <!-- Modal body -->
-          <form
-            @submit.prevent="createProduct"
-            :class="{ darkForm: navbar.userNav }"
-          >
+          <form @submit.prevent="createProduct" :class="{ darkForm: navbar.userNav }">
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
                 <label for="parents_fullname" class="block mb-2 text-sm"
@@ -96,9 +90,7 @@
                 />
               </div>
               <div>
-                <label for="phone" class="block mb-2 text-sm"
-                  >Telefon raqami</label
-                >
+                <label for="phone" class="block mb-2 text-sm">Telefon raqami</label>
                 <input
                   v-model="form.phone_number"
                   type="text"
@@ -129,9 +121,7 @@
                 </select>
               </div>
             </div>
-            <div
-              class="w-full flex items-center justify-between border-t pt-5 mt-5"
-            >
+            <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
               <button
                 @click="toggleModal"
                 type="button"
@@ -173,10 +163,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Guruh qo'shish va o'chirish
             </h3>
             <button
@@ -216,10 +203,7 @@
               ></i
             ></span>
           </div>
-          <form
-            @submit.prevent="addGroups"
-            :class="{ darkForm: navbar.userNav }"
-          >
+          <form @submit.prevent="addGroups" :class="{ darkForm: navbar.userNav }">
             <div class="grid font-medium gap-4 mb-4 grid-cols-1">
               <div>
                 <label
@@ -241,9 +225,7 @@
                 </select>
               </div>
             </div>
-            <div
-              class="w-full flex items-center justify-between border-t pt-5 mt-5"
-            >
+            <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
               <button
                 @click="store.groupModal = false"
                 type="button"
@@ -283,10 +265,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               O'quvchi ma'lumotlarini o'zgartirish
             </h3>
             <button
@@ -312,10 +291,7 @@
             </button>
           </div>
           <!-- Modal body -->
-          <form
-            @submit.prevent="editProduct"
-            :class="{ darkForm: navbar.userNav }"
-          >
+          <form @submit.prevent="editProduct" :class="{ darkForm: navbar.userNav }">
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
                 <label for="parents_fullname" class="block mb-2 text-sm"
@@ -358,9 +334,7 @@
                 />
               </div>
               <div>
-                <label for="phone" class="block mb-2 text-sm"
-                  >Telefon raqami</label
-                >
+                <label for="phone" class="block mb-2 text-sm">Telefon raqami</label>
                 <input
                   v-model="edit.phone_number"
                   type="text"
@@ -372,9 +346,7 @@
                 />
               </div>
             </div>
-            <div
-              class="w-full flex items-center justify-between border-t pt-5 mt-5"
-            >
+            <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
               <button
                 @click="edit.toggle = false"
                 type="button"
@@ -413,10 +385,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               O'quvchini o'chirib tashlash
             </h3>
             <button
@@ -452,9 +421,7 @@
                   Siz o'quvchini o'chirishni xohlaysizmi?
                 </h1>
               </div>
-              <div
-                class="w-full flex items-center justify-between border-t pt-5 mt-5"
-              >
+              <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
                 <button
                   @click="remove.toggle = false"
                   type="button"
@@ -579,9 +546,7 @@
               >
                 <tr>
                   <th scope="col" class="text-center py-3">F . I . O</th>
-                  <th scope="col" class="text-center py-3 whitespace-nowrap">
-                    Guruhi
-                  </th>
+                  <th scope="col" class="text-center py-3 whitespace-nowrap">Guruhi</th>
                   <th scope="col" class="text-center py-3">Telefon Raqami</th>
                   <th scope="col" class="text-center py-3">Holati</th>
                   <!-- <th scope="col" class="text-center py-3">To'liq</th> -->
@@ -591,9 +556,7 @@
               <tbody v-show="!store.error">
                 <tr
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                   v-show="!store.searchList.length"
                   v-for="i in store.PageProduct"
                   :key="i"
@@ -649,9 +612,7 @@
                       Kirish
                     </button>
                   </td> -->
-                  <td
-                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
-                  >
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
                     <i
                       @click="getOneProduct(i.id, 'edit')"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -666,9 +627,7 @@
                 </tr>
                 <tr
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                   v-show="store.searchList.length"
                   v-for="i in store.searchList"
                   :key="i"
@@ -724,9 +683,7 @@
                       Kirish
                     </button>
                   </td> -->
-                  <td
-                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
-                  >
+                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
                     <i
                       @click="getOneProduct(i.id, 'edit')"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -783,8 +740,7 @@
             <ul class="inline-flex items-stretch -space-x-px">
               <li
                 :class="{
-                  'pointer-events-none opacity-50':
-                    store.page[0] * 15 >= store.page[1],
+                  'pointer-events-none opacity-50': store.page[0] * 15 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;
@@ -904,10 +860,9 @@ const remove = reactive({
 
 // ----------------------------------- axios --------------------------------
 
-
 const getAllProduct = () => {
   axios
-    .get(`/student/${localStorage.getItem("school_id")}`, {
+    .get(`/student/${localStorage.getItem("school_id")}/find`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -920,7 +875,7 @@ const getAllProduct = () => {
       store.allProducts = error.response.data.message;
       store.error = true;
     });
-}
+};
 
 const getProduct = (page) => {
   axios
@@ -935,7 +890,6 @@ const getProduct = (page) => {
       store.page = [];
       store.page.push(pagination.currentPage, pagination.total_count);
       store.error = false;
-      
     })
     .catch((error) => {
       store.PageProduct = error.response.data.message;
@@ -945,7 +899,7 @@ const getProduct = (page) => {
 
 const getGroups = () => {
   axios
-    .get(`/group/${localStorage.getItem("school_id")}`, {
+    .get(`/group/${localStorage.getItem("school_id")}/find`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -995,8 +949,8 @@ const createProduct = () => {
     phone_number: form.phone_number,
     status: true,
     group: form.group || store.group[0],
-  };;
-  
+  };
+
   axios
     .post("/student", data, {
       headers: {

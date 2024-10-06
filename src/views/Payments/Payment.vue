@@ -27,7 +27,10 @@
             <div
               class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
             >
-              <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
+              <h3
+                class="text-lg"
+                :class="navbar.userNav ? 'text-white' : 'text-black'"
+              >
                 To'lovni o'chirib tashlash
               </h3>
               <button
@@ -63,7 +66,9 @@
                     Siz to'lovni o'chirishni xohlaysizmi?
                   </h1>
                 </div>
-                <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
+                <div
+                  class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                >
                   <button
                     @click="remove.toggle = false"
                     type="button"
@@ -105,7 +110,10 @@
               <div
                 class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
               >
-                <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
+                <h3
+                  class="text-lg"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                >
                   To'lov qilish
                 </h3>
                 <button
@@ -161,7 +169,9 @@
                   class="item flex justify-between gap-10 border-b border-dashed border-black py-1 text-sm"
                 >
                   <span class="font-semibold">Guruh nomi:</span>
-                  <span id="group" class="text-end">{{ store.group_name }}</span>
+                  <span id="group" class="text-end">{{
+                    store.group_name
+                  }}</span>
                 </div>
                 <div
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
@@ -187,7 +197,9 @@
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
                 >
                   <span class="font-semibold">To'lov:</span>
-                  <span id="amount" class="font-bold text-xs">{{ form.price }} so'm</span>
+                  <span id="amount" class="font-bold text-xs"
+                    >{{ form.price }} so'm</span
+                  >
                 </div>
                 <div
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
@@ -201,22 +213,33 @@
                   <span
                     >IT ni it deb o'qima, <br />
                     Ingliz tili va AyTi ni
-                    <span class="font-bold uppercase">{{ store.school_name }}</span>
+                    <span class="font-bold uppercase">{{
+                      store.school_name
+                    }}</span>
                     da o'rgan!
                   </span>
                 </div>
-                <div class="flex items-center justify-end gap-0.5 text-[4px] mt-5">
+                <div
+                  class="flex items-center justify-end gap-0.5 text-[4px] mt-5"
+                >
                   <span class="flex flex-col items-end"
-                    >Devosoft Group<span class="text-[2.5px]">+998330237376</span></span
+                    >Devosoft Group<span class="text-[2.5px]"
+                      >+998330237376</span
+                    ></span
                   >
                 </div>
               </div>
 
               <!-- Modal body -->
-              <form @submit.prevent="editProduct" :class="{ darkForm: navbar.userNav }">
+              <form
+                @submit.prevent="editProduct"
+                :class="{ darkForm: navbar.userNav }"
+              >
                 <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
                   <div>
-                    <label for="year" class="block mb-2 text-sm">Yilni tanlang</label>
+                    <label for="year" class="block mb-2 text-sm"
+                      >Yilni tanlang</label
+                    >
                     <select
                       v-model="form.year"
                       id="name"
@@ -224,13 +247,19 @@
                       required
                     >
                       <option value="" disabled selected>Yilni tanlang</option>
-                      <option v-for="i in store.curentYil" :key="i.id" :value="i.name">
+                      <option
+                        v-for="i in store.curentYil"
+                        :key="i.id"
+                        :value="i.name"
+                      >
                         {{ i.name }}
                       </option>
                     </select>
                   </div>
                   <div>
-                    <label for="month" class="block mb-2 text-sm">Oyni tanlang</label>
+                    <label for="month" class="block mb-2 text-sm"
+                      >Oyni tanlang</label
+                    >
                     <select
                       v-model="form.month"
                       id="month"
@@ -277,14 +306,22 @@
                       class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required
                     >
-                      <option value="" disabled selected>To'lov turini tanlang</option>
-                      <option v-for="i in store.method" :key="i.id" :value="i.name">
+                      <option value="" disabled selected>
+                        To'lov turini tanlang
+                      </option>
+                      <option
+                        v-for="i in store.method"
+                        :key="i.id"
+                        :value="i.name"
+                      >
                         {{ i.name }}
                       </option>
                     </select>
                   </div>
                 </div>
-                <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
+                <div
+                  class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                >
                   <button
                     @click="cenecleEdit"
                     type="button"
@@ -327,7 +364,10 @@
               <div
                 class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
               >
-                <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
+                <h3
+                  class="text-lg"
+                  :class="navbar.userNav ? 'text-white' : 'text-black'"
+                >
                   To'lov qilish
                 </h3>
                 <button
@@ -383,7 +423,9 @@
                   class="item flex justify-between gap-10 border-b border-dashed border-black py-1 text-sm"
                 >
                   <span class="font-semibold">Guruh nomi:</span>
-                  <span id="group" class="text-end">{{ store.group_name }}</span>
+                  <span id="group" class="text-end">{{
+                    store.group_name
+                  }}</span>
                 </div>
                 <div
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
@@ -409,7 +451,9 @@
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
                 >
                   <span class="font-semibold">To'lov:</span>
-                  <span id="amount" class="font-bold text-xs">{{ form.price }} so'm</span>
+                  <span id="amount" class="font-bold text-xs"
+                    >{{ form.price }} so'm</span
+                  >
                 </div>
                 <div
                   class="item flex justify-between border-b border-dashed border-black py-1 text-sm"
@@ -423,22 +467,33 @@
                   <span
                     >IT ni it deb o'qima, <br />
                     Ingliz tili va AyTi ni
-                    <span class="font-bold uppercase">{{ store.school_name }}</span>
+                    <span class="font-bold uppercase">{{
+                      store.school_name
+                    }}</span>
                     da o'rgan!
                   </span>
                 </div>
-                <div class="flex items-center justify-end gap-0.5 text-[4px] mt-5">
+                <div
+                  class="flex items-center justify-end gap-0.5 text-[4px] mt-5"
+                >
                   <span class="flex flex-col items-end"
-                    >Devosoft Group<span class="text-[2.5px]">+998330237376</span></span
+                    >Devosoft Group<span class="text-[2.5px]"
+                      >+998330237376</span
+                    ></span
                   >
                 </div>
               </div>
 
               <!-- Modal body -->
-              <form @submit.prevent="addPayment" :class="{ darkForm: navbar.userNav }">
+              <form
+                @submit.prevent="addPayment"
+                :class="{ darkForm: navbar.userNav }"
+              >
                 <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
                   <div>
-                    <label for="year" class="block mb-2 text-sm">Yilni tanlang</label>
+                    <label for="year" class="block mb-2 text-sm"
+                      >Yilni tanlang</label
+                    >
                     <select
                       v-model="form.year"
                       id="name"
@@ -446,13 +501,19 @@
                       required
                     >
                       <option value="" disabled selected>Yilni tanlang</option>
-                      <option v-for="i in store.curentYil" :key="i.id" :value="i.name">
+                      <option
+                        v-for="i in store.curentYil"
+                        :key="i.id"
+                        :value="i.name"
+                      >
                         {{ i.name }}
                       </option>
                     </select>
                   </div>
                   <div>
-                    <label for="month" class="block mb-2 text-sm">Oyni tanlang</label>
+                    <label for="month" class="block mb-2 text-sm"
+                      >Oyni tanlang</label
+                    >
                     <select
                       v-model="form.month"
                       id="month"
@@ -499,14 +560,22 @@
                       class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
                       required
                     >
-                      <option value="" disabled selected>To'lov turini tanlang</option>
-                      <option v-for="i in store.method" :key="i.id" :value="i.name">
+                      <option value="" disabled selected>
+                        To'lov turini tanlang
+                      </option>
+                      <option
+                        v-for="i in store.method"
+                        :key="i.id"
+                        :value="i.name"
+                      >
                         {{ i.name }}
                       </option>
                     </select>
                   </div>
                 </div>
-                <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
+                <div
+                  class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                >
                   <button
                     @click="toggleModal"
                     type="button"
@@ -542,21 +611,25 @@
             <form
               @submit.prevent="getOneProduct(form.group_id)"
               :class="{ darkForm: navbar.userNav }"
-              class="w-full flex sm:flex-row flex-col items-center justify-end gap-5"
+              class="w-full flex lg:flex-row flex-col items-center justify-end gap-5"
             >
               <select
-                v-model="form.year"
+                v-model="history.year"
                 id="name"
                 class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[200px] w-full py-1.5 pl-3"
                 required
               >
                 <option value="" disabled selected>Yilni tanlang</option>
-                <option v-for="i in store.curentYil" :key="i.id" :value="i.name">
+                <option
+                  v-for="i in store.curentYil"
+                  :key="i.id"
+                  :value="i.name"
+                >
                   {{ i.name }}
                 </option>
               </select>
               <select
-                v-model="form.month"
+                v-model="history.month"
                 id="month"
                 class="bg-white border text-black border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[200px] w-full py-1.5 pl-3"
                 required
@@ -576,6 +649,7 @@
                 <option value="12">Dekabr</option>
               </select>
               <input
+                v-model="history.day"
                 type="number"
                 class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[200px] w-full py-1.5 pl-3"
                 placeholder="Kuni kiriting.."
@@ -586,7 +660,6 @@
                 v-model="form.group_id"
                 id="name"
                 class="bg-white border border-gray-300 rounded-lg focus:ring-blue-600 focus:border-blue-600 block lg:w-[300px] w-full py-1.5 pl-3"
-                required
               >
                 <option value="" disabled selected>Guruhni tanlang</option>
                 <option v-for="i in store.group" :key="i.id" :value="i.id">
@@ -605,8 +678,8 @@
                   <span class="">To'lov qilish</span>
                 </button>
                 <button
-                  id=""
-                  type=""
+                  @click="getHistory(store.pagination)"
+                  type="button"
                   class="btnAdd flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5"
                 >
                   <span class="">To'lov tarixi</span>
@@ -638,7 +711,9 @@
                   v-for="i in store.allProducts"
                   :key="i.id"
                   class="border-b"
-                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
+                  :class="
+                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                  "
                 >
                   <th
                     scope="row"
@@ -649,15 +724,12 @@
                   <td class="text-center font-medium px-8 py-4">
                     <p
                       :class="{
-                        'bg-green-100 text-green-800': i.paymentStatus.includes(
-                          'to\'langan'
-                        ),
-                        'bg-red-100 text-red-800': i.paymentStatus.includes(
-                          'to\'lanmagan'
-                        ),
-                        'bg-yellow-100 text-yellow-800': i.paymentStatus.includes(
-                          '0 so\'m'
-                        ),
+                        'bg-green-100 text-green-800':
+                          i.paymentStatus.includes('to\'langan'),
+                        'bg-red-100 text-red-800':
+                          i.paymentStatus.includes('to\'lanmagan'),
+                        'bg-yellow-100 text-yellow-800':
+                          i.paymentStatus.includes('0 so\'m'),
                       }"
                       class="rounded-[5px] p-1"
                     >
@@ -665,7 +737,10 @@
                     </p>
                   </td>
 
-                  <td v-show="store.btn_lamp" class="text-center font-medium px-8 py-4">
+                  <td
+                    v-show="store.btn_lamp"
+                    class="text-center font-medium px-8 py-4"
+                  >
                     <button
                       v-show="store.btn_lamp"
                       @click="toggleModal(i.id, i.full_name)"
@@ -692,8 +767,12 @@
                 :class="navbar.userNav ? 'bg-gray-700' : 'bg-gray-50'"
               >
                 <tr>
-                  <th scope="col" class="text-center py-3">O'quvchi (F . I . O)</th>
-                  <th scope="col" class="text-center py-3">O'qituvchi (F . I . O)</th>
+                  <th scope="col" class="text-center py-3">
+                    O'quvchi (F . I . O)
+                  </th>
+                  <th scope="col" class="text-center py-3">
+                    O'qituvchi (F . I . O)
+                  </th>
                   <th scope="col" class="text-center py-3">Guruh</th>
                   <th scope="col" class="text-center py-3">Kurs narxi</th>
                   <th scope="col" class="text-center py-3">To'lov turi</th>
@@ -708,7 +787,9 @@
                   v-for="i in store.PageProduct"
                   :key="i"
                   class="border-b"
-                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
+                  :class="
+                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                  "
                 >
                   <th
                     scope="row"
@@ -747,7 +828,9 @@
                       {{ monthNames(i.month) }}
                     </p>
                   </td>
-                  <td class="text-center font-medium px-8 py-4 whitespace-nowrap">
+                  <td
+                    class="text-center font-medium px-8 py-4 whitespace-nowrap"
+                  >
                     <button
                       @click="printChek(i.id)"
                       class="btnAdd rounded-lg py-2.5 px-5 text-white"
@@ -755,7 +838,9 @@
                       Chek chiqarish
                     </button>
                   </td>
-                  <td class="text-center whitespace-nowrap font-medium pr-5 py-4">
+                  <td
+                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
+                  >
                     <i
                       @click="getEditProduct(i.id)"
                       class="bx bxs-pencil bg-blue-300 text-blue-600 rounded-lg p-2 mr-3 cursor-pointer focus:ring-2"
@@ -772,7 +857,10 @@
             </table>
 
             <div
-              v-show="(store.PageProduct && store.error) || store.PageProduct.length == 0"
+              v-show="
+                (store.PageProduct && store.error) ||
+                store.PageProduct.length == 0
+              "
               class="w-full max-w-screen text-center p-20 text-2xl font-medium"
             >
               <h1>To'lov ro'yhati bo'sh</h1>
@@ -814,7 +902,8 @@
             <ul class="inline-flex items-stretch -space-x-px">
               <li
                 :class="{
-                  'pointer-events-none opacity-50': store.page[0] * 15 >= store.page[1],
+                  'pointer-events-none opacity-50':
+                    store.page[0] * 15 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;
@@ -851,6 +940,7 @@ const hozirgiYil = String(hozirgiSana.getFullYear());
 const orqaYil = hozirgiSana.getFullYear() - 2;
 let hozirgiOy = hozirgiSana.getMonth() + 1;
 hozirgiOy = hozirgiOy.toString().padStart(2, "0");
+let hozirgiKun = hozirgiSana.getDate();
 
 const store = reactive({
   PageProduct: "",
@@ -927,6 +1017,12 @@ const remove = reactive({
   toggle: false,
 });
 
+const history = reactive({
+  year: hozirgiYil,
+  month: hozirgiOy,
+  day: hozirgiKun,
+});
+
 const monthNames = (month) => {
   switch (month) {
     case "01":
@@ -1001,7 +1097,10 @@ const calculatePaymentStatus = (
   let totalDue = 0;
 
   for (let i = 0; i < monthsDiff; i++) {
-    const monthDate = new Date(startDate.getFullYear(), startDate.getMonth() + i);
+    const monthDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + i
+    );
 
     const key = `${monthDate.getFullYear()}-${monthDate.getMonth() + 1}`;
 
@@ -1088,7 +1187,7 @@ const getOneProduct = async (id) => {
 
 const getGroup = () => {
   axios
-    .get(`/group/${localStorage.getItem("school_id")}`, {
+    .get(`/group/${localStorage.getItem("school_id")}/find`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -1156,6 +1255,57 @@ const addPayment = () => {
   }
 };
 
+const getHistory = (page) => {
+  store.allProducts = false;
+  if (!form.group_id) {
+    axios
+      .get(
+        `/payment/${localStorage.getItem("school_id")}/${history.year}/${
+          history.month
+        }/${history.day}/page?page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
+        const pagination = res.data?.data?.pagination;
+        store.page = [];
+        store.page.push(pagination.currentPage, pagination.total_count);
+        store.error = false;
+      })
+      .catch((error) => {
+        store.PageProduct = error.response.data.message;
+        store.error = true;
+      });
+  } else {
+    axios
+      .get(
+        `/payment/${localStorage.getItem("school_id")}/${form.group_id}/${
+          history.year
+        }/${history.month}/${history.day}/page?page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
+        const pagination = res.data?.data?.pagination;
+        store.page = [];
+        store.page.push(pagination.currentPage, pagination.total_count);
+        store.error = false;
+      })
+      .catch((error) => {
+        store.PageProduct = error.response.data.message;
+        store.error = true;
+      });
+  }
+};
+
 const getMethod = () => {
   axios
     .get(`/payment-method/${localStorage.getItem("school_id")}`, {
@@ -1173,11 +1323,14 @@ const getMethod = () => {
 
 const getProduct = (page) => {
   axios
-    .get(`/payment/day/${localStorage.getItem("school_id")}/page?page=${page}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    .get(
+      `/payment/day/${localStorage.getItem("school_id")}/page?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    )
     .then((res) => {
       store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
       const pagination = res.data?.data?.pagination;
@@ -1309,11 +1462,15 @@ const printReceipt = () => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">To'lov turi:</span>
-            <span style="font-size: 12px;" id="paymentType">${form.method}</span>
+            <span style="font-size: 12px;" id="paymentType">${
+              form.method
+            }</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Talaba:</span>
-            <span style="font-size: 12px;" id="studentName">${store.student_name}</span>
+            <span style="font-size: 12px;" id="studentName">${
+              store.student_name
+            }</span>
           </div>
           <div class="item flex justify-between gap-10 border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Guruh nomi:</span>
@@ -1323,11 +1480,15 @@ const printReceipt = () => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Kurs narxi:</span>
-            <span style="font-size: 12px;" id="coursePrice">${store.price} so'm</span>
+            <span style="font-size: 12px;" id="coursePrice">${
+              store.price
+            } so'm</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Ustoz:</span>
-            <span style="font-size: 12px;" id="teacher">${store.teacher_name}</span>
+            <span style="font-size: 12px;" id="teacher">${
+              store.teacher_name
+            }</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Oy:</span>
@@ -1382,7 +1543,7 @@ const printReceipt = () => {
   printWindow.document.close();
   printWindow.focus();
   printWindow.print();
-
+  
   printWindow.onafterprint = () => {
     printWindow.close();
   };
@@ -1416,11 +1577,15 @@ const printChek = (id) => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">To'lov turi:</span>
-            <span style="font-size: 12px;" id="paymentType">${product.method}</span>
+            <span style="font-size: 12px;" id="paymentType">${
+              product.method
+            }</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Talaba:</span>
-            <span style="font-size: 12px;" id="studentName">${product.student_name}</span>
+            <span style="font-size: 12px;" id="studentName">${
+              product.student_name
+            }</span>
           </div>
           <div class="item flex justify-between gap-10 border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Guruh nomi:</span>
@@ -1436,7 +1601,9 @@ const printChek = (id) => {
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Ustoz:</span>
-            <span style="font-size: 12px;" id="teacher">${product.teacher_name}</span>
+            <span style="font-size: 12px;" id="teacher">${
+              product.teacher_name
+            }</span>
           </div>
           <div class="item flex justify-between border-b border-dashed border-black py-2">
             <span style="font-size: 12px;" class="font-semibold">Oy:</span>

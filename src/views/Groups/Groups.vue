@@ -20,10 +20,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Yangi guruh qo'shish
             </h3>
             <button
@@ -48,10 +45,7 @@
             </button>
           </div>
           <!-- Modal body -->
-          <form
-            @submit.prevent="createProduct"
-            :class="{ darkForm: navbar.userNav }"
-          >
+          <form @submit.prevent="createProduct" :class="{ darkForm: navbar.userNav }">
             <div class="grid sm:grid-cols-2 font-medium gap-4 mb-4">
               <div>
                 <label
@@ -153,12 +147,8 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                <option value="" disabled selected>Fan tanlang</option>
-                  <option
-                    v-for="i in store.subject"
-                    :key="i.id"
-                    :value="i.name"
-                  >
+                  <option value="" disabled selected>Fan tanlang</option>
+                  <option v-for="i in store.subject" :key="i.id" :value="i.name">
                     {{ i.name }}
                   </option>
                 </select>
@@ -176,15 +166,13 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                <option value="" disabled selected>O'qituvchi tanlang</option>
+                  <option value="" disabled selected>O'qituvchi tanlang</option>
                   <option v-for="i in store.employee" :key="i.id" :value="i.id">
                     {{ i.full_name }}
                   </option>
                 </select>
               </div>
-              <div
-                class="w-[206%] flex items-center justify-between border-t pt-5 mt-5"
-              >
+              <div class="w-[206%] flex items-center justify-between border-t pt-5 mt-5">
                 <button
                   @click="cancelFunc"
                   type="button"
@@ -225,10 +213,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Guruhni o'zgartirish
             </h3>
             <button
@@ -257,10 +242,7 @@
             </button>
           </div>
           <!-- Modal body -->
-          <form
-            @submit.prevent="editProduct"
-            :class="{ darkForm: navbar.userNav }"
-          >
+          <form @submit.prevent="editProduct" :class="{ darkForm: navbar.userNav }">
             <div class="grid font-medium gap-4 mb-4 sm:grid-cols-2">
               <div>
                 <label
@@ -362,12 +344,8 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                <option value="" disabled selected>Fan tanlang</option>
-                  <option
-                    v-for="i in store.subject"
-                    :key="i.id"
-                    :value="i.name"
-                  >
+                  <option value="" disabled selected>Fan tanlang</option>
+                  <option v-for="i in store.subject" :key="i.id" :value="i.name">
                     {{ i.name }}
                   </option>
                 </select>
@@ -385,15 +363,13 @@
                   class="bg-gray-50 border border-gray-300 text-md z-10 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
                   required
                 >
-                <option value="" disabled selected>O'qituvchi tanlang</option>
+                  <option value="" disabled selected>O'qituvchi tanlang</option>
                   <option v-for="i in store.employee" :key="i.id" :value="i.id">
                     {{ i.full_name }}
                   </option>
                 </select>
               </div>
-              <div
-                class="w-[206%] flex items-center justify-between border-t pt-5 mt-5"
-              >
+              <div class="w-[206%] flex items-center justify-between border-t pt-5 mt-5">
                 <button
                   @click="cancelFunc1"
                   type="button"
@@ -434,10 +410,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Guruhni o'chirib tashlash
             </h3>
             <button
@@ -473,9 +446,7 @@
                   Siz guruhni o'chirishni xohlaysizmi?
                 </h1>
               </div>
-              <div
-                class="w-full flex items-center justify-between border-t pt-5 mt-5"
-              >
+              <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
                 <button
                   @click="remove.toggle = false"
                   type="button"
@@ -602,9 +573,7 @@
                   <th scope="col" class="text-center py-3">Nomi</th>
                   <th scope="col" class="text-center py-3">Fani</th>
                   <th scope="col" class="text-center py-3">Narxi</th>
-                  <th scope="col" class="text-center py-3">
-                    Boshlanish sanasi
-                  </th>
+                  <th scope="col" class="text-center py-3">Boshlanish sanasi</th>
                   <!-- <th scope="col" class="text-center py-3">To'liq</th> -->
                   <th></th>
                 </tr>
@@ -612,9 +581,7 @@
               <tbody v-show="!store.error">
                 <tr
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                   v-show="!store.searchList.length"
                   v-for="i in store.PageProduct"
                   :key="i.id"
@@ -637,9 +604,7 @@
                   <td
                     class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-4"
                   >
-                    <p class="bg-red-100 rounded-[5px] p-1">
-                      {{ i.price }} so'm
-                    </p>
+                    <p class="bg-red-100 rounded-[5px] p-1">{{ i.price }} so'm</p>
                   </td>
                   <td
                     class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
@@ -671,9 +636,7 @@
                 </tr>
                 <tr
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                   v-show="store.searchList.length"
                   v-for="i in store.searchList"
                   :key="i.id"
@@ -696,9 +659,7 @@
                   <td
                     class="text-center font-medium whitespace-nowrap text-red-800 px-8 py-4"
                   >
-                    <p class="bg-red-100 rounded-[5px] p-1">
-                      {{ i.price }} so'm
-                    </p>
+                    <p class="bg-red-100 rounded-[5px] p-1">{{ i.price }} so'm</p>
                   </td>
                   <td
                     class="text-center font-medium whitespace-nowrap text-blue-800 px-8 py-4"
@@ -769,8 +730,7 @@
             <ul class="inline-flex items-stretch -space-x-px">
               <li
                 :class="{
-                  'pointer-events-none opacity-50':
-                    store.page[0] * 15 >= store.page[1],
+                  'pointer-events-none opacity-50': store.page[0] * 15 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;
@@ -785,10 +745,7 @@
           </nav>
         </div>
       </div>
-      <div
-        v-show="store.PageProduct && store.error"
-        class="w-full max-w-screen"
-      >
+      <div v-show="store.PageProduct && store.error" class="w-full max-w-screen">
         <h1>Guruhlar ro'yhati bo'sh</h1>
       </div>
     </section>
@@ -910,13 +867,13 @@ const remove = reactive({
 
 const getAllProduct = () => {
   axios
-    .get(`/group/${localStorage.getItem("school_id")}`, {
+    .get(`/group/${localStorage.getItem("school_id")}/find`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      store.allProducts = res.data.sort((a, b) => b.id - a.id);;
+      store.allProducts = res.data.sort((a, b) => b.id - a.id);
       store.error = false;
     })
     .catch((error) => {
@@ -933,7 +890,7 @@ const getProduct = (page) => {
       },
     })
     .then((res) => {
-      store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);;
+      store.PageProduct = res.data?.data?.records.sort((a, b) => b.id - a.id);
       const pagination = res.data?.data?.pagination;
       store.page = [];
       store.page.push(pagination.currentPage, pagination.total_count);
@@ -960,12 +917,14 @@ const getOneProduct = (id) => {
       edit.end_time = res.data.end_time;
       edit.id = id;
       edit.subject = res.data.subject[0].subject_name;
-      edit.employee = Number(res.data.employee[0].employee_id)
+      edit.employee = Number(res.data.employee[0].employee_id);
       edit.room_id = res.data.room_id;
       edit.toggle = true;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1001,7 +960,9 @@ const createProduct = () => {
         })
         .then((res) => {})
         .catch((error) => {
-          notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
+          notification.warning(
+            "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+          );
         });
 
       const dataEmployee = {
@@ -1019,11 +980,15 @@ const createProduct = () => {
           cancelFunc();
         })
         .catch((error) => {
-          notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
+          notification.warning(
+            "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+          );
         });
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1035,7 +1000,7 @@ const editProduct = () => {
     price: String(edit.price),
     start_time: edit.start_time,
     end_time: edit.end_time,
-    room_id: edit.room_id
+    room_id: edit.room_id,
   };
   axios
     .put(`/group/${localStorage.getItem("school_id")}/${edit.id}`, data, {
@@ -1046,10 +1011,12 @@ const editProduct = () => {
     .then((res) => {
       notification.success("Guruh tahrirlandi");
       getProduct(store.pagination);
-      cancelFunc1()
+      cancelFunc1();
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1066,7 +1033,9 @@ const deleteProduct = () => {
       remove.toggle = false;
     })
     .catch((error) => {
-      notification.warning("Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!");
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
     });
 };
 
@@ -1087,15 +1056,15 @@ const getSubject = () => {
 
 const getEmployee = () => {
   axios
-    .get(`/employee/${localStorage.getItem("school_id")}`, {
+    .get(`/employee/${localStorage.getItem("school_id")}/find`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     })
     .then((res) => {
-      store.employee = res.data.filter(
-        (record) => record.role == "teacher"
-      ) || [{ name: "O'qituvchi yaratilmagan" }];
+      store.employee = res.data.filter((record) => record.role == "teacher") || [
+        { name: "O'qituvchi yaratilmagan" },
+      ];
     })
     .catch((error) => {
       store.employee = error.response.data.message;
@@ -1103,7 +1072,7 @@ const getEmployee = () => {
 };
 
 onMounted(() => {
-  getProduct(1);
+  getProduct(store.pagination);
   getAllProduct();
   getSubject();
   getEmployee();

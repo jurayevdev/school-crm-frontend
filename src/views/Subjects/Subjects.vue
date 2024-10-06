@@ -21,10 +21,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Yangi fan qo'shish
             </h3>
             <button
@@ -49,10 +46,7 @@
             </button>
           </div>
           <!-- Modal body -->
-          <form
-            @submit.prevent="createProduct"
-            :class="{ darkForm: navbar.userNav }"
-          >
+          <form @submit.prevent="createProduct" :class="{ darkForm: navbar.userNav }">
             <div class="grid font-medium gap-4 mb-4 grid-cols-1">
               <div>
                 <label for="name" class="block mb-2 text-sm">Fan nomi</label>
@@ -66,9 +60,7 @@
                 />
               </div>
             </div>
-            <div
-              class="w-full flex items-center justify-between border-t pt-5 mt-5"
-            >
+            <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
               <button
                 @click="toggleModal"
                 type="button"
@@ -107,10 +99,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Fan nomini o'zgartirish
             </h3>
             <button
@@ -136,10 +125,7 @@
             </button>
           </div>
           <!-- Modal body -->
-          <form
-            @submit.prevent="editProduct"
-            :class="{ darkForm: navbar.userNav }"
-          >
+          <form @submit.prevent="editProduct" :class="{ darkForm: navbar.userNav }">
             <div class="grid font-medium gap-4 mb-4 grid-cols-1">
               <div>
                 <label for="name" class="block mb-2 text-sm">Fan nomi</label>
@@ -151,9 +137,7 @@
                 />
               </div>
             </div>
-            <div
-              class="w-full flex items-center justify-between border-t pt-5 mt-5"
-            >
+            <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
               <button
                 @click="cancelFunc1"
                 type="button"
@@ -192,10 +176,7 @@
           <div
             class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
           >
-            <h3
-              class="text-lg"
-              :class="navbar.userNav ? 'text-white' : 'text-black'"
-            >
+            <h3 class="text-lg" :class="navbar.userNav ? 'text-white' : 'text-black'">
               Fanni o'chirib tashlash
             </h3>
             <button
@@ -231,9 +212,7 @@
                   Siz fanni o'chirishni xohlaysizmi?
                 </h1>
               </div>
-              <div
-                class="w-full flex items-center justify-between border-t pt-5 mt-5"
-              >
+              <div class="w-full flex items-center justify-between border-t pt-5 mt-5">
                 <button
                   @click="remove.toggle = false"
                   type="button"
@@ -357,9 +336,7 @@
                 :class="navbar.userNav ? 'bg-gray-700' : 'bg-gray-50'"
               >
                 <tr>
-                  <th scope="col" class="text-center py-3 whitespace-nowrap">
-                    Fan nomi
-                  </th>
+                  <th scope="col" class="text-center py-3 whitespace-nowrap">Fan nomi</th>
                   <th scope="col" class="text-center py-3">Ochilgan sana</th>
                   <th v-show="!store.guard"></th>
                 </tr>
@@ -367,16 +344,12 @@
               <tbody v-show="!store.error">
                 <tr
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                   v-show="!store.searchList.length"
                   v-for="i in store.PageProduct"
                   :key="i.id"
                 >
-                  <td
-                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
-                  >
+                  <td class="text-center px-8 py-4 font-medium whitespace-nowrap">
                     <span>{{ i.name }}</span>
                   </td>
                   <td
@@ -401,16 +374,12 @@
                 </tr>
                 <tr
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                   v-show="store.searchList.length"
                   v-for="i in store.searchList"
                   :key="i"
                 >
-                  <td
-                    class="text-center px-8 py-4 font-medium whitespace-nowrap"
-                  >
+                  <td class="text-center px-8 py-4 font-medium whitespace-nowrap">
                     <span>{{ i.name }}</span>
                   </td>
                   <td
@@ -475,8 +444,7 @@
             <ul class="inline-flex items-stretch -space-x-px">
               <li
                 :class="{
-                  'pointer-events-none opacity-50':
-                    store.page[0] * 15 >= store.page[1],
+                  'pointer-events-none opacity-50': store.page[0] * 15 >= store.page[1],
                 }"
                 @click="
                   store.pagination += 1;
@@ -708,7 +676,7 @@ const deleteProduct = () => {
 };
 
 onMounted(() => {
-  getProduct(1);
+  getProduct(store.pagination);
   getAllProduct();
 });
 </script>

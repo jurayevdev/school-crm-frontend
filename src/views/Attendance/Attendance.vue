@@ -80,9 +80,7 @@
                   v-for="i in store.allProducts"
                   :key="i.id"
                   class="border-b"
-                  :class="
-                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
-                  "
+                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
                 >
                   <th
                     scope="row"
@@ -93,12 +91,15 @@
                   <td class="text-center font-medium px-8 py-4">
                     <p
                       :class="{
-                        'bg-green-100 text-green-800':
-                          i.paymentStatus.includes('to\'langan'),
-                        'bg-red-100 text-red-800':
-                          i.paymentStatus.includes('to\'lanmagan'),
-                        'bg-yellow-100 text-yellow-800':
-                          i.paymentStatus.includes('0 so\'m'),
+                        'bg-green-100 text-green-800': i.paymentStatus.includes(
+                          'to\'langan'
+                        ),
+                        'bg-red-100 text-red-800': i.paymentStatus.includes(
+                          'to\'lanmagan'
+                        ),
+                        'bg-yellow-100 text-yellow-800': i.paymentStatus.includes(
+                          '0 so\'m'
+                        ),
                       }"
                       class="rounded-[5px] p-1"
                     >
@@ -244,10 +245,7 @@ const calculatePaymentStatus = (
   let totalDue = 0;
 
   for (let i = 0; i < monthsDiff; i++) {
-    const monthDate = new Date(
-      startDate.getFullYear(),
-      startDate.getMonth() + i
-    );
+    const monthDate = new Date(startDate.getFullYear(), startDate.getMonth() + i);
 
     const key = `${monthDate.getFullYear()}-${monthDate.getMonth() + 1}`;
 
@@ -335,7 +333,7 @@ const getOneProduct = async (id) => {
 
 const getGroup = () => {
   axios
-    .get(`/group/${localStorage.getItem("school_id")}`, {
+    .get(`/group/${localStorage.getItem("school_id")}/find`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -419,11 +417,7 @@ const listStudent = (allStudent, groupID) => {
       school_id: Number(localStorage.getItem("school_id")),
       student_id: allStudent[i].id,
       group_id: groupID,
-      status: checkAttendance(
-        allStudent[i].attendance,
-        allStudent[i].id,
-        groupID
-      ),
+      status: checkAttendance(allStudent[i].attendance, allStudent[i].id, groupID),
       attendance_id: store.attendance_id,
     };
     store.student.push(list);
