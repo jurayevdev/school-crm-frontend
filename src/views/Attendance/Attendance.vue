@@ -9,6 +9,87 @@
       </div>
       <!------------------------------------------- Search ------------------------------------------->
 
+      <!-- ----------------------------------------- Delete modal ---------------------------------------------------- -->
+      <div
+        :class="
+          remove.toggle
+            ? 'absolute overflow-y-auto flex bg-[rgba(0,0,0,0.5)] overflow-x-hidden z-50 justify-center items-center w-full inset-0 h-full'
+            : 'hidden'
+        "
+      >
+        <div class="relative p-4 max-w-5xl min-w-[30%] h-auto">
+          <!-- Modal content -->
+          <div
+            class="relative p-4 rounded-lg shadow sm:p-5"
+            :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+          >
+            <!-- Modal header -->
+            <div
+              class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5"
+            >
+              <h3
+                class="text-lg"
+                :class="navbar.userNav ? 'text-white' : 'text-black'"
+              >
+                O'quvchini guruhdan o'chirib tashlash
+              </h3>
+              <button
+                @click="remove.toggle = false"
+                type="button"
+                class="bg-transparent hover:bg-gray-200 hover rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                :class="navbar.userNav ? 'text-white' : 'text-black'"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div :class="{ darkForm: navbar.userNav }">
+              <div class="grid font-medium gap-4 mb-4 grid-cols-1">
+                <div>
+                  <div></div>
+                  <h1
+                    class="text-2xl"
+                    :class="navbar.userNav ? 'text-white' : 'text-black'"
+                  >
+                    Siz o'quvchini guruhdan o'chirishni xohlaysizmi?
+                  </h1>
+                </div>
+                <div
+                  class="w-full flex items-center justify-between border-t pt-5 mt-5"
+                >
+                  <button
+                    @click="remove.toggle = false"
+                    type="button"
+                    class="border cursor-pointer inline-flex items-center bg-white hover:bg-red-700 hover:border-red-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    Bekor qilish
+                  </button>
+                  <button
+                    @click="deleteStudentGroup"
+                    class="btnAdd cursor-pointer text-white inline-flex items-center bg-[#4141eb] hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  >
+                    O'chirish
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ----------------------------------------- delete modal end ---------------------------------------------------- -->
+
       <div v-show="store.PageProduct" class="w-full max-w-screen">
         <!-- Start coding here -->
 
@@ -48,13 +129,6 @@
                 </button>
               </div>
             </form>
-            <button
-              id=""
-              @click="addAttendance()"
-              class="flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5"
-            >
-              <span class="">Davomat saqlash</span>
-            </button>
           </div>
         </div>
         <!------------------------------------------- Search ------------------------------------------->
@@ -73,6 +147,7 @@
                   <th scope="col" class="text-center py-3">F . I . O</th>
                   <th scope="col" class="text-center py-3">To'lov holati</th>
                   <th scope="col" class="text-center py-3">Davomat</th>
+                  <th scope="col" class="text-center py-3"></th>
                 </tr>
               </thead>
               <tbody v-if="!store.error">
@@ -80,7 +155,9 @@
                   v-for="i in store.allProducts"
                   :key="i.id"
                   class="border-b"
-                  :class="navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'"
+                  :class="
+                    navbar.userNav ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+                  "
                 >
                   <th
                     scope="row"
@@ -88,18 +165,17 @@
                   >
                     <span>{{ i.full_name }}</span>
                   </th>
-                  <td class="text-center font-medium px-8 py-4">
+                  <td
+                    class="text-center whitespace-nowrap font-medium px-8 py-4"
+                  >
                     <p
                       :class="{
-                        'bg-green-100 text-green-800': i.paymentStatus.includes(
-                          'to\'langan'
-                        ),
-                        'bg-red-100 text-red-800': i.paymentStatus.includes(
-                          'to\'lanmagan'
-                        ),
-                        'bg-yellow-100 text-yellow-800': i.paymentStatus.includes(
-                          '0 so\'m'
-                        ),
+                        'bg-green-100 text-green-800':
+                          i.paymentStatus.includes('to\'langan'),
+                        'bg-red-100 text-red-800':
+                          i.paymentStatus.includes('to\'lanmagan'),
+                        'bg-yellow-100 text-yellow-800':
+                          i.paymentStatus.includes('0 so\'m'),
                       }"
                       class="rounded-[5px] p-1"
                     >
@@ -128,6 +204,15 @@
                       Kelmadi
                     </button>
                   </td>
+                  <td
+                    class="text-center whitespace-nowrap font-medium pr-5 py-4"
+                  >
+                    <i
+                      @click="deleteFunc(i.id)"
+                      class="bx bxs-trash bg-red-300 cursor-pointer text-red-600 rounded-lg p-2 focus:ring-2"
+                    >
+                    </i>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -138,6 +223,20 @@
               <h1>Davomat ro'yhati bo'sh</h1>
             </div>
           </div>
+          <div
+          class="shadow rounded-xl flex flex-col lg:flex-row items-center justify-between lg:space-x-4 p-4 gap-3 mt-5"
+          :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
+        >
+          <div v-show="store.allProducts" class="w-full flex items-center lg:pb-0 pb-2 gap-5 justify-end">
+            <button
+              id=""
+              @click="addAttendance()"
+              class="flex items-center max-w-fit justify-center whitespace-nowrap text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2.5"
+            >
+              <span class="">Davomat saqlash</span>
+            </button>
+          </div>
+        </div>
         </div>
       </div>
     </section>
@@ -186,6 +285,7 @@ const store = reactive({
   student: [],
   status: false,
   attendance_id: 0,
+  student_group: false,
 });
 
 function cancelFunc() {
@@ -193,6 +293,16 @@ function cancelFunc() {
   form.payment = "";
   form.status = [];
 }
+
+function deleteFunc(id) {
+  remove.id = id;
+  remove.toggle = true;
+}
+
+const remove = reactive({
+  id: "",
+  toggle: false,
+});
 
 // ----------------------------------- forms -----------------------------------
 const form = reactive({
@@ -245,7 +355,10 @@ const calculatePaymentStatus = (
   let totalDue = 0;
 
   for (let i = 0; i < monthsDiff; i++) {
-    const monthDate = new Date(startDate.getFullYear(), startDate.getMonth() + i);
+    const monthDate = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth() + i
+    );
 
     const key = `${monthDate.getFullYear()}-${monthDate.getMonth() + 1}`;
 
@@ -417,11 +530,61 @@ const listStudent = (allStudent, groupID) => {
       school_id: Number(localStorage.getItem("school_id")),
       student_id: allStudent[i].id,
       group_id: groupID,
-      status: checkAttendance(allStudent[i].attendance, allStudent[i].id, groupID),
+      status: checkAttendance(
+        allStudent[i].attendance,
+        allStudent[i].id,
+        groupID
+      ),
       attendance_id: store.attendance_id,
     };
     store.student.push(list);
   }
+};
+
+const deleteStudentGroup = () => {
+  axios
+    .get(`/student-group`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((res) => {
+      // Filtrlangan ma'lumotlar massivi
+      store.student_group = res.data.filter(
+        (item) =>
+          item.student_id === remove.id && item.group_id === form.group_id
+      );
+      console.log(store.student_group);
+
+      // Agar filtrlangan ma'lumotlar bo'lsa, birinchi elementni olish
+      if (store.student_group.length > 0) {
+        const studentGroupId = store.student_group[0].id;
+
+        axios
+          .delete(`/student-group/${studentGroupId}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          })
+          .then((res) => {
+            notification.success("O'quvchi guruhdan o'chirildi");
+            getOneProduct(form.group_id);
+            remove.toggle = false;
+          })
+          .catch((error) => {
+            notification.warning(
+              "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+            );
+          });
+      } else {
+        notification.warning("Talaba va guruh ma'lumotlari topilmadi");
+      }
+    })
+    .catch((error) => {
+      notification.warning(
+        "Xatolik! Nimadir noto‘g‘ri. Internetni tekshirib qaytadan urinib ko‘ring!"
+      );
+    });
 };
 
 onMounted(() => {

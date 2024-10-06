@@ -1,7 +1,7 @@
 import axios from 'axios';
 import router from '../router/index.js';
 
-axios.defaults.baseURL = 'https://dev.edu-devosoft.uz/api';
+axios.defaults.baseURL = 'http://localhost:3000/api';
 axios.interceptors.response.use(
   response => response,
   error => {
