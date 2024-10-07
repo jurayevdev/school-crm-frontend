@@ -6,6 +6,9 @@
       'bg-white text-black': !navbar.userNav,
     }"
   >
+    <marquee class="text-white py-1 font-bold btnAdd"
+      >Saytda texnik ishlar olib borilmoqda</marquee
+    >
     <div class="flex items-center justify-between px-3 py-3 lg:px-5 lg:pl-3">
       <div class="flex items-center gap-3">
         <button @click="toggleSidebar" class="xl:hidden">
@@ -34,7 +37,9 @@
               class="flex items-center justify-between w-[3rem] sm:w-[4.5rem] h-6 sm:h-9 border-2 rounded-full"
             >
               <span
-                ><i class="bx bxs-moon ml-1 text-yellow-300 rounded-full sm:text-2xl"></i
+                ><i
+                  class="bx bxs-moon ml-1 text-yellow-300 rounded-full sm:text-2xl"
+                ></i
               ></span>
               <span
                 ><i
@@ -141,5 +146,8 @@ onMounted(() => {
   .icon {
     display: none;
   }
+}
+.btnAdd {
+  background-image: linear-gradient(to right, white -450%, #4141eb);
 }
 </style>

@@ -8,7 +8,7 @@
       class="h-full px-3 py-4 pb-4 overflow-y-auto"
       :class="{ 'bg-[#1e293b]': navbar.userNav, 'bg-white': !navbar.userNav }"
     >
-      <ul class="space-y-2 font-medium mt-[70px]">
+      <ul class="space-y-2 font-medium mt-[110px]">
         <li v-for="i in header" v-show="checkRole(i.role)" :key="i.id">
           <router-link
             class="flex items-center text-lg p-2 cursor-pointer duration-500 hover:bg-gray-400 rounded-lg gap-2"
