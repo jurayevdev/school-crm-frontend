@@ -134,7 +134,7 @@
         <!------------------------------------------- Search ------------------------------------------->
 
         <div
-          class="relative shadow-md rounded-lg overflow-hidden mb-20"
+          class="relative shadow-md rounded-lg overflow-hidden mb-28"
           :class="navbar.userNav ? 'bg-[#1e293b] text-white' : 'bg-white'"
         >
           <div class="overflow-x-auto">

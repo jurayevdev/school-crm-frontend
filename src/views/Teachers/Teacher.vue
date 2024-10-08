@@ -608,7 +608,7 @@
 
       <!------------------------------------------- Search ------------------------------------------->
 
-      <div v-show="store.PageProduct" class="w-full max-w-">
+      <div v-show="store.PageProduct" class="w-full">
         <!-- Start coding here -->
         <div
           class="shadow rounded-xl flex flex-col lg:flex-row items-center justify-between lg:space-x-4 p-4 mb-4"
@@ -689,7 +689,7 @@
         <!------------------------------------------- Search ------------------------------------------->
 
         <div
-          class="relative shadow-md rounded-lg overflow-hidden mb-20"
+          class="relative shadow-md rounded-lg overflow-hidden mb-28"
           :class="navbar.userNav ? 'bg-[#1e293b]' : 'bg-white'"
         >
           <div class="overflow-x-auto">
