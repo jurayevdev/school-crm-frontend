@@ -1182,6 +1182,8 @@ let hozirgiOy = hozirgiSana.getMonth() + 1;
 hozirgiOy = hozirgiOy.toString().padStart(2, "0");
 let hozirgiKun = hozirgiSana.getDate();
 
+length
+
 const store = reactive({
   PageProduct: "",
   page: [],
@@ -1587,7 +1589,9 @@ const getHistory = (page) => {
     .get(url, config)
     .then((res) => {
       const records = res.data?.data?.records;
-      history.group_name = records[0].group_name;
+      if (records.length !== 0) {
+        history.group_name = records[0].group_name;
+      }
       store.PageProduct = records.sort((a, b) => b.id - a.id);
       const pagination = res.data?.data?.pagination;
       store.page = [pagination.currentPage, pagination.total_count];
